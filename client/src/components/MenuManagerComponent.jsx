@@ -4,24 +4,36 @@ import styled from 'styled-components';
 import Day from './MenuManager/Day'
 import initialData from './MenuManager/InitialData'
 import WeeksNavBar from './MenuManager/WeeksNavBar'
+import FloatingMealManager from './FloatingMealManager/FloatingMealManager'
 
 
 const DaysContainer = styled.div`
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column wrap;
     margin-right: 5%;
     margin-left: 5%;
 `;
 
+// const Container = styled.div`
+//     display: flex;
+//     flex-flow: column wrap;
+//     justify-content: center;
+// `;
+
+
 const Container = styled.div`
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: center;
+  display:grid;
+  grid-template-columns: 20% auto 15%;
+  grid-template-rows: auto;
+  grid-template-areas:
+  "leftPanel highBar highbar"
+  "leftPanel main main"
+  "leftPanel lowBar lowbar";
+  z-index: -1;
 `;
 
-const WeekNavBar = styled.div`
-    text-align :center;
-    margin: 20px;
+const GridArea = styled.div`
+  grid-area: ${props => props.name};
 `;
 
 function MenuManagerComponent() {
@@ -86,33 +98,42 @@ function MenuManagerComponent() {
 
 
     return (
-        <Container>
-            <WeeksNavBar/>
-               
-            <DragDropContext onDragEnd={onDragEnd}>
-                <DaysContainer>
-                    {menuData.days.map(day => <Day
-                        key={day.id}
-                        title={day.name}
-                        dayId={day.id}
-                        lunchMeals={
-                            day.lunchMealsIds.map(mealId =>
-                                initialData.meals.find(meal =>
-                                    mealId === meal.id
+        <DragDropContext onDragEnd={onDragEnd}>
+            <Container>
+                <GridArea name="leftPanel">
+                    <FloatingMealManager />
+                </GridArea>
+
+                <GridArea name="highBar">
+                    <WeeksNavBar />
+                </GridArea>
+                <GridArea name="main">
+
+                    <DaysContainer>
+                        {menuData.days.map(day => <Day
+                            key={day.id}
+                            title={day.name}
+                            dayId={day.id}
+                            lunchMeals={
+                                day.lunchMealsIds.map(mealId =>
+                                    initialData.meals.find(meal =>
+                                        mealId === meal.id
+                                    )
                                 )
-                            )
-                        }
-                        dinerMeals={
-                            day.dinerMealsIds.map(
-                                mealId => initialData.meals.find(
-                                    meal => mealId === meal.id
+                            }
+                            dinerMeals={
+                                day.dinerMealsIds.map(
+                                    mealId => initialData.meals.find(
+                                        meal => mealId === meal.id
+                                    )
                                 )
-                            )
-                        }
-                    />)}
-                </DaysContainer>
-            </DragDropContext>
-        </Container>
+                            }
+                        />)}
+                    </DaysContainer>
+
+                </GridArea>
+            </Container>
+        </DragDropContext>
 
     )
 }

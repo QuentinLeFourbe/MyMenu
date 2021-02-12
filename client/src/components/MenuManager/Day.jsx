@@ -11,6 +11,11 @@ const Container = styled.div`
     flex-basis: 50px;
 `;
 
+const Menus = styled.div`
+    display: flex;
+    flex-flow: row wrap;
+`;
+
 const Title = styled.h3`
     margin: 5px;
     padding: 5px;
@@ -18,13 +23,15 @@ const Title = styled.h3`
 
 function Day(props) {
 
-    const {title, lunchMeals, dinerMeals, dayId} = props;
+    const { title, lunchMeals, dinerMeals, dayId } = props;
 
     return (
         <Container>
             <Title>{title}</Title>
-               <Menu title='Midi' mealList={lunchMeals} menuId={`${dayId}_lunch`}/>
-               <Menu title='Soir' mealList={dinerMeals} menuId={`${dayId}_diner`}/>
+            <Menus>
+                <Menu title='Midi' mealList={lunchMeals} menuId={`${dayId}_lunch`} first />
+                <Menu title='Soir' mealList={dinerMeals} menuId={`${dayId}_diner`} />
+            </Menus>
         </Container>
     )
 

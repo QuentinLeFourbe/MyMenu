@@ -5,8 +5,9 @@ import Meal from './Meal'
 
 const Container = styled.div`
     margin: 2px;
-    border-top: 1px solid lightgrey;
+    border-left: ${props => props.first ? "0px" : "1px" } solid lightgrey;
     border-radius: 1px;
+    flex-grow: 1;
 `;
 
 const MealList = styled.div`
@@ -23,7 +24,8 @@ function Menu(props) {
     const { mealList, title, menuId } = props;
 
     return (
-        <Container>
+        
+        <Container first={props.first}>
             <Title>{title}</Title>
             <Droppable droppableId={menuId}>
                 {
