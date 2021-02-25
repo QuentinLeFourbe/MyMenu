@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const mealSchema = mongoose.Schema({
-    title: String,
-    description: String,
+    name: String,
+    recipe: String,
     creator: String,
     ingredients: [String],
     selectedFile: String,
@@ -10,6 +10,10 @@ const mealSchema = mongoose.Schema({
         type: Date,
         default: new Date()
     },
+    lastUse: {
+        type: Date,
+        default: new Date()
+    }
 });
 
 const Meal = mongoose.model('Meal', mealSchema);

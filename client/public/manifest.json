@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Miam menu",
+  "name": "Planifiez votre menu de la semaine",
   "icons": [
     {
       "src": "favicon.ico",

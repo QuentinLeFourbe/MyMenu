@@ -9,7 +9,7 @@ const Container = styled.header`
     min-height:100px;
 
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
     justify-content: flex-end;
     align-items: stretch;
 `;
@@ -43,7 +43,7 @@ function Header() {
 
             <NavLink to="/meals">Plats</NavLink>
 
-            <NavLink right to="/register">S'enregistrer</NavLink>
+            <NavLink right="true" to="/register">S'enregistrer</NavLink>
 
             <NavLink to="/auth">Connexion</NavLink>
 

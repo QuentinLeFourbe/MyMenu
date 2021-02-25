@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useReducer } from 'react';
 
 import './App.css';
-import MenuManagerComponent from './components/MenuManagerComponent';
+import MenuManagerComponent from './components/MenuManager/MenuManagerComponent';
 import MealsManagement from './components/MealManagement/MealsManagement';
 import Authentification from './components/Authentification';
 import Register from './components/Register';
@@ -17,7 +17,9 @@ import {
   Link,
   HashRouter
 } from "react-router-dom";
-
+import { AppContext } from './AppContext';
+import { dataReducer } from './Reducers/Reducers';
+import axios from 'axios';
 
 const MainPage = styled.div`
   display:grid;
@@ -33,46 +35,65 @@ const GridArea = styled.div`
   grid-area: ${props => props.name};
 `;
 
-const App = () => (
-  <Router>
-    <MainPage>
+const initialData = {
+  meals: [],
+  ingredients: [],
 
-    <GridArea name="header"><Header/></GridArea>
+}
 
-      <GridArea name="main">
-        <MenuManagerComponent />
-      </GridArea>
+const App = (props) => {
 
-      {/* <Header /> */}
+  const [data, dispatch] = useReducer(dataReducer, initialData)
 
-      {/* <Switch>
-        <Route exact path="/">
-          <MenuManagerComponent />
-        </Route>
+  useEffect(async () => {
+    axios.get("http://localhost:5000/meals/lookup")
+      .then(response => {
+        dispatch({ type: 'FETCH_MEALS', payload: response.data })
+      })
+      .catch(error => {
+        console.error("Error: " + error.message)
+      })
+  }, []);
 
-        <Route exact path="/meals">
-          <MealsManagement />
-        </Route>
+  return (
+    <AppContext.Provider value={{ dataState: data, dataDispatch: dispatch }}>
+      <Router>
+        <MainPage>
 
-        <Route exact path="/auth">
-          <Authentification />
-        </Route>
+          <GridArea name="header">
+            <Header />
+          </GridArea>
 
-        <Route exact path="/register">
-          <Register />
-        </Route>
+          <GridArea name="main">
 
-        <Route exact path="/about">
-          <About />
-        </Route>
-      </Switch> */}
+            <Switch>
+              <Route exact path="/">
+                <MenuManagerComponent />
+              </Route>
 
+              <Route exact path="/meals">
+                <MealsManagement />
+              </Route>
 
+              <Route exact path="/auth">
+                <Authentification />
+              </Route>
 
-    </MainPage>
+              <Route exact path="/register">
+                <Register />
+              </Route>
 
-  </Router>
-);
+              <Route exact path="/about">
+                <About />
+              </Route>
+            </Switch>
 
+          </GridArea>
+        </MainPage>
+      </Router>
+
+    </AppContext.Provider>
+  )
+}
 
 export default App;
