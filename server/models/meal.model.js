@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
 const mealSchema = mongoose.Schema({
-    name: String,
+    name: {type: String, required: true},
     recipe: String,
     creator: String,
     ingredients: [String],
-    selectedFile: String,
+    mealImage: { type: String, required: false },
     createdAt: {
         type: Date,
         default: new Date()

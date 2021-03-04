@@ -1,5 +1,6 @@
 import Meal from '../models/meal.model.js';
 
+
 export const getMeals = async (req, res) => {
     try {
         const meals = await Meal.find();
@@ -11,8 +12,14 @@ export const getMeals = async (req, res) => {
 }
 
 export const createMeal = async (req, res) => {
-    const meal = req.body;
-    const newMeal = new Meal(meal);
+    console.log(req.file);
+    const { name, ingredients, recipe, creator } = req.body;
+    const mealImage = req.file.path;
+    const newMeal = new Meal({ name, ingredients, recipe, creator, mealImage });
+
+    // const meal = req.body;
+    // const newMeal = new Meal(meal);
+
     try {
         await newMeal.save();
 
@@ -33,10 +40,10 @@ export const getMeal = async (req, res) => {
     }
 }
 
-export const updateMeal =  async (req, res) => {
+export const updateMeal = async (req, res) => {
     try {
         const id = req.params.id;
-        const meal = await Meal.updateOne({ _id: {$eq: id} }, req.body);
+        const meal = await Meal.updateOne({ _id: { $eq: id } }, req.body);
         res.status(201).json(meal);
     }
     catch (error) {

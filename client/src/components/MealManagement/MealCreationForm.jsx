@@ -104,22 +104,18 @@ function MealCreationForm() {
 
     const context = useContext(AppContext);
     const { dataDispatch } = context;
-    let meal = {
-        name: "",
-        recipe: "",
-        selectedFile: "",
-    }
 
-    const saveMeal = async (e) => {
-        e.preventDefault();
+    //ONGOING
+    const saveMeal = async (data) => {
+        console.log(data);
 
         const config = {
             headers: { 'content-type': 'multipart/form-data' }
         }
 
-        await createMeal(meal, config)
+        await createMeal(data, config)
             .then(() => {
-                dataDispatch({ type: 'CREATE_MEALS', payload: meal })
+                dataDispatch({ type: 'CREATE_MEALS', payload: data })
             })
             .catch(error => {
                 console.error("Error: " + error.message)
@@ -131,21 +127,20 @@ function MealCreationForm() {
     }
 
     const onSubmit = async (data) => {
-        console.log(data)
     }
 
     return (
-        <Container onSubmit={handleSubmit(onSubmit)}>
+        <Container onSubmit={handleSubmit(saveMeal)}>
             <h2>Créer une nouvelle recette !</h2>
-            <Label for="name">Nom du plat</Label>
+            <Label htmlFor="name">Nom du plat</Label>
             <TextInput
                 id="name"
                 name="name"
                 type="text"
-                ref={register({required: true})}
+                ref={register({ required: true })}
             />
 
-            <Label for="ingredients">Liste des ingrédients</Label>
+            <Label htmlFor="ingredients">Liste des ingrédients</Label>
             <TextInput
                 id="ingredients"
                 name="ingredients"
@@ -153,7 +148,7 @@ function MealCreationForm() {
                 ref={register}
             />
 
-            <Label for="recipe">Recette</Label>
+            <Label htmlFor="recipe">Recette</Label>
             <RecipeArea
                 id="recipe"
                 name="recipe"
@@ -165,8 +160,8 @@ function MealCreationForm() {
             <InlineDiv>
                 <Label>Image</Label>
                 <FileInput
-                    id="selectedFile"
-                    name="selectedFile"
+                    id="mealImage"
+                    name="mealImage"
                     type="file"
                     accept="image/*"
                     ref={register}

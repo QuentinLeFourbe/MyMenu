@@ -37,7 +37,7 @@ function MealList() {
             </Wrapper>
             <Container>
                 {
-                    dataState.meals.map(meal => <MealItem image={meal.selectedFile}>{meal.name}</MealItem>)
+                    dataState.meals.map(meal => <MealItem key={meal.id} image={meal.selectedFile}>{meal.name}</MealItem>)
                 }
             </Container>
         </>

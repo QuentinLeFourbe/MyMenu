@@ -52,7 +52,7 @@ function FiltersComponent() {
                 </Filter>
 
                 <RadioContainer>
-                    <RadioButton type="radio" id="meal" name="type" value="meal" checked />
+                    <RadioButton type="radio" id="meal" name="type" value="meal"  />
                     <RadioLabel htmlFor="meal">Plat</RadioLabel>
                 </RadioContainer>
                 <RadioContainer right="true">
