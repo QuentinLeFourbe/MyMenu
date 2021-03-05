@@ -11,10 +11,12 @@ export const getMeals = async (req, res) => {
     }
 }
 
-export const createMeal = async (req, res) => {
+export const createMeal = async (req, res, next) => {
     console.log(req.file);
     const { name, ingredients, recipe, creator } = req.body;
-    const mealImage = req.file.path;
+    const fileUrl = req.file.path.replace(/\\/g, "/")
+    console.log(fileUrl);
+    const mealImage = fileUrl;
     const newMeal = new Meal({ name, ingredients, recipe, creator, mealImage });
 
     // const meal = req.body;
@@ -59,7 +61,7 @@ export const getMealsLookup = async (req, res) => {
             {
                 id: meal._id,
                 name: meal.name,
-                selectedFile: meal.selectedFile,
+                mealImage: meal.mealImage,
             }
         )));
     }

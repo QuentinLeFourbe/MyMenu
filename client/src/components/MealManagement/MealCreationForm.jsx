@@ -105,17 +105,17 @@ function MealCreationForm() {
     const context = useContext(AppContext);
     const { dataDispatch } = context;
 
-    //ONGOING
     const saveMeal = async (data) => {
-        console.log(data);
-
-        const config = {
-            headers: { 'content-type': 'multipart/form-data' }
+        const meal = { ...data, mealImage: data.mealImage[0] };
+   
+        var formData = new FormData();
+        for (var key in meal) {
+            formData.append(key, meal[key]);
         }
 
-        await createMeal(data, config)
+        await createMeal(formData)
             .then(() => {
-                dataDispatch({ type: 'CREATE_MEALS', payload: data })
+                dataDispatch({ type: 'CREATE_MEALS', payload: formData })
             })
             .catch(error => {
                 console.error("Error: " + error.message)
@@ -124,9 +124,6 @@ function MealCreationForm() {
         await fetchMeals().then(response => {
             dataDispatch({ type: 'FETCH_MEALS', payload: response.data })
         })
-    }
-
-    const onSubmit = async (data) => {
     }
 
     return (

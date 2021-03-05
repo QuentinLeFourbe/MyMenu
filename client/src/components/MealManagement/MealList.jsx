@@ -36,8 +36,9 @@ function MealList() {
                 <FiltersComponent />
             </Wrapper>
             <Container>
+                {console.log(dataState.meals)}
                 {
-                    dataState.meals.map(meal => <MealItem key={meal.id} image={meal.selectedFile}>{meal.name}</MealItem>)
+                    dataState.meals.map(meal => <MealItem key={meal.id} image={meal.mealImage}>{meal.name}</MealItem>)
                 }
             </Container>
         </>

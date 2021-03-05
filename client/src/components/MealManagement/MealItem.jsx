@@ -6,7 +6,7 @@ const Container = styled.div`
     min-height: 300px;
     border-radius: 1rem;
     background-size: cover;
-    background-image: url(${props => props.image});
+    background-image: url('http://localhost:5000/${props => props.image}');
     background-position: center; 
 `;
 
