@@ -1,9 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import styled from 'styled-components'
 import { AppContext } from '../../AppContext';
-import Poulet from '../../images/Poulet_caramel.jpg'
 import FiltersComponent from '../MenuManager/FloatingMealManager/FiltersComponent';
-import MealItem from './MealItem';
+import MealEditForm from './MealEditForm';
 
 const Container = styled.div`
     display: grid;
@@ -24,21 +23,72 @@ const Wrapper = styled.div`
     padding-top: 1rem;
 `;
 
+const MealContainer = styled.a`
+    display:flex;
+    min-height: 300px;
+    border-radius: 1rem;
+    background-size: cover;
+    background-image: url('http://localhost:5000/${props => props.image}');
+    background-position: center; 
+`;
 
+const Item = styled.div`
+   
+&::before{
+        content: "";
+        height: 100%;
+        width: 100%;
+        border-radius: 0rem 0rem 1rem 1rem;
+        background-color: #838383;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity:0.5;
+        z-index: -1;
+    }
+
+    color: white;
+    flex-grow:1;
+    align-self: flex-end;
+    position: relative;
+    padding:0.5rem;
+    z-index: 1;
+
+`;
 
 function MealList() {
     const context = useContext(AppContext);
     const { dataState } = context;
 
+    const [overlayData, setOverlayState] = useState({ mealId: "", show: false });
+    const ShowMealOverlay = (mealId) => {
+        setOverlayState({ mealId: mealId, show: true })
+    }
+
+    const HideMealOverlay = () => {
+        setOverlayState({ mealId: "", show: false })
+    }
+
     return (
         <>
+            <MealEditForm mealId={overlayData.mealId} show={overlayData.show} hideFunc={HideMealOverlay} />
             <Wrapper>
                 <FiltersComponent />
             </Wrapper>
             <Container>
-                {console.log(dataState.meals)}
                 {
-                    dataState.meals.map(meal => <MealItem key={meal.id} image={meal.mealImage}>{meal.name}</MealItem>)
+                    dataState.meals.map(meal => (
+                        <MealContainer
+                            href="#"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                ShowMealOverlay(meal.id);
+                            }}
+                            key={meal.id}
+                            image={meal.mealImage}>
+                            <Item>{meal.name}</Item>
+                        </MealContainer>
+                    ))
                 }
             </Container>
         </>
