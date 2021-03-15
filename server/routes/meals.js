@@ -36,7 +36,7 @@ router.get('/', getMeals);
 router.post('/', upload.single('mealImage'), createMeal);
 
 
-router.put('/:id', updateMeal);
+router.put('/:id', upload.single('mealImage'),updateMeal);
 
 
 

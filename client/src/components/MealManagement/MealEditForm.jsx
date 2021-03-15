@@ -129,24 +129,23 @@ function MealEditForm(props) {
     const context = useContext(AppContext);
     const { dataDispatch } = context;
     //State
-    const emptyMealState = { name: '', ingredients: '', recipe: '', mealImage: '' }
-    const [meal, setMeal] = useState(emptyMealState);
+    const [formImage, setFormImage] = useState('');
+    // const emptyMealState = { name: '', ingredients: '', recipe: '' }
 
     //React hook form
-    const { register, reset, handleSubmit } = useForm();
+    const { register, reset, handleSubmit, watch, setValues } = useForm();
 
     useEffect(async () => {
         if (mealId === "") {
-            setMeal(emptyMealState);
             reset();
             return;
         }
 
         await axios.get(`http://localhost:5000/meals/${mealId}`)
             .then(response => {
-                let mealEdited = response.data[0]
-                setMeal(mealEdited);
-                reset(meal);
+                let mealEdited = response.data[0];
+                setFormImage(mealEdited.mealImage);
+                reset({ ...mealEdited, mealImage: '' }); //Empty mealImage so it does not load the path in file Input and crash
             })
             .catch(error => {
                 console.error("Error: " + error.message)
@@ -156,13 +155,19 @@ function MealEditForm(props) {
     }, [mealId]);
 
     const onSubmit = async (data) => {
-        const meal = { ...data, mealImage: data.mealImage[0] };
+        const meal = { ...data };
+        if (data.mealImage.length > 0) {
+            meal.mealImage = data.mealImage[0]
+        }else {
+            console.log(delete meal.mealImage);
+        }
+        console.log(meal);
+
         var formData = new FormData();
         for (var key in meal) {
             formData.append(key, meal[key]);
         }
-
-        await updateMeal(formData)
+        await updateMeal(mealId,formData)
             .then(() => {
                 dataDispatch({ type: 'UPDATE_MEALS', payload: formData })
             })
@@ -173,6 +178,8 @@ function MealEditForm(props) {
         await fetchMeals().then(response => {
             dataDispatch({ type: 'FETCH_MEALS', payload: response.data })
         })
+
+        hideFunc();
     }
 
     return (
@@ -180,15 +187,14 @@ function MealEditForm(props) {
             <Overlay show={show} >
                 <CloseButton onClick={hideFunc}><CloseIcon style={{ fontSize: 45 }} /></CloseButton>
                 <Container>
-                    <MealBanner image={meal.mealImage} />
+                    <MealBanner image={formImage} />
                     <Form onSubmit={handleSubmit(onSubmit)}>
-                        <FormTextInput label="Nom" value={meal.name} name="name" register={register} />
-                        <FormTextInput label="Ingrédients" value={meal.ingredients} name="ingredients" register={register} />
-                        <FormTextInput label="Recette" value={meal.recipe} name="recipe" register={register} />
+                        <FormTextInput label="Nom" name="name" register={register} watch={watch} />
+                        <FormTextInput label="Ingrédients" name="ingredients" register={register} watch={watch} />
+                        <FormTextInput label="Recette" name="recipe" register={register} watch={watch} />
 
                         <LabelsContainer>
                             <Label>Image</Label>
-                            <Label className="dataLabel">{meal.mealImage}</Label>
                             <FileInput
                                 id="mealImage"
                                 name="mealImage"

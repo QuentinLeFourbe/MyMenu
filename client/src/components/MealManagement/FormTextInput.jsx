@@ -44,7 +44,7 @@ const Row = styled.div`
 `;
 
 function FormTextInput(props) {
-    const { label, value, name, register } = props;
+    const { label, value, name, register, watch } = props;
     const [editState, setEditState] = useState(false)
 
     //Hide input field when the value is changed in the props
@@ -60,7 +60,7 @@ function FormTextInput(props) {
                     <EditIcon></EditIcon>
                 </Button>
             </Row>
-            <Label className="dataLabel" hide={editState} >{value}</Label>
+            <Label className="dataLabel" hide={editState} >{watch(name)}</Label>
             <TextInput
                 show={editState}
                 id={name}

@@ -106,6 +106,7 @@ function MealCreationForm() {
     const { dataDispatch } = context;
 
     const saveMeal = async (data) => {
+
         const meal = { ...data, mealImage: data.mealImage[0] };
    
         var formData = new FormData();
