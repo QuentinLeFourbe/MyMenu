@@ -25,9 +25,6 @@ export const createMeal = async (req, res, next) => {
 
     const newMeal = new Meal({ name, ingredients, recipe, creator, mealImage });
 
-    // const meal = req.body;
-    // const newMeal = new Meal(meal);
-
     try {
         await newMeal.save();
 
@@ -62,7 +59,7 @@ export const updateMeal = async (req, res) => {
             updatedMeal = { ...req.body }
         }
         const meal = await Meal.updateOne({ _id: { $eq: id } }, updatedMeal);
-        res.status(201).json(meal);
+        res.status(200).json(meal);
     }
     catch (error) {
         res.status(404).json({ message: error.message });
@@ -80,6 +77,17 @@ export const getMealsLookup = async (req, res) => {
                 mealImage: meal.mealImage,
             }
         )));
+    }
+    catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+export const deleteMeal = async(req,res) => {
+    try {
+        const id = req.params.id;
+        const meal = await Meal.deleteOne({ _id: id });
+        res.status(200).json(meal);
     }
     catch (error) {
         res.status(404).json({ message: error.message });

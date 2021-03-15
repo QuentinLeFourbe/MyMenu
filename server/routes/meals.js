@@ -1,5 +1,5 @@
 import express from 'express';
-import { getMeals, createMeal, getMeal, updateMeal, getMealsLookup } from '../controllers/meals.js';
+import { getMeals, createMeal, getMeal, updateMeal, getMealsLookup, deleteMeal } from '../controllers/meals.js';
 import multer from 'multer'
 
 var storage = multer.diskStorage({
@@ -38,6 +38,6 @@ router.post('/', upload.single('mealImage'), createMeal);
 
 router.put('/:id', upload.single('mealImage'),updateMeal);
 
-
+router.delete('/:id', deleteMeal);
 
 export default router;

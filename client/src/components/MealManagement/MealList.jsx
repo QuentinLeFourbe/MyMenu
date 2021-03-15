@@ -24,6 +24,7 @@ const Wrapper = styled.div`
 `;
 
 const MealContainer = styled.a`
+    text-decoration: none;
     display:flex;
     min-height: 300px;
     border-radius: 1rem;
@@ -53,7 +54,6 @@ const Item = styled.div`
     position: relative;
     padding:0.5rem;
     z-index: 1;
-
 `;
 
 function MealList() {

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
-import { updateMeal, fetchMeals } from '../../api';
+import { updateMeal, fetchMeals, deleteMeal } from '../../api';
 import { AppContext } from '../../AppContext';
 import FormTextInput from './FormTextInput';
 import CloseIcon from '@material-ui/icons/Close';
@@ -17,6 +17,7 @@ const Overlay = styled.div`
     left: 0;
     background-color: rgb(0,0,0);
     background-color: rgba(50,50,50, 0.8);
+    z-index: 2;
 `;
 
 const Container = styled.div`
@@ -119,7 +120,33 @@ const FormButton = styled.button`
         transform: translateY(-1px);
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     }
+
+    &.delete{
+        background-color: grey;
+            &::after {
+            content: "";
+            height: 100%;
+            width: 100%;
+            border-radius: 100px;
+            transition: all .4s;
+            background-color: grey;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+    }
+
+    &.right{
+        margin-left: auto;
+    }
    
+`;
+
+const ButtonContainer = styled.div`
+ display: flex;
+ flex-flow: row wrap;
+
 `;
 
 function MealEditForm(props) {
@@ -158,7 +185,7 @@ function MealEditForm(props) {
         const meal = { ...data };
         if (data.mealImage.length > 0) {
             meal.mealImage = data.mealImage[0]
-        }else {
+        } else {
             console.log(delete meal.mealImage);
         }
         console.log(meal);
@@ -167,7 +194,7 @@ function MealEditForm(props) {
         for (var key in meal) {
             formData.append(key, meal[key]);
         }
-        await updateMeal(mealId,formData)
+        await updateMeal(mealId, formData)
             .then(() => {
                 dataDispatch({ type: 'UPDATE_MEALS', payload: formData })
             })
@@ -182,32 +209,49 @@ function MealEditForm(props) {
         hideFunc();
     }
 
-    return (
-        <>
-            <Overlay show={show} >
-                <CloseButton onClick={hideFunc}><CloseIcon style={{ fontSize: 45 }} /></CloseButton>
-                <Container>
-                    <MealBanner image={formImage} />
-                    <Form onSubmit={handleSubmit(onSubmit)}>
-                        <FormTextInput label="Nom" name="name" register={register} watch={watch} />
-                        <FormTextInput label="Ingrédients" name="ingredients" register={register} watch={watch} />
-                        <FormTextInput label="Recette" name="recipe" register={register} watch={watch} />
+    const onDelete = async () => {
+        await deleteMeal(mealId).then(()  => {
+            dataDispatch({type: 'DELETE_MEAL', payload: mealId})
+        })
+        .catch(error => {
+            console.error("Error: " + error.message)
+        });
 
-                        <LabelsContainer>
-                            <Label>Image</Label>
-                            <FileInput
-                                id="mealImage"
-                                name="mealImage"
-                                type="file"
-                                accept="image/*"
-                                ref={register}
-                            />
-                        </LabelsContainer>
+        await fetchMeals().then(response => {
+            dataDispatch({ type: 'FETCH_MEALS', payload: response.data })
+        });
+
+        hideFunc();
+    }
+
+    return (
+        <Overlay show={show} >
+            <CloseButton onClick={hideFunc}><CloseIcon style={{ fontSize: 45 }} /></CloseButton>
+            <Container>
+                <MealBanner image={formImage} />
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                    <FormTextInput label="Nom" name="name" register={register} watch={watch} />
+                    <FormTextInput label="Ingrédients" name="ingredients" register={register} watch={watch} />
+                    <FormTextInput label="Recette" name="recipe" register={register} watch={watch} />
+
+                    <LabelsContainer>
+                        <Label>Image</Label>
+                        <FileInput
+                            id="mealImage"
+                            name="mealImage"
+                            type="file"
+                            accept="image/*"
+                            ref={register}
+                        />
+                    </LabelsContainer>
+                    <ButtonContainer>
                         <FormButton type="submit">Modifier</FormButton>
-                    </Form>
-                </Container>
-            </Overlay>
-        </>
+                        <FormButton className="delete right" type="button" onClick={() => onDelete()}>Supprimer</FormButton>
+                    </ButtonContainer>
+
+                </Form>
+            </Container>
+        </Overlay>
     )
 }
 

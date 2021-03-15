@@ -7,7 +7,7 @@ export const dataReducer = (dataState, action) => {
         case 'CREATE_MEAL':
             return { ...dataState, meals: [...dataState.meals, action.payload] };
         case 'DELETE_MEAL': {
-            let mealIndex = dataState.meals.findIndex(meal => meal.id === action.payload.id);
+            let mealIndex = dataState.meals.findIndex(meal => meal.id === action.payload);
             return { ...dataState, meals: dataState.meals.splice(mealIndex, 1) };
         }
         case 'UPDATE_MEAL': {
