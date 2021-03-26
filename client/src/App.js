@@ -38,7 +38,7 @@ const GridArea = styled.div`
 const initialData = {
   meals: [],
   ingredients: [],
-
+  menus:[],
 }
 
 const App = (props) => {

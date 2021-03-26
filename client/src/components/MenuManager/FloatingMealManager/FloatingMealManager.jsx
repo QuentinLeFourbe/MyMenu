@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import FiltersComponent from './FiltersComponent';
-import ResultsComponent from './ResultsComponents';
+import FloatingMealList from './FloatingMealList';
 
 const Container = styled.div`
     border: 1px solid lightgrey;
@@ -36,7 +36,7 @@ function FloatingMealManager() {
             <Title>Mes recettes !</Title>
             <FiltersComponent/>
             <SeparationLine/>
-            <ResultsComponent/>
+            <FloatingMealList/>
 
 
         </Container>

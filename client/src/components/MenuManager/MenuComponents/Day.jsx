@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { MENU_DINER, MENU_LUNCH } from '../../../Constant';
 import Menu from './Menu';
+import dayjs from 'dayjs';
 
 
 const Container = styled.div`
@@ -23,14 +25,17 @@ const Title = styled.h3`
 
 function Day(props) {
 
-    const { title, lunchMeals, dinerMeals, dayId } = props;
+    const {date, dayMenus } = props;
+
+    const lunchMenu = dayMenus ? dayMenus.find(menu => menu.type === MENU_LUNCH) : null;
+    const dinerMenu = dayMenus ? dayMenus.find(menu => menu.type === MENU_DINER) : null;
 
     return (
         <Container>
-            <Title>{title}</Title>
+            <Title>{dayjs(date).format('dddd')} - {dayjs(date).format('DD')}</Title>
             <Menus>
-                <Menu title='Midi' mealList={lunchMeals} menuId={`${dayId}_lunch`} first />
-                <Menu title='Soir' mealList={dinerMeals} menuId={`${dayId}_diner`} />
+                <Menu title='Midi' date={date} type={MENU_LUNCH} menuData={lunchMenu}  first />
+                <Menu title='Soir' date={date} type={MENU_DINER} menuData={dinerMenu}  />
             </Menus>
         </Container>
     )

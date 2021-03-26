@@ -35,7 +35,6 @@ router.get('/', getMeals);
 
 router.post('/', upload.single('mealImage'), createMeal);
 
-
 router.put('/:id', upload.single('mealImage'),updateMeal);
 
 router.delete('/:id', deleteMeal);
