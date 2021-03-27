@@ -45,6 +45,7 @@ function Menu(props) {
                                     parentId={menuId}
                                     meal={meal}
                                     index={index}
+                                    deletable
                                 />) : ""}
                             {provided.placeholder}
                         </MealList>

@@ -18,7 +18,7 @@ export const dataReducer = (dataState, action) => {
         case 'FETCH_MENUS':
             console.log("fetchhh menus !");
             console.log(action.payload)
-                if (action.payload === undefined)
+            if (action.payload === undefined)
                 console.error("Payload undefined !");
             return { ...dataState, menus: action.payload };
         case 'CREATE_MENU':
@@ -33,8 +33,10 @@ export const dataReducer = (dataState, action) => {
             return { ...dataState };
         }
         case 'UPDATE_MENU': {
-            if (action.payload === undefined)
+            if (action.payload === undefined) {
                 console.error("Payload undefined !");
+                return { ...dataState };
+            }
             let menuIndex = dataState.menus.findIndex(menu => menu._id === action.payload._id);
             dataState.menus.splice(menuIndex, 1, action.payload);
             return { ...dataState };
