@@ -51,14 +51,6 @@ function FiltersComponent() {
                     <FilterOption value="decroissant">Z - A</FilterOption>
                 </Filter>
 
-                <RadioContainer>
-                    <RadioButton type="radio" id="meal" name="type" value="meal"  />
-                    <RadioLabel htmlFor="meal">Plat</RadioLabel>
-                </RadioContainer>
-                <RadioContainer right="true">
-                    <RadioButton type="radio" id="ingredient" name="type" value="ingredient" />
-                    <RadioLabel htmlFor="ingredient">Ingredient</RadioLabel>
-                </RadioContainer>
             </FilterContainer>
         </Container>
     )

@@ -2,53 +2,55 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { AppContext } from '../../../AppContext';
 import { FLOAT_DROPPABLE_ID } from '../../../Constant';
-import {  Droppable } from 'react-beautiful-dnd'
+import { Draggable, Droppable } from 'react-beautiful-dnd'
 import Meal from '../MenuComponents/Meal';
 
+
 const ResultContainer = styled.div`
-    display: flex;
-    flex-flow: column nowrap;
-    margin: 8px;
-    overflow: auto;
-    padding-top: 8px;
+    
+        
 `;
 
-const ResultItem = styled.div`
-    margin: 2px;
-    padding: 8px;
-    border: 1px solid lightgrey;
-    border-radius: 1px;
-`;
 
-function FloatingMealList() {
-
+function FloatingMealList()
+{
     const { dataState } = useContext(AppContext);
     let meals = [];
     meals = dataState.meals;
 
     return (
         <>
-            {/* <ResultContainer>
-                {meals.map((meal) =>
-                    <ResultItem>{meal.name}</ResultItem>
-                )}
-            </ResultContainer> */}
-            <Droppable droppableId={FLOAT_DROPPABLE_ID}>
+            <Droppable droppableId={FLOAT_DROPPABLE_ID} isDropDisabled={true} >
                 {
-                    provided => (
+                    (provided, snapshot) => (
                         <ResultContainer
                             ref={provided.innerRef}
-                            {...provided.droppableProps}
+                            isDraggingOver={snapshot.isDraggingOver}
                         >
                             {meals.map((meal, index) =>
-                                <Meal
-                                    key={meal.id}
-                                    parentId={FLOAT_DROPPABLE_ID}
-                                    meal={meal}
-                                    index={index}
-                                />
+                                <Draggable draggableId={`${FLOAT_DROPPABLE_ID}_${meal.id}`} index={index} key={meal.id}>
+                                    {(provided, snapshot) => (
+                                        <React.Fragment>
+                                            <Meal
+                                                innerRef={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                                isDragging={snapshot.isDragging}
+
+                                                parentId={FLOAT_DROPPABLE_ID}
+                                                meal={meal} style={{
+                                                    ...provided.draggableProps.style,
+                                                    transform: snapshot.isDragging ? provided.draggableProps.style?.transform : 'translate(0px, 0px)',
+                                                }}
+                                            />
+                                            {snapshot.isDragging && (
+                                                <Meal meal={meal} style={{ transform: 'none !important' }}></Meal>
+                                            )}
+
+                                        </React.Fragment>
+                                    )}
+                                </Draggable>
                             )}
-                            {provided.placeholder}
                         </ResultContainer>
                     )
                 }

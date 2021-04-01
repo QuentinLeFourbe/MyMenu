@@ -21,7 +21,8 @@ const Title = styled.h4`
     padding: 2px;
 `;
 
-function Menu(props) {
+function Menu(props)
+{
     const { dataState } = useContext(AppContext);
     const { title, date, type, menuData } = props;
 
@@ -32,21 +33,36 @@ function Menu(props) {
     return (
         <Container first={props.first}>
             <Title>{title}</Title>
-            <Droppable droppableId={menuId}>
+            <Droppable droppableId={menuId} direction='vertical'>
                 {
                     provided => (
                         <MealList
                             ref={provided.innerRef}
                             {...provided.droppableProps}
                         >
-                            {meals.length > 0 ? meals.map((meal, index) =>
-                                <Meal
-                                    key={meal.id}
-                                    parentId={menuId}
-                                    meal={meal}
-                                    index={index}
-                                    deletable
-                                />) : ""}
+                            {meals.map((meal, index) =>
+                                // <Meal
+                                //     key={meal.id}
+                                //     parentId={menuId}
+                                //     meal={meal}
+                                //     index={index}
+                                //     deletable
+                                // />
+                                <Draggable draggableId={`${menuId}_${meal.id}`} index={index} key={meal.id}>
+                                    {(provided) => (
+                                        <Meal
+                                            innerRef={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+
+                                            parentId={menuId}
+                                            meal={meal}
+                                            deletable
+                                        >
+                                        </Meal>
+                                    )}
+                                </Draggable>
+                            )}
                             {provided.placeholder}
                         </MealList>
                     )

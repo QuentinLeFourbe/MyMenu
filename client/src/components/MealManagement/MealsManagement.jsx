@@ -6,7 +6,7 @@ import FiltersComponent from '../MenuManager/FloatingMealManager/FiltersComponen
 
 
 const Container = styled.div`
-
+  
 `;
 
 
@@ -14,9 +14,7 @@ const Container = styled.div`
 const ingredientsDispo = ["Poulet", "Riz", "Crème fraiche", "Fromage", "Maïs"];
 
 function MealsManagement() {
-
-
-
+    
     return (
         <Container>
             <MealCreationForm />

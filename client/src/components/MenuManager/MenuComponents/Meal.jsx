@@ -33,15 +33,18 @@ const DeleteButton = styled.button`
     }
 `;
 
-function Meal(props) {
+function Meal(props)
+{
     const { meal, index, parentId } = props;
 
     const { dataState, dataDispatch } = useContext(AppContext);
 
-    const onDeleteMeal = async () => {
+    const onDeleteMeal = async () =>
+    {
         const parentMenu = dataState.menus.find(menu => menu._id === parentId);
 
-        if (parentMenu === undefined) {
+        if (parentMenu === undefined)
+        {
             console.error("Menu parent undefined");
             return;
         }
@@ -49,10 +52,12 @@ function Meal(props) {
         const mealIndex = parentMenu.meals.findIndex(mealItem => mealItem.id === meal.id);
         parentMenu.meals.splice(mealIndex, 1); //Delete the meal
         await updateMenu(parentId, parentMenu)
-            .then(response => {
+            .then(response =>
+            {
                 dataDispatch({ type: "UPDATE_MENU", payload: parentMenu })
             })
-            .catch(error => {
+            .catch(error =>
+            {
                 console.log("Error: " + error.message)
             })
     }
@@ -60,19 +65,12 @@ function Meal(props) {
     const deleteButton = props.deletable ? <DeleteButton onClick={onDeleteMeal} className="deleteButton"><CloseIcon style={{ fontSize: 20 }} /></DeleteButton> : "";
 
     return (
-        <Draggable draggableId={`${parentId}_${meal.id}`} index={index}>
-            {(provided) => (
-                <Container
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                >
-                    {meal.name}
-                    {deleteButton}
-                </Container>
 
-            )}
-        </Draggable>
+        <Container {... props} ref={props.innerRef}>
+            {meal.name}
+            {deleteButton}
+        </Container>
+
     )
 }
 
