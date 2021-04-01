@@ -1,5 +1,4 @@
 import React, { useEffect, useReducer } from 'react';
-
 import './App.css';
 import MenuManagerComponent from './components/MenuManager/MenuManagerComponent';
 import MealsManagement from './components/MealManagement/MealsManagement';
@@ -14,8 +13,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  HashRouter
 } from "react-router-dom";
 import { AppContext } from './AppContext';
 import { dataReducer } from './Reducers/Reducers';

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useReducer } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { DragDropContext } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import WeeksNavBar from './WeeksNavBar/WeeksNavBar'
@@ -53,7 +53,7 @@ function MenuManagerComponent() {
     const RemoveMealFromMenu = (mealId, menuId) => {
         const menu = dataState.menus.find(menu => menu._id === menuId);
 
-        if (menu == undefined) {
+        if (menu === undefined) {
             console.log("Cannot find menu " + menuId + " !! menus:");
             console.log(weekDates.menus);
             return;
@@ -76,7 +76,7 @@ function MenuManagerComponent() {
     //Add meal to existing menu. It will update the menu in the local state and the db
     const AddMealToExistingMenu = (mealId, menuId, index) => {
         const menu = dataState.menus.find(menu => menu._id === menuId);
-        if (menu == undefined) {
+        if (menu === undefined) {
             console.error("Cannot find menu " + menuId + " !! menus:");
             console.error(weekDates.menus);
             return;
@@ -181,21 +181,25 @@ function MenuManagerComponent() {
             .catch(error => {
                 console.error("Error: " + error.message)
             })
-    }
+            console.log("Badam");
+        }
 
+ 
+        
     //useEffect to get the menus of the week when the page is loaded 
-    useEffect(async () => {
-        await getMenusBetweenDates(weekDates.startDate.format('MM-DD-YYYY'), weekDates.endDate.format('MM-DD-YYYY'))
+    useEffect( () => {
+        async function fetchData(){
+            await getMenusBetweenDates(weekDates.startDate.format('MM-DD-YYYY'), weekDates.endDate.format('MM-DD-YYYY'))
             .then(response => {
                 dataDispatch({ type: 'FETCH_MENUS', payload: response.data })
             })
             .catch(error => {
                 console.error("Error: " + error.message)
             })
-    }, []);
-
-    { console.log("Menus of the week:") }
-    { console.log(dataState.menus) }
+        }
+        fetchData();
+        console.log("Badoum");
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
 

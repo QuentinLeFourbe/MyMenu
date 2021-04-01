@@ -1,8 +1,5 @@
 import React, { useState, useContext } from 'react'
 import styled from 'styled-components'
-import { AppContext } from '../../AppContext';
-import FiltersComponent from '../MenuManager/FloatingMealManager/FiltersComponent';
-import MealEditForm from './MealEditForm';
 
 const Container = styled.div`
     display: grid;
@@ -14,14 +11,7 @@ const Container = styled.div`
     margin: 1rem;
 `;
 
-const Wrapper = styled.div`
-    border-style: solid;
-    border-width: 1px;
-    border-color: #dee2e6;
-    border-radius: 1rem;
-    margin: 1rem;
-    padding-top: 1rem;
-`;
+
 
 const MealContainer = styled.a`
     text-decoration: none;
@@ -56,33 +46,19 @@ const Item = styled.div`
     z-index: 1;
 `;
 
-function MealList() {
-    const context = useContext(AppContext);
-    const { dataState } = context;
-
-    const [overlayData, setOverlayState] = useState({ mealId: "", show: false });
-    const ShowMealOverlay = (mealId) => {
-        setOverlayState({ mealId: mealId, show: true })
-    }
-
-    const HideMealOverlay = () => {
-        setOverlayState({ mealId: "", show: false })
-    }
+function MealList(props) {
+    const {meals, showMealOverlay} = props;
 
     return (
         <>
-            <MealEditForm mealId={overlayData.mealId} show={overlayData.show} hideFunc={HideMealOverlay} />
-            <Wrapper>
-                <FiltersComponent />
-            </Wrapper>
             <Container>
                 {
-                    dataState.meals.map(meal => (
+                    meals.map(meal => (
                         <MealContainer
                             href="#"
                             onClick={(e) => {
                                 e.preventDefault();
-                                ShowMealOverlay(meal.id);
+                                showMealOverlay(meal.id);
                             }}
                             key={meal.id}
                             image={meal.mealImage}>

@@ -1,5 +1,4 @@
-import React, { useState, useContext } from 'react'
-import { Draggable } from 'react-beautiful-dnd';
+import React, {  useContext } from 'react'
 import styled from 'styled-components'
 import { updateMenu } from '../../../api';
 import { AppContext } from '../../../AppContext';
@@ -35,7 +34,7 @@ const DeleteButton = styled.button`
 
 function Meal(props)
 {
-    const { meal, index, parentId } = props;
+    const { meal, parentId } = props;
 
     const { dataState, dataDispatch } = useContext(AppContext);
 
@@ -65,12 +64,10 @@ function Meal(props)
     const deleteButton = props.deletable ? <DeleteButton onClick={onDeleteMeal} className="deleteButton"><CloseIcon style={{ fontSize: 20 }} /></DeleteButton> : "";
 
     return (
-
         <Container {... props} ref={props.innerRef}>
             {meal.name}
             {deleteButton}
         </Container>
-
     )
 }
 

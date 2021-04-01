@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { Droppable, Draggable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import Meal from './Meal'
 import dayjs from 'dayjs';

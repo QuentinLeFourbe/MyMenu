@@ -16,8 +16,6 @@ export const dataReducer = (dataState, action) => {
         }
         ////////////////////////Menus
         case 'FETCH_MENUS':
-            console.log("fetchhh menus !");
-            console.log(action.payload)
             if (action.payload === undefined)
                 console.error("Payload undefined !");
             return { ...dataState, menus: action.payload };

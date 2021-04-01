@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { ReactComponent as LeftArrow } from '../../../images/arrow-left-circle-fill.svg'
 import { ReactComponent as RightArrow } from '../../../images/arrow-right-circle-fill.svg'
@@ -59,12 +59,12 @@ function WeeksNavBar(props) {
 
 
     const nextWeek = () => {
-        if (weekChanged != undefined)
+        if (weekChanged !== undefined)
             weekChanged(startDate.add(7, 'day'), endDate.add(7, 'day'));
     }
 
     const prevWeek = () => {
-        if (weekChanged != undefined)
+        if (weekChanged !== undefined)
             weekChanged(startDate.subtract(7, 'day'), endDate.subtract(7, 'day'));
     }
 

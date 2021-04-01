@@ -4,19 +4,18 @@ import { AppContext } from '../../../AppContext';
 import { FLOAT_DROPPABLE_ID } from '../../../Constant';
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 import Meal from '../MenuComponents/Meal';
-
+ 
 
 const ResultContainer = styled.div`
     
         
 `;
 
-
-function FloatingMealList()
+//Display the meals passed in props
+function FloatingMealList(props)
 {
-    const { dataState } = useContext(AppContext);
-    let meals = [];
-    meals = dataState.meals;
+    const { meals } = props;
+    
 
     return (
         <>

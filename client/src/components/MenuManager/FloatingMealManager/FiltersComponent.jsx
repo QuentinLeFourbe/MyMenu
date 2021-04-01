@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
+import { SortType } from '../../../Constant';
+import { useForm } from 'react-hook-form'
+
 
 const Container = styled.div`
     display:flex;
@@ -39,18 +42,48 @@ const RadioButton = styled.input`
 `;
 const RadioLabel = styled.label``;
 
-function FiltersComponent() {
+function FiltersComponent(props)
+{
+    const { applyFilter, filter } = props;
+
+    let search = "";
+    let sort = SortType.A_Z;
+    if (filter !== undefined){
+        search = filter.search;
+        sort = filter.sort;
+    }
+
+    const onChangeSearchValue = (e) =>
+    {
+        if(applyFilter === undefined){
+            console.error("applyFilter is undefined")
+            return;
+        }
+        
+        search = e.target.value;
+        applyFilter({ search: search, sort: sort });
+        console.log("search: " + search);
+    }
+
+    const onChangeSortValue = (e) =>
+    {
+        if(applyFilter === undefined){
+            console.error("applyFilter is undefined")
+            return;
+        }
+
+        sort = e.target.value;
+        applyFilter({ search: search, sort: sort });
+        console.log("sort: " + sort);
+    }
     return (
         <Container>
-            <SearchField type="text" placeholder="Rechercher un plat"></SearchField>
+            <SearchField type="text" placeholder="Rechercher un plat" onChange={onChangeSearchValue}></SearchField>
             <FilterContainer>
-                <Filter name="Trier par" id="tri">
-                    <FilterOption value="recent">Plus récent</FilterOption>
-                    <FilterOption value="nonrecent">Moins récent</FilterOption>
-                    <FilterOption value="croissant">A - Z</FilterOption>
-                    <FilterOption value="decroissant">Z - A</FilterOption>
+                <Filter name="Trier par" id="tri" onChange={onChangeSortValue} defaultValue={sort}>
+                    <FilterOption value={SortType.A_Z}>A - Z</FilterOption>
+                    <FilterOption value={SortType.Z_A}>Z - A</FilterOption>
                 </Filter>
-
             </FilterContainer>
         </Container>
     )
