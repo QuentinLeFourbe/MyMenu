@@ -12,9 +12,8 @@ const Container = styled.form`
     flex-flow: column wrap;
     justify-content: flex-start;
     border-style: solid;
-    border-width: 1px;
+    border-width: 0px 0px 1px 0px;
     border-color: #dee2e6;
-    border-radius: 1rem;
     margin: 1rem;
     padding: 1rem;
 `;

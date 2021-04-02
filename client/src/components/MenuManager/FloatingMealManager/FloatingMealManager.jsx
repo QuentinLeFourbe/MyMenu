@@ -7,13 +7,14 @@ import FloatingMealList from './FloatingMealList';
 
 const Container = styled.div`
     border: 1px solid lightgrey;
+    border-left:0px;
     display: flex;
     flex-flow: column nowrap;
-    height: 60vh;
-    max-width: 50vw;
-    border-radius: 20px;
-    position: fixed;
+    width: 15vw;
+    height: 70vh;
     background-color: white;
+    margin-top: 1rem;
+    position: fixed;
 `;
 
 const Title = styled.div`

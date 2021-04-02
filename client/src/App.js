@@ -9,23 +9,25 @@ import Header from './components/Header';
 
 import styled from 'styled-components';
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
+import
+  {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+  } from "react-router-dom";
 import { AppContext } from './AppContext';
 import { dataReducer } from './Reducers/Reducers';
 import axios from 'axios';
+import Main from './components/Main';
 
 const MainPage = styled.div`
   display:grid;
   grid-template-columns: auto;
   grid-template-rows: auto;
   grid-template-areas:
-  "header header header"
-  "main main main"
-  "footer footer footer";
+  "header header header header header"
+  ". main main main ."
+  "footer footer footer footer footer";
 `;
 
 const GridArea = styled.div`
@@ -35,19 +37,23 @@ const GridArea = styled.div`
 const initialData = {
   meals: [],
   ingredients: [],
-  menus:[],
+  menus: [],
 }
 
-const App = (props) => {
+const App = (props) =>
+{
 
   const [data, dispatch] = useReducer(dataReducer, initialData)
 
-  useEffect(async () => {
+  useEffect(async () =>
+  {
     axios.get("http://localhost:5000/meals/lookup")
-      .then(response => {
+      .then(response =>
+      {
         dispatch({ type: 'FETCH_MEALS', payload: response.data })
       })
-      .catch(error => {
+      .catch(error =>
+      {
         console.error("Error: " + error.message)
       })
   }, []);
@@ -64,12 +70,16 @@ const App = (props) => {
           <GridArea name="main">
 
             <Switch>
-              <Route exact path="/">
+              {/* <Route exact path="/">
                 <MenuManagerComponent />
               </Route>
 
               <Route exact path="/meals">
                 <MealsManagement />
+              </Route> */}
+
+              <Route exact path="/">
+                <Main />
               </Route>
 
               <Route exact path="/auth">

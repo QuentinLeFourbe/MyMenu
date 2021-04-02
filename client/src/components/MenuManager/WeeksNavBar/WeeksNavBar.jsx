@@ -12,6 +12,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     margin: 20px;
+    flex-grow:1;
 `;
 
 const ButtonContainers = styled.div`

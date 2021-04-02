@@ -1,4 +1,4 @@
-import React, {  useContext } from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { updateMenu } from '../../../api';
 import { AppContext } from '../../../AppContext';
@@ -7,7 +7,8 @@ import CloseIcon from '@material-ui/icons/Close';
 const Container = styled.div`
     display: flex;
     margin: 8px;
-    border: 1px solid lightgrey;
+    border:   ${props => props.isDragging ? "1px dashed grey":"1px solid lightgrey"};
+    background-color: ${props => props.isDragging ? "white":"transparent"};
     padding: 8px;
 
     &:hover{
@@ -15,6 +16,7 @@ const Container = styled.div`
             opacity: 1;
         }
     }
+
 `;
 
 const DeleteButton = styled.button`
@@ -34,7 +36,7 @@ const DeleteButton = styled.button`
 
 function Meal(props)
 {
-    const { meal, parentId } = props;
+    const { meal, parentId, isDragging } = props;
 
     const { dataState, dataDispatch } = useContext(AppContext);
 
@@ -64,7 +66,7 @@ function Meal(props)
     const deleteButton = props.deletable ? <DeleteButton onClick={onDeleteMeal} className="deleteButton"><CloseIcon style={{ fontSize: 20 }} /></DeleteButton> : "";
 
     return (
-        <Container {... props} ref={props.innerRef}>
+        <Container {...props} ref={props.innerRef} isDragging={isDragging}>
             {meal.name}
             {deleteButton}
         </Container>

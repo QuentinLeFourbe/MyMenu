@@ -7,6 +7,7 @@ import Meal from '../MenuComponents/Meal';
  
 
 const ResultContainer = styled.div`
+    overflow: auto;
     
         
 `;

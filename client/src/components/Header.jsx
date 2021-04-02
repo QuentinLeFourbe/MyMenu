@@ -43,10 +43,6 @@ function Header() {
 
             <NavLink to="/meals">Plats</NavLink>
 
-            <NavLink right="true" to="/register">S'enregistrer</NavLink>
-
-            <NavLink to="/auth">Connexion</NavLink>
-
             <NavLink to="/about">A propos</NavLink>
 
         </Container >

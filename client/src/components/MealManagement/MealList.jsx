@@ -14,7 +14,6 @@ const Container = styled.div`
 
 
 const MealContainer = styled.a`
-    text-decoration: none;
     display:flex;
     min-height: 300px;
     border-radius: 1rem;
@@ -46,28 +45,28 @@ const Item = styled.div`
     z-index: 1;
 `;
 
-function MealList(props) {
-    const {meals, showMealOverlay} = props;
+function MealList(props)
+{
+    const { meals, showMealOverlay } = props;
 
     return (
-        <>
-            <Container>
-                {
-                    meals.map(meal => (
-                        <MealContainer
-                            href="#"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                showMealOverlay(meal.id);
-                            }}
-                            key={meal.id}
-                            image={meal.mealImage}>
-                            <Item>{meal.name}</Item>
-                        </MealContainer>
-                    ))
-                }
-            </Container>
-        </>
+        <Container>
+            {
+                meals.map(meal => (
+                    <MealContainer
+                        href="#"
+                        onClick={(e) =>
+                        {
+                            e.preventDefault();
+                            showMealOverlay(meal.id);
+                        }}
+                        key={meal.id}
+                        image={meal.mealImage}>
+                        <Item>{meal.name}</Item>
+                    </MealContainer>
+                ))
+            }
+        </Container>
     )
 }
 

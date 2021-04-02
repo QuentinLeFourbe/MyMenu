@@ -8,14 +8,13 @@ import { SortType } from '../../Constant';
 import MealEditForm from './MealEditForm';
 
 const Container = styled.div`
-  
+  flex-grow:1;
 `;
 
 const Wrapper = styled.div`
     border-style: solid;
-    border-width: 1px;
+    border-width: 0px 0px 1px 0px;
     border-color: #dee2e6;
-    border-radius: 1rem;
     margin: 1rem;
     padding-top: 1rem;
 `;

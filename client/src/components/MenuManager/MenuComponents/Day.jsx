@@ -6,9 +6,9 @@ import dayjs from 'dayjs';
 
 
 const Container = styled.div`
-    margin: 2px;
-    border: 1px solid lightgrey;
-    border-radius: 2px;
+    border-color: lightgrey;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
     flex-grow: 1;
     flex-basis: 50px;
 `;
@@ -23,9 +23,10 @@ const Title = styled.h3`
     padding: 5px;
 `;
 
-function Day(props) {
+function Day(props)
+{
 
-    const {date, dayMenus } = props;
+    const { date, dayMenus } = props;
 
     const lunchMenu = dayMenus ? dayMenus.find(menu => menu.type === MENU_LUNCH) : null;
     const dinerMenu = dayMenus ? dayMenus.find(menu => menu.type === MENU_DINER) : null;
@@ -34,8 +35,8 @@ function Day(props) {
         <Container>
             <Title>{dayjs(date).format('dddd')} - {dayjs(date).format('DD')}</Title>
             <Menus>
-                <Menu title='Midi' date={date} type={MENU_LUNCH} menuData={lunchMenu}  first />
-                <Menu title='Soir' date={date} type={MENU_DINER} menuData={dinerMenu}  />
+                <Menu title='Midi' date={date} type={MENU_LUNCH} menuData={lunchMenu} first />
+                <Menu title='Soir' date={date} type={MENU_DINER} menuData={dinerMenu} />
             </Menus>
         </Container>
     )
