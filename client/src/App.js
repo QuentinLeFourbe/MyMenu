@@ -19,6 +19,7 @@ import { AppContext } from './AppContext';
 import { dataReducer } from './Reducers/Reducers';
 import axios from 'axios';
 import Main from './components/Main';
+import Footer from './components/Footer';
 
 const MainPage = styled.div`
   display:grid;
@@ -96,6 +97,11 @@ const App = (props) =>
             </Switch>
 
           </GridArea>
+
+          <GridArea name="footer">
+            <Footer />
+          </GridArea>
+
         </MainPage>
       </Router>
 

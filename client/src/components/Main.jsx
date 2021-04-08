@@ -1,24 +1,48 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import MealsManagement from './MealManagement/MealsManagement';
 import MenuManagerComponent from './MenuManager/MenuManagerComponent';
+
+const fadeOut = keyframes`
+    from {
+        opacity: 100
+    }
+
+    to {
+        opacity: 0;
+    }
+`;
+
+const fadeIn = keyframes`
+    from {
+        opacity: 0
+    }
+
+    to {
+        opacity: 100;
+    }
+`;
 
 const ContentContainer = styled.div`
     border: 1px solid  lightgrey;
     border-top: 10px solid;
     border-top-color: #ff6f61;
+
+    animation: ${fadeIn} 1s;   
 `;
 
 const Container = styled.div`
-   
+    margin: 0 auto;
+    width: 80vw;
 `;
 
 const TabContainer = styled.div`
     display:flex;
     width: 40vw;
+    
 `;
 
-const TabButton = styled.a`
+const TabButton = styled.button`
     text-decoration: none;
     display:flex;
     border-style: solid;
@@ -40,22 +64,16 @@ const TabButton = styled.a`
         
 `;
 
-const LowTabBorder = styled.div`
 
 
-`;
-
-function Main()
-{
+function Main() {
     const [state, setState] = useState(true) //true means we show menus, false we show the meals
 
-    const showMenu = () =>
-    {
+    const showMenu = () => {
         setState(true)
     }
 
-    const showMeals = () =>
-    {
+    const showMeals = () => {
         setState(false)
     }
 
@@ -64,8 +82,8 @@ function Main()
     return (
         <Container>
             <TabContainer>
-                <TabButton href="#" onClick={showMenu} active={state}>Menu</TabButton>
-                <TabButton href="#" onClick={showMeals} active={!state}>Plats</TabButton>
+                <TabButton onClick={showMenu} active={state}>Menu</TabButton>
+                <TabButton onClick={showMeals} active={!state}>Plats</TabButton>
             </TabContainer>
             <ContentContainer>
                 {tabContent}

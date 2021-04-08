@@ -29,8 +29,7 @@ const GridArea = styled.div`
   grid-area: ${props => props.name};
 `;
 
-function MenuManagerComponent()
-{
+function MenuManagerComponent() {
     dayjs.extend(customParseFormat)
     dayjs.extend(isoWeek);
     dayjs.locale('fr');
@@ -52,12 +51,10 @@ function MenuManagerComponent()
 
     //region
 
-    const RemoveMealFromMenu = (mealId, menuId) =>
-    {
+    const RemoveMealFromMenu = (mealId, menuId) => {
         const menu = dataState.menus.find(menu => menu._id === menuId);
 
-        if (menu === undefined)
-        {
+        if (menu === undefined) {
             console.log("Cannot find menu " + menuId + " !! menus:");
             console.log(weekDates.menus);
             return;
@@ -67,8 +64,7 @@ function MenuManagerComponent()
         return menu;
     }
 
-    const AddMealToNewMenu = (mealId, date, type) =>
-    {
+    const AddMealToNewMenu = (mealId, date, type) => {
         const newMenu = {
             date: date,
             meals: [mealId],
@@ -79,11 +75,9 @@ function MenuManagerComponent()
     }
 
     //Add meal to existing menu. It will update the menu in the local state and the db
-    const AddMealToExistingMenu = (mealId, menuId, index) =>
-    {
+    const AddMealToExistingMenu = (mealId, menuId, index) => {
         const menu = dataState.menus.find(menu => menu._id === menuId);
-        if (menu === undefined)
-        {
+        if (menu === undefined) {
             console.error("Cannot find menu " + menuId + " !! menus:");
             console.error(weekDates.menus);
             return;
@@ -92,19 +86,15 @@ function MenuManagerComponent()
         return menu;
     }
 
-    const SyncDataState = (stateMenus, updatedMenus) =>
-    {
-        updatedMenus.forEach(menu =>
-        {
+    const SyncDataState = (stateMenus, updatedMenus) => {
+        updatedMenus.forEach(menu => {
             let menuIndex = stateMenus.findIndex(menuElem => menu._id === menuElem._id);
-            if (menuIndex !== -1)
-            { //-1 means the menu is not found
+            if (menuIndex !== -1) { //-1 means the menu is not found
                 if (menu.meals.length !== 0)
                     stateMenus.splice(menuIndex, 1, menu); //Remplace l'ancien menu pour sa version à jour
                 else
                     stateMenus.splice(menuIndex, 1); //On supprime le menu car il n'a aucun plat
-            } else
-            {
+            } else {
                 stateMenus.push(menu) //Ajoute un nouveau menu
             }
         });
@@ -112,47 +102,36 @@ function MenuManagerComponent()
 
     }
 
-    const SyncDbMenus = async (updatedMenus) =>
-    {
-        await Promise.all(updatedMenus.map(async (menu) =>
-        {
-            if (menu.meals.length === 0)
-            {
+    const SyncDbMenus = async (updatedMenus) => {
+        await Promise.all(updatedMenus.map(async (menu) => {
+            if (menu.meals.length === 0) {
                 await deleteMenu(menu._id)
-                    .catch(error =>
-                    {
+                    .catch(error => {
                         console.error("Error: " + error.message)
                     })
-            } else if (menu._id === undefined)
-            {
+            } else if (menu._id === undefined) {
                 await createMenu(menu)
-                    .catch(error =>
-                    {
+                    .catch(error => {
                         console.error("Error: " + error.message)
                     })
-            } else
-            {
+            } else {
                 await updateMenu(menu._id, menu)
-                    .catch(error =>
-                    {
+                    .catch(error => {
                         console.error("Error: " + error.message)
                     });
             }
         }));
 
         await getMenusBetweenDates(weekDates.startDate.format('MM-DD-YYYY'), weekDates.endDate.format('MM-DD-YYYY'))
-            .then(response =>
-            {
+            .then(response => {
                 dataDispatch({ type: 'FETCH_MENUS', payload: response.data })
             })
-            .catch(error =>
-            {
+            .catch(error => {
                 console.error("Error: " + error.message)
             })
     }
 
-    const onDragEnd = (result) =>
-    {
+    const onDragEnd = (result) => {
         const { destination, source, draggableId } = result;
         if (!destination)
             return;
@@ -164,11 +143,9 @@ function MenuManagerComponent()
         const dropDestination = destination.droppableId;//Soit un menuId, soit une combinaison date et type de menu: MM-DD-YYYY_menuType
 
         let menusToUpdate = [];
-        if (dropSource === FLOAT_DROPPABLE_ID)
-        { //Le plat provient du menu flottant, donc pas de menu source
+        if (dropSource === FLOAT_DROPPABLE_ID) { //Le plat provient du menu flottant, donc pas de menu source
             //Nothing
-        } else
-        { //On a un menu source
+        } else { //On a un menu source
             //Modifier le menu source que ce soit si on change l'ordre des plats dans le menu, ou si on bouge le plat vers un autre menu
             const newMenu = RemoveMealFromMenu(mealId, dropSource);
             menusToUpdate = [...menusToUpdate, newMenu];
@@ -181,8 +158,7 @@ function MenuManagerComponent()
             const newMenu = AddMealToNewMenu(mealId, dayjs(menuDateDestination, "MM-DD-YYYY").format(), menuTypeDestination);
             menusToUpdate = [...menusToUpdate, newMenu];
         }
-        else
-        { //On est sur un menu existant qu'il va falloir update en BDD après lui avoir ajouté le plat
+        else { //On est sur un menu existant qu'il va falloir update en BDD après lui avoir ajouté le plat
             const newMenu = AddMealToExistingMenu(mealId, dropDestination, destination.index);
             menusToUpdate = [...menusToUpdate, newMenu];
         }
@@ -192,19 +168,16 @@ function MenuManagerComponent()
     }
 
     //Called when the week has been changed, at the start or in the weeknavbar
-    const weekChanged = async (startDate, endDate) =>
-    {
+    const weekChanged = async (startDate, endDate) => {
         await getMenusBetweenDates(startDate.format('MM-DD-YYYY'), endDate.format('MM-DD-YYYY'))
-            .then(response =>
-            {
+            .then(response => {
                 setWeekDates({
                     startDate: startDate,
                     endDate: endDate,
                 })
                 dataDispatch({ type: 'FETCH_MENUS', payload: response.data })
             })
-            .catch(error =>
-            {
+            .catch(error => {
                 console.error("Error: " + error.message)
             })
     }
@@ -212,17 +185,13 @@ function MenuManagerComponent()
 
 
     //useEffect to get the menus of the week when the page is loaded 
-    useEffect(() =>
-    {
-        async function fetchData()
-        {
+    useEffect(() => {
+        async function fetchData() {
             await getMenusBetweenDates(weekDates.startDate.format('MM-DD-YYYY'), weekDates.endDate.format('MM-DD-YYYY'))
-                .then(response =>
-                {
+                .then(response => {
                     dataDispatch({ type: 'FETCH_MENUS', payload: response.data })
                 })
-                .catch(error =>
-                {
+                .catch(error => {
                     console.error("Error: " + error.message)
                 })
         }
@@ -232,8 +201,8 @@ function MenuManagerComponent()
 
     return (
 
-        < DragDropContext onDragEnd={onDragEnd} >
-            <Container>
+        <Container>
+            < DragDropContext onDragEnd={onDragEnd} >
                 <GridArea name="leftPanel">
                     <FloatingMealManager />
                 </GridArea>
@@ -252,8 +221,8 @@ function MenuManagerComponent()
                         endDate={weekDates.endDate}
                     />
                 </GridArea>
-            </Container>
-        </DragDropContext >
+            </DragDropContext >
+        </Container>
 
     )
 }

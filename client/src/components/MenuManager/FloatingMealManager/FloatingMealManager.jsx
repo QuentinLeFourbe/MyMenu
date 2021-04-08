@@ -14,7 +14,8 @@ const Container = styled.div`
     height: 70vh;
     background-color: white;
     margin-top: 1rem;
-    position: fixed;
+    position: sticky; 
+    top: 5vh;
 `;
 
 const Title = styled.div`

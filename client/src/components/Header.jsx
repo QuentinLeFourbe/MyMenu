@@ -5,20 +5,23 @@ import { Link } from "react-router-dom";
 const Container = styled.header`
     margin-bottom: 50px;
     padding: 0px 36px 0px 36px;
-    background-color: #ff6f61;
-    min-height:100px;
+    /* background-color: #ff6f61; */
+    min-height:25vh;
 
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-end;
     align-items: stretch;
+    border-color:lightgrey;
+    border-style:solid;
+    border-width: 0px 0px 1px 0px;
 `;
 
 
 
 
 const NavLink = styled(Link)`
-    color:white;
+    /* color:white; */
     text-decoration: none;
     margin-left: ${props => props.right ? "auto" : "0px"};
     display:flex;
@@ -39,9 +42,6 @@ function Header() {
     return (
         <Container>
 
-            <NavLink to="/">Menu</NavLink>
-
-            <NavLink to="/meals">Plats</NavLink>
 
             <NavLink to="/about">A propos</NavLink>
 
