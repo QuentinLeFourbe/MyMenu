@@ -5,7 +5,7 @@ export const getMenu = async (req, res) => {
     console.log(req.route.name);
     try {
         const id = req.params.id;
-        const menu = await Menu.find({ _id: id });
+        const menu = await Menu.find({ _id: id, user: req.user.id });
         res.status(200).json(menu);
     }
     catch (error) {
@@ -16,7 +16,7 @@ export const getMenu = async (req, res) => {
 
 export const getAllMenus = async (req, res) => {
     try {
-        const menus = await Menu.find();
+        const menus = await Menu.find({ user: req.user.id });
         res.status(200).json(menus);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -29,7 +29,7 @@ export const getMenusBetweenDates = async (req, res) => {
     const startDate = req.query.startDate;
     const endDate = req.query.endDate;
     try {
-        const menu = await Menu.find({ date: { $gte: startDate, $lte: endDate , $exists:true} });
+        const menu = await Menu.find({ date: { $gte: startDate, $lte: endDate, $exists: true }, user: req.user.id });
         res.status(200).json(menu);
     }
     catch (error) {
@@ -40,11 +40,11 @@ export const getMenusBetweenDates = async (req, res) => {
 
 export const createMenu = async (req, res) => {
     console.log("Create menu");
-    const { type, creator, date, meals } = req.body;
-
-    const newMenu = new Menu({ type, creator, date, meals });
-
     try {
+        const { type, creator, date, meals } = req.body;
+
+        const newMenu = new Menu({ type, creator, date, meals, user: req.user.id });
+
         await newMenu.save();
 
         res.status(201).json(newMenu);
@@ -56,10 +56,10 @@ export const createMenu = async (req, res) => {
 
 export const updateMenu = async (req, res) => {
     console.log("Update menu");
-    const id = req.params.id;
-    const { meals } = req.body;
     try {
-        const menu = await Menu.updateOne({ _id: { $eq: id } }, { meals })
+        const id = req.params.id;
+        const { meals } = req.body;
+        const menu = await Menu.updateOne({ _id: { $eq: id }, user: req.user.id }, { meals })
         res.status(201).json(menu);
     }
     catch (error) {
@@ -72,7 +72,7 @@ export const deleteMenu = async (req, res) => {
     console.log("Delete menu");
     try {
         const id = req.params.id;
-        const menu = await Menu.deleteOne({ _id: id });
+        const menu = await Menu.deleteOne({ _id: id, user: req.user.id });
         res.status(200).json(menu);
     }
     catch (error) {
@@ -82,7 +82,7 @@ export const deleteMenu = async (req, res) => {
 
 export const deleteAllMenus = async (req, res) => {
     try {
-        const menu = await Menu.deleteMany({});
+        const menu = await Menu.deleteMany({ user: req.user.id });
         res.status(200).json(menu);
     }
     catch (error) {

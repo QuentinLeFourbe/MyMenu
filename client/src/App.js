@@ -1,110 +1,43 @@
 import React, { useEffect, useReducer } from 'react';
 import './App.css';
-import MenuManagerComponent from './components/MenuManager/MenuManagerComponent';
-import MealsManagement from './components/MealManagement/MealsManagement';
+import styled from 'styled-components';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import { fetchMeals, getSession } from './api';
+import { AppContext } from './AppContext';
+import { dataReducer } from './Reducers/Reducers';
+import Main from './components/Main';
+import Header from './components/Header';
+import Footer from './components/Footer';
 import Authentification from './components/Authentification';
 import Register from './components/Register';
 import About from './components/About';
-import Header from './components/Header';
+import ContentFromRoute from './components/ContentFromRoute';
 
-import styled from 'styled-components';
 
-import
-  {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-  } from "react-router-dom";
-import { AppContext } from './AppContext';
-import { dataReducer } from './Reducers/Reducers';
-import axios from 'axios';
-import Main from './components/Main';
-import Footer from './components/Footer';
-
-const MainPage = styled.div`
-  display:grid;
-  grid-template-columns: auto;
-  grid-template-rows: auto;
-  grid-template-areas:
-  "header header header header header"
-  ". main main main ."
-  "footer footer footer footer footer";
-`;
-
-const GridArea = styled.div`
-  grid-area: ${props => props.name};
+const MainArea = styled.main`
+  grid-area: main;
+  padding: 5vh 5vw 5vh 5vw;
 `;
 
 const initialData = {
   meals: [],
   ingredients: [],
   menus: [],
+  user: null
 }
 
-const App = (props) =>
-{
+const App = (props) => {
 
   const [data, dispatch] = useReducer(dataReducer, initialData)
-
-  useEffect(async () =>
-  {
-    axios.get("http://localhost:5000/meals/lookup")
-      .then(response =>
-      {
-        dispatch({ type: 'FETCH_MEALS', payload: response.data })
-      })
-      .catch(error =>
-      {
-        console.error("Error: " + error.message)
-      })
-  }, []);
-
+  
   return (
     <AppContext.Provider value={{ dataState: data, dataDispatch: dispatch }}>
-      <Router>
-        <MainPage>
-
-          <GridArea name="header">
-            <Header />
-          </GridArea>
-
-          <GridArea name="main">
-
-            <Switch>
-              {/* <Route exact path="/">
-                <MenuManagerComponent />
-              </Route>
-
-              <Route exact path="/meals">
-                <MealsManagement />
-              </Route> */}
-
-              <Route exact path="/">
-                <Main />
-              </Route>
-
-              <Route exact path="/auth">
-                <Authentification />
-              </Route>
-
-              <Route exact path="/register">
-                <Register />
-              </Route>
-
-              <Route exact path="/about">
-                <About />
-              </Route>
-            </Switch>
-
-          </GridArea>
-
-          <GridArea name="footer">
-            <Footer />
-          </GridArea>
-
-        </MainPage>
-      </Router>
-
+      <ContentFromRoute/>
     </AppContext.Provider>
   )
 }

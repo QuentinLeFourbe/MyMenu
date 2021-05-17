@@ -196,7 +196,6 @@ function MenuManagerComponent() {
                 })
         }
         fetchData();
-        console.log("Badoum");
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (

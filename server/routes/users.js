@@ -1,19 +1,15 @@
-const router = require('express').Router();
-let User = require('../models/user.model');
+import express from 'express';
+import passport from 'passport';
+import { logoutUser, getUsers, deleteUser } from '../controllers/users.js';
+import User from '../models/user.model.js';
 
-router.route('/').get((req, res) => {
-    User.find()
-        .then(users => res.json(users))
-        .catch(err => res.status(400).json('Error ' + err))
-});
+const router = express.Router();
 
-router.route('/add').post((req, res) => {
-    const username = req.body.username;
-    const newUser = new User({username});
+router.get("/fetch", getUsers);
+router.delete("/:id", deleteUser);
+router.get("/logout", logoutUser);
 
-    newUser.save()
-    .then(() => res.json('User added !'))
-    .catch(err => res.status(400).json('Error: ' + err));
-})
+router.get('/', getUsers);
 
-module.exports = router;
+
+export default router;

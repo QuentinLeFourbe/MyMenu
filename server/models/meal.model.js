@@ -9,11 +9,12 @@ const mealSchema = mongoose.Schema({
     createdAt: {
         type: Date,
         default: new Date()
-    },
+    }, 
     lastUse: {
         type: Date,
         default: new Date()
-    }
+    },
+    user: String
 });
 
 const Meal = mongoose.model('Meal', mealSchema);

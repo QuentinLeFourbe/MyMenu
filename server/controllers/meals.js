@@ -3,7 +3,8 @@ import Meal from '../models/meal.model.js';
 
 export const getMeals = async (req, res) => {
     try {
-        const meals = await Meal.find();
+        // const meals = await Meal.find();
+        const meals = await Meal.find({ user: req.user.id });
 
         res.status(200).json(meals);
     } catch (error) {
@@ -12,7 +13,6 @@ export const getMeals = async (req, res) => {
 }
 
 export const createMeal = async (req, res, next) => {
-    console.log(req.file);
     const { name, ingredients, recipe, creator } = req.body;
     let mealImage;
     if (req.file != undefined) {
@@ -22,10 +22,8 @@ export const createMeal = async (req, res, next) => {
     } else {
         mealImage = "";
     }
-
-    const newMeal = new Meal({ name, ingredients, recipe, creator, mealImage });
-
     try {
+        const newMeal = new Meal({ name, ingredients, recipe, creator, mealImage, user: req.user.id });
         await newMeal.save();
 
         res.status(201).json(newMeal);
@@ -37,7 +35,7 @@ export const createMeal = async (req, res, next) => {
 export const getMeal = async (req, res) => {
     try {
         const id = req.params.id;
-        const meal = await Meal.find({ _id: id });
+        const meal = await Meal.find({ _id: id, user: req.user.id });
         res.status(200).json(meal);
     }
     catch (error) {
@@ -58,7 +56,7 @@ export const updateMeal = async (req, res) => {
         } else {
             updatedMeal = { ...req.body }
         }
-        const meal = await Meal.updateOne({ _id: { $eq: id } }, updatedMeal);
+        const meal = await Meal.updateOne({ _id: { $eq: id }, user: req.user.id }, updatedMeal);
         res.status(200).json(meal);
     }
     catch (error) {
@@ -69,7 +67,7 @@ export const updateMeal = async (req, res) => {
 export const getMealsLookup = async (req, res) => {
     try {
         const id = req.params.id;
-        const meals = await Meal.find();
+        const meals = await Meal.find({ user: req.user.id });
         res.status(200).json(meals.map((meal) => (
             {
                 id: meal._id,
@@ -83,10 +81,10 @@ export const getMealsLookup = async (req, res) => {
     }
 }
 
-export const deleteMeal = async(req,res) => {
+export const deleteMeal = async (req, res) => {
     try {
         const id = req.params.id;
-        const meal = await Meal.deleteOne({ _id: id });
+        const meal = await Meal.deleteOne({ _id: id, user: req.user.id });
         res.status(200).json(meal);
     }
     catch (error) {

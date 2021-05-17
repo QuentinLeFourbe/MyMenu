@@ -6,16 +6,19 @@ import FiltersComponent from './FiltersComponent';
 import FloatingMealList from './FloatingMealList';
 
 const Container = styled.div`
-    border: 1px solid lightgrey;
-    border-left:0px;
     display: flex;
     flex-flow: column nowrap;
-    width: 15vw;
-    height: 70vh;
-    background-color: white;
-    margin-top: 1rem;
+    
     position: sticky; 
     top: 5vh;
+    width: 15vw;
+    height: 70vh;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    background-color: white;
+
+    border: 1px solid lightgrey;
+    border-left:0px;
 `;
 
 const Title = styled.div`
@@ -62,7 +65,7 @@ function FloatingMealManager()
             );
 
         filteredMeals.sort((meal1, meal2) => meal1.name > meal2.name);
-        if (SortType.Z_A)
+        if (filter.sort == SortType.Z_A)
         {
             filteredMeals = filteredMeals.reverse();
         }

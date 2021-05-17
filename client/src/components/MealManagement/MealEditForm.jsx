@@ -6,6 +6,9 @@ import { updateMeal, fetchMeals, deleteMeal } from '../../api';
 import { AppContext } from '../../AppContext';
 import FormTextInput from './FormTextInput';
 import CloseIcon from '@material-ui/icons/Close';
+import FormTextArea from './FormTextArea';
+import LoadingComponent from '../LoadingComponent';
+import { useSpring, animated } from 'react-spring';
 
 const Overlay = styled.div`
     height: 100%;
@@ -20,7 +23,7 @@ const Overlay = styled.div`
     z-index: 2;
 `;
 
-const Container = styled.div`
+const Container = styled(animated.div)`
     background-color: white;
     border-radius: 50px;
     z-index: 2;
@@ -74,7 +77,7 @@ const MealBanner = styled.div`
     min-height: 150px;
     border-radius: 1rem 1rem 0rem 0rem;
     background-size: cover;
-    background-image: url('http://localhost:5000/${props => props.image}');
+    background-image: url('/api/${props => props.image}');
     background-position: center; 
     flex-grow:1;
 `;
@@ -159,8 +162,20 @@ function MealEditForm(props) {
     const [formImage, setFormImage] = useState('');
     // const emptyMealState = { name: '', ingredients: '', recipe: '' }
 
+    const [isLoading, setIsLoading] = useState(false);
+
     //React hook form
     const { register, reset, handleSubmit, watch, setValues } = useForm();
+
+    //Spring animation
+    const spring = useSpring({
+        from: {
+            y: 200,
+            opacity: 0,
+        },
+        y: show ? 0 : 200,
+        opacity: show ? 1 : 0,
+    })
 
     useEffect(async () => {
         if (mealId === "") {
@@ -168,18 +183,20 @@ function MealEditForm(props) {
             return;
         }
 
-        await axios.get(`http://localhost:5000/meals/${mealId}`)
+        setIsLoading(true);
+        await axios.get(`/api/meals/${mealId}`)
             .then(response => {
                 let mealEdited = response.data[0];
                 setFormImage(mealEdited.mealImage);
                 reset({ ...mealEdited, mealImage: '' }); //Empty mealImage so it does not load the path in file Input and crash
+                setIsLoading(false);
             })
             .catch(error => {
                 console.error("Error: " + error.message)
             });
 
 
-    }, [mealId]);
+    }, [mealId, show]);
 
     const onSubmit = async (data) => {
         const meal = { ...data };
@@ -210,12 +227,12 @@ function MealEditForm(props) {
     }
 
     const onDelete = async () => {
-        await deleteMeal(mealId).then(()  => {
-            dataDispatch({type: 'DELETE_MEAL', payload: mealId})
+        await deleteMeal(mealId).then(() => {
+            dataDispatch({ type: 'DELETE_MEAL', payload: mealId })
         })
-        .catch(error => {
-            console.error("Error: " + error.message)
-        });
+            .catch(error => {
+                console.error("Error: " + error.message)
+            });
 
         await fetchMeals().then(response => {
             dataDispatch({ type: 'FETCH_MEALS', payload: response.data })
@@ -227,30 +244,32 @@ function MealEditForm(props) {
     return (
         <Overlay show={show} >
             <CloseButton onClick={hideFunc}><CloseIcon style={{ fontSize: 45 }} /></CloseButton>
-            <Container>
-                <MealBanner image={formImage} />
-                <Form onSubmit={handleSubmit(onSubmit)}>
-                    <FormTextInput label="Nom" name="name" register={register} watch={watch} />
-                    <FormTextInput label="Ingrédients" name="ingredients" register={register} watch={watch} />
-                    <FormTextInput label="Recette" name="recipe" register={register} watch={watch} />
+            {isLoading ? <LoadingComponent /> :
 
-                    <LabelsContainer>
-                        <Label>Image</Label>
-                        <FileInput
-                            id="mealImage"
-                            name="mealImage"
-                            type="file"
-                            accept="image/*"
-                            ref={register}
-                        />
-                    </LabelsContainer>
-                    <ButtonContainer>
-                        <FormButton type="submit">Modifier</FormButton>
-                        <FormButton className="delete right" type="button" onClick={() => onDelete()}>Supprimer</FormButton>
-                    </ButtonContainer>
+                <Container style={spring}>
+                    <MealBanner image={formImage} />
+                    <Form onSubmit={handleSubmit(onSubmit)}>
+                        <FormTextInput label="Nom" name="name" register={register} watch={watch} show={show} />
+                        <FormTextInput label="Ingrédients" name="ingredients" register={register} watch={watch} show={show} />
+                        <FormTextArea label="Recette" name="recipe" register={register} watch={watch} show={show} />
 
-                </Form>
-            </Container>
+                        <LabelsContainer>
+                            <Label>Image</Label>
+                            <FileInput
+                                id="mealImage"
+                                name="mealImage"
+                                type="file"
+                                accept="image/*"
+                                ref={register}
+                            />
+                        </LabelsContainer>
+                        <ButtonContainer>
+                            <FormButton type="submit">Modifier</FormButton>
+                            <FormButton className="delete right" type="button" onClick={() => onDelete()}>Supprimer</FormButton>
+                        </ButtonContainer>
+
+                    </Form>
+                </Container>}
         </Overlay>
     )
 }

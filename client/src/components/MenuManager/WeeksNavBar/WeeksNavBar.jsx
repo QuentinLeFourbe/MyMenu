@@ -1,57 +1,63 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ReactComponent as LeftArrow } from '../../../images/arrow-left-circle-fill.svg'
-import { ReactComponent as RightArrow } from '../../../images/arrow-right-circle-fill.svg'
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import dayjs from 'dayjs';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 
 
 const Container = styled.div`
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: row wrap;
     align-items: center;
     justify-content: center;
     margin: 20px;
     flex-grow:1;
 `;
 
+const WeekLabel = styled.label`
+    font-family: "Times New Roman", Times, serif;
+    font-size: 2rem;
+`;
+
+const DayLabel = styled.label`
+    font-family: "Times New Roman", Times, serif;
+    font-size: 3rem;
+    margin-right:auto;
+`;
+
 const ButtonContainers = styled.div`
     display: flex;
+    flex-flow: column nowrap;
     align-items: center;
     justify-content: center;
-    margin: 20px;
-`;
-
-const NavButton = styled.button`
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    border: none;
-    background: none;
-    font-size:20px;
-`;
-
-const ActiveButton = styled.button`
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    border: none;
-    font-size:20px;
+    margin: 1rem;
 `;
 
 const ArrowButton = styled.button`
-    border-radius: 50%;
+    display: flex;
+    font-size:2rem;
+    padding: 0px;
     border: none;
     background: none;
+
+    &:hover{
+        background-color:lightgrey;
+    }
 `;
 
-const Title = styled.div`
-
+const WeekNumber = styled.label`
+    font-family: "Times New Roman", Times, serif;
+    font-size: 2rem;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
-const WeekDetails = styled.div`
 
-`;
+
 
 
 function WeeksNavBar(props) {
@@ -71,29 +77,18 @@ function WeeksNavBar(props) {
 
     return (
         <Container>
-            <Title> Semaine </Title>
+            <DayLabel>{dayjs().format('dddd D MMMM')}</DayLabel>
+            <WeekLabel> Semaine </WeekLabel>
             <ButtonContainers>
-                <ArrowButton>
-                    <LeftArrow
-                        width='40px'
-                        height='auto'
-                        onClick={prevWeek}
-                    />
+            
+                <ArrowButton onClick={nextWeek}>
+                    <ArrowDropUpIcon fontSize='inherit'/>
                 </ArrowButton>
-                <NavButton>{startDate.week() - 3}</NavButton>
-                <NavButton>{startDate.week() - 2}</NavButton>
-                <ActiveButton>{startDate.week() - 1}</ActiveButton>
-                <NavButton>{startDate.week()}</NavButton>
-                <NavButton>{startDate.week() + 1}</NavButton>
-                <ArrowButton>
-                    <RightArrow
-                        width='40px'
-                        height='auto'
-                        onClick={nextWeek}
-                    />
+                <WeekNumber>{startDate.week() - 1}</WeekNumber>
+                <ArrowButton onClick={prevWeek}>
+                    <ArrowDropDownIcon fontSize='inherit'/>
                 </ArrowButton>
             </ButtonContainers>
-            <WeekDetails> {startDate.get('date')}/{startDate.get('month') + 1} - {endDate.get('date')}/{endDate.get('month') + 1} </WeekDetails>
         </Container>
     )
 }

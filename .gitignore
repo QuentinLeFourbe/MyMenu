@@ -1,2 +1,6 @@
 node_modules
 build
+client/.eslintcache
+.vscode/launch.json
+client/package-lock.json
+server/package-lock.json

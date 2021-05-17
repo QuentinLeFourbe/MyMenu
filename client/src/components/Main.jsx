@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled, { keyframes } from 'styled-components'
 import MealsManagement from './MealManagement/MealsManagement';
 import MenuManagerComponent from './MenuManager/MenuManagerComponent';
+import {useSpring, animated, config} from 'react-spring'
 
 const fadeOut = keyframes`
     from {
@@ -13,25 +14,13 @@ const fadeOut = keyframes`
     }
 `;
 
-const fadeIn = keyframes`
-    from {
-        opacity: 0
-    }
-
-    to {
-        opacity: 100;
-    }
-`;
-
-const ContentContainer = styled.div`
+const ContentContainer = styled(animated.div)`
     border: 1px solid  lightgrey;
     border-top: 10px solid;
     border-top-color: #ff6f61;
-
-    animation: ${fadeIn} 1s;   
 `;
 
-const Container = styled.div`
+const Container =  styled(animated.div)`
     margin: 0 auto;
     width: 80vw;
 `;
@@ -68,6 +57,23 @@ const TabButton = styled.button`
 
 function Main() {
     const [state, setState] = useState(true) //true means we show menus, false we show the meals
+    const props = useSpring({opacity: 1, from: {opacity: 0}})
+
+    const springStyle = useSpring(
+        {
+            from: {
+                y: 100,
+                opacity: 0,
+            },
+            opacity: 1,
+            y: 0,
+            config: {
+                tension: 100,
+                friction: 20,
+                mass: 1,
+
+            }
+        });
 
     const showMenu = () => {
         setState(true)
@@ -80,12 +86,12 @@ function Main() {
     const tabContent = state ? <MenuManagerComponent /> : <MealsManagement />
 
     return (
-        <Container>
+        <Container style={springStyle}>
             <TabContainer>
                 <TabButton onClick={showMenu} active={state}>Menu</TabButton>
                 <TabButton onClick={showMeals} active={!state}>Plats</TabButton>
             </TabContainer>
-            <ContentContainer>
+            <ContentContainer style={props}>
                 {tabContent}
             </ContentContainer>
         </Container>

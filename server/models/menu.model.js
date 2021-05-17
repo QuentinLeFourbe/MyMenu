@@ -6,7 +6,8 @@ const menuSchema = mongoose.Schema({
     date: {
         type: Date,
     },
-    meals: [String]
+    meals: [String],
+    user: String
 });
 
 const Menu = mongoose.model('Menu', menuSchema);

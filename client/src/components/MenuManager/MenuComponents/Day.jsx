@@ -33,7 +33,7 @@ function Day(props)
 
     return (
         <Container>
-            <Title>{dayjs(date).format('dddd')} - {dayjs(date).format('DD')}</Title>
+            <Title>{dayjs(date).format('dddd - DD/MM')}</Title>
             <Menus>
                 <Menu title='Midi' date={date} type={MENU_LUNCH} menuData={lunchMenu} first />
                 <Menu title='Soir' date={date} type={MENU_DINER} menuData={dinerMenu} />

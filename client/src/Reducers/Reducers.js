@@ -54,10 +54,23 @@ export const dataReducer = (dataState, action) => {
             return { ...dataState };
         }
 
+        //User logged in after google oauth
+        case 'USER_LOGIN': {
+            if (action.payload === undefined) {
+                console.error("Payload undefined !");
+                return { ...dataState };
+            }
+            return { ...dataState, user: action.payload.user };
+        }
+        case 'NOT_LOGGED': {
+            return { ...dataState, user: null };
+        }
+
+
+
         default:
             return dataState;
     }
 }
-
 
 

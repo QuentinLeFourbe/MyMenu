@@ -45,6 +45,8 @@ function MealsManagement()
             sort: SortType.A_Z
         }
     });
+
+    //filter: {search: String, sort: SortType}
     const applyFilter = (filter) =>
     {
         if (filter === undefined)
@@ -61,7 +63,7 @@ function MealsManagement()
             );
 
         filteredMeals.sort((meal1, meal2) => meal1.name > meal2.name);
-        if (SortType.Z_A)
+        if (filter.sort == SortType.Z_A)
         {
             filteredMeals = filteredMeals.reverse();
         }

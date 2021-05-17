@@ -9,7 +9,7 @@ const Container = styled.div`
     margin: 2px;
     border-left: ${props => props.first ? "0px" : "1px"} solid lightgrey;
     border-radius: 1px;
-    flex-grow: 1;
+    width: 30vw;
 `;
 
 const MealList = styled.div`

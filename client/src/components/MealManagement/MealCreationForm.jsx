@@ -81,7 +81,6 @@ const FormButton = styled.button`
 `;
 
 const RecipeArea = styled.textarea`
-    resize: none;
     margin: 0rem 0rem 1rem 0rem;
     padding: 0.5rem;
     border-radius: 1rem;
@@ -101,8 +100,7 @@ function MealCreationForm() {
 
     const { register, handleSubmit } = useForm()
 
-    const context = useContext(AppContext);
-    const { dataDispatch } = context;
+    const { dataDispatch } = useContext(AppContext);
 
     const saveMeal = async (data) => {
 
@@ -149,7 +147,7 @@ function MealCreationForm() {
             <RecipeArea
                 id="recipe"
                 name="recipe"
-                rows="5"
+                rows="15"
                 cols="30"
                 placeholder="Entrez ici votre recette !"
                 ref={register}

@@ -18,7 +18,7 @@ const Label = styled.label`
 
 
 
-const TextInput = styled.input`
+const TextArea = styled.textarea`
     padding: 0.5rem;
     border-radius: 1rem;
     border: none;
@@ -43,11 +43,11 @@ const Row = styled.div`
     flex-flow: row nowrap;
 `;
 
-function FormTextInput(props) {
+function FormTextArea(props) {
     const { label, show, name, register, watch } = props;
     const [editState, setEditState] = useState(false)
 
-    // Hide input field when the value is changed in the props
+    //Hide input field when the value is changed in the props
     useEffect(() => {
         setEditState(false);
     }, [show])
@@ -57,20 +57,21 @@ function FormTextInput(props) {
             <Row>
                 <Label>{label}</Label>
                 <Button type="button" hide={editState} onClick={() => setEditState(true)}>
-                    {console.log(editState)}
                     <EditIcon></EditIcon>
                 </Button>
             </Row>
-            <Label className="dataLabel" hide={editState} >{watch(name)}</Label> 
-            <TextInput
+            <Label className="dataLabel" hide={editState} >{watch(name)}</Label>
+            <TextArea
                 show={editState}
                 id={name}
                 name={name}
                 type="text"
                 ref={register}
-            ></TextInput>
+                rows="15"
+                cols="30"
+            ></TextArea>
         </Container>
     )
 }
 
-export default FormTextInput
+export default FormTextArea
