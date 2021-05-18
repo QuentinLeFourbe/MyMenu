@@ -44,13 +44,8 @@ const Row = styled.div`
 `;
 
 function FormTextArea(props) {
-    const { label, show, name, register, watch } = props;
+    const { label, name, register, watch } = props;
     const [editState, setEditState] = useState(false)
-
-    //Hide input field when the value is changed in the props
-    useEffect(() => {
-        setEditState(false);
-    }, [show])
 
     return (
         <Container>

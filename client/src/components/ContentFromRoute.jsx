@@ -18,10 +18,14 @@ import LoadingComponent from './LoadingComponent';
 
 function ContentFromRoute() {
     const { dataState, dataDispatch } = useContext(AppContext);
-    const [loadingState, setLoadingState] = useState(false);
+    const [loadingState, setLoadingState] = useState(true);
+    const [showLoading, setShowLoading] = useState(true);
+
+    const hideLoading = () => {
+        setShowLoading(false);
+    }
 
     useEffect(async () => {
-        setLoadingState(true);
         await getSession()
             .then(response => {
                 if (response.data.user == undefined) {
@@ -37,42 +41,33 @@ function ContentFromRoute() {
                             console.error("Error: " + error.message)
                         })
                 }
-                setLoadingState(false);
             })
+        setLoadingState(false);
     }, []);
 
     return (
-        loadingState ? <LoadingComponent/> : 
-        <Router>
-            <Switch>
-                <Route exact path="/">
-                    <Header />
-                    {dataState.user != null ? <Main /> : <Redirect to="/auth" />}
-                    <Footer />
-                </Route>
+        showLoading ? <LoadingComponent hideLoading={hideLoading} loadingState={loadingState} /> :
+            <Router>
+                <Header user={dataState.user} />
+                <Switch>
+                    <Route exact path="/">
+                        {dataState.user != null ? <Main /> : <Redirect to="/auth" />}
+                    </Route>
 
+                    <Route exact path="/auth">
+                        {dataState.user == null ? <Authentification /> : <Redirect to="/" />}
+                    </Route>
 
-                {/* <Route exact path="/">
-            <Header />
-            <MainArea>
-              <Main />
-            </MainArea>
-            <Footer />
-          </Route> */}
+                    <Route exact path="/register">
+                        <Register />
+                    </Route>
 
-                <Route exact path="/auth">
-                    {dataState.user == null ? <Authentification /> : <Redirect to="/" />}
-                </Route>
-
-                <Route exact path="/register">
-                    <Register />
-                </Route>
-
-                <Route exact path="/about">
-                    <About />
-                </Route>
-            </Switch>
-        </Router>
+                    <Route exact path="/about">
+                        <About />
+                    </Route>
+                </Switch>
+                <Footer />
+            </Router>
     )
 }
 

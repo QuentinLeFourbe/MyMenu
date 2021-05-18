@@ -13,7 +13,7 @@ import { useSpring, animated } from 'react-spring';
 const Overlay = styled.div`
     height: 100%;
     width: 100%;
-    display: ${props => props.show ? 'block' : 'none'};
+    display: block;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -154,7 +154,7 @@ const ButtonContainer = styled.div`
 
 function MealEditForm(props) {
     //Props
-    const { mealId, show, hideFunc } = props;
+    const { mealId, hideFunc } = props;
     //Context
     const context = useContext(AppContext);
     const { dataDispatch } = context;
@@ -162,8 +162,12 @@ function MealEditForm(props) {
     const [formImage, setFormImage] = useState('');
     // const emptyMealState = { name: '', ingredients: '', recipe: '' }
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [loadingState, setLoadingState] = useState(true);
+    const [showLoading, setShowLoading] = useState(true);
 
+    const hideLoading = () => {
+        setShowLoading(false);
+    }
     //React hook form
     const { register, reset, handleSubmit, watch, setValues } = useForm();
 
@@ -173,8 +177,8 @@ function MealEditForm(props) {
             y: 200,
             opacity: 0,
         },
-        y: show ? 0 : 200,
-        opacity: show ? 1 : 0,
+        y: showLoading ? 200 : 0,
+        opacity: showLoading ? 0 : 1,
     })
 
     useEffect(async () => {
@@ -182,21 +186,17 @@ function MealEditForm(props) {
             reset();
             return;
         }
-
-        setIsLoading(true);
         await axios.get(`/api/meals/${mealId}`)
             .then(response => {
                 let mealEdited = response.data[0];
                 setFormImage(mealEdited.mealImage);
                 reset({ ...mealEdited, mealImage: '' }); //Empty mealImage so it does not load the path in file Input and crash
-                setIsLoading(false);
             })
             .catch(error => {
                 console.error("Error: " + error.message)
             });
-
-
-    }, [mealId, show]);
+            setLoadingState(false);
+        }, []);
 
     const onSubmit = async (data) => {
         const meal = { ...data };
@@ -242,16 +242,15 @@ function MealEditForm(props) {
     }
 
     return (
-        <Overlay show={show} >
+        <Overlay>
             <CloseButton onClick={hideFunc}><CloseIcon style={{ fontSize: 45 }} /></CloseButton>
-            {isLoading ? <LoadingComponent /> :
-
+            {showLoading ? <LoadingComponent hideLoading={hideLoading} loadingState={loadingState} /> :
                 <Container style={spring}>
                     <MealBanner image={formImage} />
                     <Form onSubmit={handleSubmit(onSubmit)}>
-                        <FormTextInput label="Nom" name="name" register={register} watch={watch} show={show} />
-                        <FormTextInput label="Ingrédients" name="ingredients" register={register} watch={watch} show={show} />
-                        <FormTextArea label="Recette" name="recipe" register={register} watch={watch} show={show} />
+                        <FormTextInput label="Nom" name="name" register={register} watch={watch} />
+                        <FormTextInput label="Ingrédients" name="ingredients" register={register} watch={watch} />
+                        <FormTextArea label="Recette" name="recipe" register={register} watch={watch} />
 
                         <LabelsContainer>
                             <Label>Image</Label>

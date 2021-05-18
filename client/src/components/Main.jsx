@@ -71,8 +71,8 @@ function Main() {
                 tension: 100,
                 friction: 20,
                 mass: 1,
-
-            }
+            },
+            delay: 500,
         });
 
     const showMenu = () => {

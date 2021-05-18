@@ -84,7 +84,7 @@ function MealsManagement()
                 <FiltersComponent applyFilter={applyFilter} filter={filterData.filter} />
             </Wrapper>
             {/* Overlay */}
-            <MealEditForm mealId={overlayData.mealId} show={overlayData.show} hideFunc={hideMealOverlay} />
+            {overlayData.show ?  <MealEditForm mealId={overlayData.mealId} hideFunc={hideMealOverlay} /> : ""}
             <MealList meals={filterData.meals} showMealOverlay={showMealOverlay}/>
         </Container>
     )

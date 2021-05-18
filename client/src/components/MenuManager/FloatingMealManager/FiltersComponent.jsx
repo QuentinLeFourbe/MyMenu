@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 
 const Container = styled.div`
     display:flex;
-    flex-flow: column wrap;
+    flex-flow: column nowrap;
 `;
 
 const SearchField = styled.input`

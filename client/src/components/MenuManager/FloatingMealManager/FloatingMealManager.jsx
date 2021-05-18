@@ -8,7 +8,6 @@ import FloatingMealList from './FloatingMealList';
 const Container = styled.div`
     display: flex;
     flex-flow: column nowrap;
-    
     position: sticky; 
     top: 5vh;
     width: 15vw;

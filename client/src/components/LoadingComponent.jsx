@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {useTrail, animated, config} from 'react-spring'
+import { useSpring, animated, config } from 'react-spring'
 
 const Container = styled.div`
     display:flex;
@@ -89,15 +89,33 @@ const LoadingSpin = styled(animated.div)`
 }
 `;
 
-function LoadingComponent() {
-    
+function LoadingComponent(props) {
+  const { hideLoading, loadingState } = props;
+  const [isLoading, setIsLoading] = useState(true);
 
+  const spring = useSpring({
+    from: {
+      x: isLoading ? -100 : 0,
+      opacity: isLoading ? 0 : 1,
+    },
+    x: isLoading ? 0 : 100,
+    opacity: isLoading ? 1 : 0,
+  })
 
-    return (
-        <Container>
-                <LoadingSpin><div></div><div></div><div></div><div></div></LoadingSpin>
-        </Container>
-    )
+  useEffect(async () => {
+    if (loadingState == false) {
+      await new Promise(r => setTimeout(r, 500));
+      setIsLoading(false);
+      await new Promise(r => setTimeout(r, 500));
+      hideLoading();
+    }
+  })
+
+  return (
+    <Container>
+      <LoadingSpin style={spring}><div></div><div></div><div></div><div></div></LoadingSpin>
+    </Container>
+  )
 }
 
 export default LoadingComponent

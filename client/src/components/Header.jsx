@@ -3,20 +3,19 @@ import styled from 'styled-components'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { useSpring, animated, config, useTransition, useTrail } from 'react-spring'
 
-const Container = styled.header`
-    margin-bottom: 50px;
-    padding: 0px 36px 0px 36px;
+const Container = styled(animated.header)`
+    margin-bottom: 10vh;
+    padding: 0px 1rem 0px 1rem;
     /* background-color: #ff6f61; */
-    min-height:25vh;
+    min-height:10vh;
     grid-area: header;
     display: flex;
     flex-flow: row wrap;
-    justify-content: center;
     align-items: center;
     /* align-items: stretch; */
     border-color:lightgrey;
     border-style:solid;
-    border-width: 0px 0px 0px 0px;
+    border-width: 0px 0px 1px 0px;
 `;
 
 const LogoutButton = styled.button`
@@ -35,44 +34,32 @@ const LogoutButton = styled.button`
 `;
 
 const Title = styled(animated.h1)`
+    margin: 1rem;
     font-family: "Times New Roman", Times, serif;
     font-size: 5rem;
     display:flex;
     flex-flow: row nowrap;
 `;
 
-function Header() {
-
-    const arrayTitle = ["M", "e", "s", '\xa0', "p", "e", "t", "i", "t", "s", "\xa0 ", "m", "e", "n", "u", "s"];
+function Header(props) {
+    const { user } = props;
     const springProps = useSpring({
-        from: { x: 500, opacity: 0 },
-        to: { x: 0, opacity: 1 },
-        config: { duration: 1000 },
+        from: { y: -50, opacity: 0 },
+        to: { y: 0, opacity: 1 },
+        config: config.tight,
     })
 
-   const trail = useTrail(arrayTitle.length, {
-    from: { y: -50, opacity: 0 },
-    to: { y: 0, opacity: 1 },
-    config: config.tight
-   })
-    
     const logout = () => {
         window.location.href = "api/users/logout";
     }
 
     return (
-        <Container>
-               {trail.map((props,index) => {
-                   return(<Title
-                   key={index}
-                   style={props}
-                   >
-                      {arrayTitle[index]} 
-                   </Title>)
-               })}
-            <LogoutButton right onClick={logout}>
+        <Container style={springProps}>
+            {console.log("Header call !!")}
+            <Title>Mes petits menus</Title>
+            {user != null ? <LogoutButton right onClick={logout}>
                 <ExitToAppIcon fontSize='inherit' />
-            </LogoutButton>
+            </LogoutButton> : ""}
         </Container >
     )
 }
