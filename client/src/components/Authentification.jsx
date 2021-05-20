@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import googleLogo from '../images/googleLogo.svg'
-import cercleBoule from '../images/CercleBoule.png'
 import { useSpring, animated, config, useSprings, useTrail } from 'react-spring'
 
 const Container = styled.div`
@@ -11,6 +10,7 @@ const Container = styled.div`
     width: 100vw;
     height: 50vh;
     margin: 0px;
+    overflow: hidden
 `;
 
 const SignInButton = styled(animated.button)`
@@ -36,10 +36,9 @@ const SignInButton = styled(animated.button)`
 const Title = styled(animated.div)`
     font-family: "Times New Roman", Times, serif;
     font-size: 5rem;
-
+    
     margin-left: auto;
     padding: 1rem 5rem 1rem 5rem;
-   
     z-index:1;
     position: relative;
     color: white;

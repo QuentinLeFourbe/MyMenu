@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import styled from 'styled-components'
-import { useSprings, animated } from 'react-spring'
+import MealItem from './MealItem';
 
 const Container = styled.div`
     display: grid;
@@ -14,7 +14,7 @@ const Container = styled.div`
 
 
 
-const MealContainer = styled(animated.a)`
+const MealContainer = styled.a`
     &::before{
         content: "";
         height: 100%;
@@ -69,25 +69,19 @@ const ItemLabel = styled.label`
 function MealList(props) {
     const { meals, showMealOverlay } = props;
 
-    const [springs, api] = useSprings(meals.length, meals.map((index, i) => ({
-        from: { backgroundColor: 'transparent' },
-        to: { backgroundColor: '#f3f3f3' }
-    })));
-
     return (
         <Container>
             {
                 meals.map(meal => (
-                    <MealContainer
-                        href="#"
-                        onClick={(e) => {
+                    <MealItem
+                        onClickCb={(e) => {
                             e.preventDefault();
                             showMealOverlay(meal.id);
                         }}
                         key={meal.id}
-                        image={meal.mealImage}>
-                        <ItemLabel>{meal.name}</ItemLabel>
-                    </MealContainer>
+                        image={meal.mealImage}
+                        name={meal.name}
+                    />
                 ))
             }
         </Container>

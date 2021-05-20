@@ -1,29 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
-import axios from 'axios'
 import { useForm } from 'react-hook-form'
-import { updateMeal, fetchMeals, deleteMeal } from '../../api';
-import { AppContext } from '../../AppContext';
 import FormTextInput from './FormTextInput';
 import CloseIcon from '@material-ui/icons/Close';
 import FormTextArea from './FormTextArea';
-import LoadingComponent from '../LoadingComponent';
-import { useSpring, animated } from 'react-spring';
+import LoadingComponent from '../Loading/LoadingComponent';
+import { useSpring, animated, useTransition, config } from 'react-spring';
+import LoadingSpin from '../Loading/LoadingSpin';
+import transitions from '@material-ui/core/styles/transitions';
 
-const Overlay = styled.div`
-    height: 100%;
-    width: 100%;
-    display: block;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: rgb(0,0,0);
-    background-color: rgba(50,50,50, 0.8);
-    z-index: 2;
+const Container = styled.div`
 `;
 
-const Container = styled(animated.div)`
+const FormContainer = styled(animated.div)`
     background-color: white;
     border-radius: 50px;
     z-index: 2;
@@ -46,31 +35,13 @@ const Label = styled.label`
     }
 `;
 
-
-
 const LabelsContainer = styled.div`
     display:flex;
     flex-flow: column wrap;
 `;
 
-const CloseButton = styled.button`
-    border:none;
-    height:45px;
-    background-color: transparent;
-    margin: 3rem 0rem 0rem 3rem;
-    padding: 0;
-    color:white;
-
-    &:hover{
-        background-color:white;
-        color:black;
-        border-radius: 100px;
-    }
-`;
-
 const FileInput = styled.input`
     padding: 0.5rem;
-
 `;
 
 const MealBanner = styled.div`
@@ -149,127 +120,91 @@ const FormButton = styled.button`
 const ButtonContainer = styled.div`
  display: flex;
  flex-flow: row wrap;
-
 `;
 
 function MealEditForm(props) {
     //Props
-    const { mealId, hideFunc } = props;
-    //Context
-    const context = useContext(AppContext);
-    const { dataDispatch } = context;
-    //State
-    const [formImage, setFormImage] = useState('');
-    // const emptyMealState = { name: '', ingredients: '', recipe: '' }
+    const { mealEdited, hideFunc, onUpdateMeal, onDeleteMeal, isOpen, formImage } = props;
 
+    //State
     const [loadingState, setLoadingState] = useState(true);
     const [showLoading, setShowLoading] = useState(true);
+
+    //React hook form
+    const { register, reset, handleSubmit, watch, setValues } = useForm();
+
+    const editPanelTransition = useTransition(showLoading, {
+        from: { opacity: 0, y: 100 },
+        enter: { opacity: 1, y: 0 },
+    });
+
+    const editPanelSpring = useSpring({
+        from: { opacity: 0, y: 100 },
+        y: 0,
+        opacity: 1
+    })
+
+    useEffect(async () => {
+        setShowLoading(true);
+        if (mealEdited != null && mealEdited != undefined) {
+            reset({ ...mealEdited, mealImage: '' });
+            setLoadingState(false);
+        } else {
+            setLoadingState(true);
+        }
+    }, []);
 
     const hideLoading = () => {
         setShowLoading(false);
     }
-    //React hook form
-    const { register, reset, handleSubmit, watch, setValues } = useForm();
 
-    //Spring animation
-    const spring = useSpring({
-        from: {
-            y: 200,
-            opacity: 0,
-        },
-        y: showLoading ? 200 : 0,
-        opacity: showLoading ? 0 : 1,
-    })
-
-    useEffect(async () => {
-        if (mealId === "") {
-            reset();
-            return;
-        }
-        await axios.get(`/api/meals/${mealId}`)
-            .then(response => {
-                let mealEdited = response.data[0];
-                setFormImage(mealEdited.mealImage);
-                reset({ ...mealEdited, mealImage: '' }); //Empty mealImage so it does not load the path in file Input and crash
-            })
-            .catch(error => {
-                console.error("Error: " + error.message)
-            });
-            setLoadingState(false);
-        }, []);
-
-    const onSubmit = async (data) => {
-        const meal = { ...data };
-        if (data.mealImage.length > 0) {
-            meal.mealImage = data.mealImage[0]
-        } else {
-            console.log(delete meal.mealImage);
-        }
-        console.log(meal);
-
-        var formData = new FormData();
-        for (var key in meal) {
-            formData.append(key, meal[key]);
-        }
-        await updateMeal(mealId, formData)
-            .then(() => {
-                dataDispatch({ type: 'UPDATE_MEALS', payload: formData })
-            })
-            .catch(error => {
-                console.error("Error: " + error.message)
-            })
-
-        await fetchMeals().then(response => {
-            dataDispatch({ type: 'FETCH_MEALS', payload: response.data })
-        })
-
+    const onSubmit = (data) => {
+        console.log("Meal Edit form data: id: " + mealEdited._id)
+        console.log(data);
+        onUpdateMeal(mealEdited._id, data);
         hideFunc();
     }
 
-    const onDelete = async () => {
-        await deleteMeal(mealId).then(() => {
-            dataDispatch({ type: 'DELETE_MEAL', payload: mealId })
-        })
-            .catch(error => {
-                console.error("Error: " + error.message)
-            });
-
-        await fetchMeals().then(response => {
-            dataDispatch({ type: 'FETCH_MEALS', payload: response.data })
-        });
-
+    const onDelete = () => {
+        onDeleteMeal(mealEdited.id);
         hideFunc();
     }
 
     return (
-        <Overlay>
-            <CloseButton onClick={hideFunc}><CloseIcon style={{ fontSize: 45 }} /></CloseButton>
-            {showLoading ? <LoadingComponent hideLoading={hideLoading} loadingState={loadingState} /> :
-                <Container style={spring}>
-                    <MealBanner image={formImage} />
-                    <Form onSubmit={handleSubmit(onSubmit)}>
-                        <FormTextInput label="Nom" name="name" register={register} watch={watch} />
-                        <FormTextInput label="Ingrédients" name="ingredients" register={register} watch={watch} />
-                        <FormTextArea label="Recette" name="recipe" register={register} watch={watch} />
+        <Container>
+            {showLoading ?
+                <LoadingComponent
+                    hideLoading={hideLoading}
+                    loadingState={loadingState}
+                />
+                :
+                (editPanelTransition((editStyle, showLoading) => !showLoading &&
+                    <FormContainer style={editStyle}>
+                        <MealBanner image={formImage} />
+                        <Form onSubmit={handleSubmit(onSubmit)}>
+                            <FormTextInput label="Nom" name="name" register={register} watch={watch} />
+                            <FormTextInput label="Ingrédients" name="ingredients" register={register} watch={watch} />
+                            <FormTextArea label="Recette" name="recipe" register={register} watch={watch} />
 
-                        <LabelsContainer>
-                            <Label>Image</Label>
-                            <FileInput
-                                id="mealImage"
-                                name="mealImage"
-                                type="file"
-                                accept="image/*"
-                                ref={register}
-                            />
-                        </LabelsContainer>
-                        <ButtonContainer>
-                            <FormButton type="submit">Modifier</FormButton>
-                            <FormButton className="delete right" type="button" onClick={() => onDelete()}>Supprimer</FormButton>
-                        </ButtonContainer>
+                            <LabelsContainer>
+                                <Label>Image</Label>
+                                <FileInput
+                                    id="mealImage"
+                                    name="mealImage"
+                                    type="file"
+                                    accept="image/*"
+                                    ref={register}
+                                />
+                            </LabelsContainer>
+                            <ButtonContainer>
+                                <FormButton type="submit">Modifier</FormButton>
+                                <FormButton className="delete right" type="button" onClick={() => onDelete()}>Supprimer</FormButton>
+                            </ButtonContainer>
 
-                    </Form>
-                </Container>}
-        </Overlay>
+                        </Form>
+                    </FormContainer>))
+            }
+        </Container>
     )
 }
 

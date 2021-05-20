@@ -52,7 +52,6 @@ function FormTextInput(props) {
             <Row>
                 <Label>{label}</Label>
                 <Button type="button" hide={editState} onClick={() => setEditState(true)}>
-                    {console.log(editState)}
                     <EditIcon></EditIcon>
                 </Button>
             </Row>

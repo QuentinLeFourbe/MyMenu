@@ -37,14 +37,9 @@ const Title = styled.h1`
 
 function About() {
     return (
-        <>
-        <Header>
-            <Title>Mes petits menus</Title>
-        </Header>
         <Container>
             Créé par Quentin GARCIA
         </Container>
-        </>
     )
 }
 

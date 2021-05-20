@@ -5,7 +5,7 @@ import axios from 'axios';
 export const fetchMeals = async () => axios.get("/api/meals/lookup");
 
 export const getMeal = async (mealId) => {
-   axios.get(`api/meals/${mealId}`)
+   return axios.get(`api/meals/${mealId}`)
 }
 
 export const createMeal = async (meal, user) => {
@@ -41,4 +41,10 @@ export const deleteMenu = async (menuId, config) => {
 ///////Session\\\\\\\\
 export const getSession = async () => {
    return axios.get("/api/session")
+}
+
+
+//////Test timer\\\\\\\\
+export const threeSecApiCall = async() => {
+   await new Promise(r => setTimeout(r, 3000));
 }

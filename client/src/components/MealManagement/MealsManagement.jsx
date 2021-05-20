@@ -5,7 +5,9 @@ import MealList from './MealList';
 import FiltersComponent from '../MenuManager/FloatingMealManager/FiltersComponent';
 import { AppContext } from '../../AppContext';
 import { SortType } from '../../Constant';
+import { updateMeal, fetchMeals, deleteMeal, getMeal } from '../../api';
 import MealEditForm from './MealEditForm';
+import MealEditOverlay from './MealEditOverlay';
 
 const Container = styled.div`
   flex-grow:1;
@@ -19,22 +21,30 @@ const Wrapper = styled.div`
     padding-top: 1rem;
 `;
 
-const ingredientsDispo = ["Poulet", "Riz", "Crème fraiche", "Fromage", "Maïs"];
+function MealsManagement() {
+    const { dataState, dataDispatch } = useContext(AppContext);
 
-function MealsManagement()
-{
-    const { dataState } = useContext(AppContext);
+    //EditForm overlay data
+    const [editFormData, setEditFormData] = useState({ mealEdited: null, show: false, formImage: null });
 
-    // Overlay data
-    const [overlayData, setOverlayState] = useState({ mealId: "", show: false });
-    const showMealOverlay = (mealId) =>
-    {
-        setOverlayState({ mealId: mealId, show: true })
+    const showMealOverlay = async (mealId) => {
+        await getMeal(mealId)
+            .then(response => {
+                let meal = response.data[0];
+                setEditFormData({
+                    ...editFormData,
+                    formImage: meal.mealImage,
+                    mealEdited: { ...meal, mealImage: '' },
+                    show: true
+                }); //Empty mealImage so it does not load the path in file Input and crash in the form
+            })
+            .catch(error => {
+                console.error("Error: " + error.message)
+            });
     }
 
-    const hideMealOverlay = () =>
-    {
-        setOverlayState({ mealId: "", show: false })
+    const hideMealOverlay = () => {
+        setEditFormData({ ...editFormData, mealEdited: null, show: false })
     }
 
     //Filter Data
@@ -47,10 +57,8 @@ function MealsManagement()
     });
 
     //filter: {search: String, sort: SortType}
-    const applyFilter = (filter) =>
-    {
-        if (filter === undefined)
-        {
+    const applyFilter = (filter) => {
+        if (filter === undefined) {
             console.error("Filter is undefined");
             return;
         }
@@ -63,15 +71,53 @@ function MealsManagement()
             );
 
         filteredMeals.sort((meal1, meal2) => meal1.name > meal2.name);
-        if (filter.sort == SortType.Z_A)
-        {
+        if (filter.sort == SortType.Z_A) {
             filteredMeals = filteredMeals.reverse();
         }
         setFilterData({ ...filterData, meals: filteredMeals, filter: filter });
     }
 
-    useEffect(() =>
-    {
+    const onUpdateMeal = async (mealId, data) => {
+        const meal = { ...data };
+        if (data.mealImage.length > 0) {
+            meal.mealImage = data.mealImage[0]
+        } else {
+            console.log(delete meal.mealImage);
+        }
+
+        console.log(meal);
+
+        var formData = new FormData();
+        for (var key in meal) {
+            formData.append(key, meal[key]);
+        }
+        await updateMeal(mealId, formData)
+            .then(() => {
+                dataDispatch({ type: 'UPDATE_MEALS', payload: formData })
+            })
+            .catch(error => {
+                console.error("Error: " + error.message)
+            })
+
+        await fetchMeals().then(response => {
+            dataDispatch({ type: 'FETCH_MEALS', payload: response.data })
+        })
+    }
+
+    const onDeleteMeal = async (mealId) => {
+        await deleteMeal(mealId).then(() => {
+            dataDispatch({ type: 'DELETE_MEAL', payload: mealId })
+        })
+            .catch(error => {
+                console.error("Error: " + error.message)
+            });
+
+        await fetchMeals().then(response => {
+            dataDispatch({ type: 'FETCH_MEALS', payload: response.data })
+        });
+    }
+
+    useEffect(() => {
         let meals = dataState.meals;
         meals.sort((meal1, meal2) => meal1.name > meal2.name);
         setFilterData({ ...filterData, meals: meals });
@@ -84,8 +130,15 @@ function MealsManagement()
                 <FiltersComponent applyFilter={applyFilter} filter={filterData.filter} />
             </Wrapper>
             {/* Overlay */}
-            {overlayData.show ?  <MealEditForm mealId={overlayData.mealId} hideFunc={hideMealOverlay} /> : ""}
-            <MealList meals={filterData.meals} showMealOverlay={showMealOverlay}/>
+            <MealEditOverlay
+                mealEdited={editFormData.mealEdited}
+                onUpdateMeal={onUpdateMeal}
+                onDeleteMeal={onDeleteMeal}
+                hideFunc={hideMealOverlay}
+                isOpen={editFormData.show}
+                formImage={editFormData.formImage}
+            />
+            <MealList meals={filterData.meals} showMealOverlay={showMealOverlay} />
         </Container>
     )
 }

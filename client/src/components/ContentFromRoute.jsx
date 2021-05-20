@@ -13,7 +13,8 @@ import Authentification from './Authentification';
 import Register from './Register';
 import About from './About';
 import { fetchMeals, getSession } from '../api';
-import LoadingComponent from './LoadingComponent';
+import LoadingComponent from './Loading/LoadingComponent';
+import ScrollToTop from './Utility/ScrollToTop';
 
 
 function ContentFromRoute() {
@@ -46,28 +47,37 @@ function ContentFromRoute() {
     }, []);
 
     return (
-        showLoading ? <LoadingComponent hideLoading={hideLoading} loadingState={loadingState} /> :
+        <>
             <Router>
-                <Header user={dataState.user} />
-                <Switch>
-                    <Route exact path="/">
-                        {dataState.user != null ? <Main /> : <Redirect to="/auth" />}
-                    </Route>
+                <Header user={dataState.user} show={!showLoading} />
+                {
+                    showLoading ?
+                        <LoadingComponent hideLoading={hideLoading} loadingState={loadingState} />
+                        :
+                        (<>
+                            <ScrollToTop />
+                            <Switch>
+                                <Route exact path="/">
+                                    {dataState.user != null ? <Main /> : <Redirect to="/auth" />}
+                                </Route>
 
-                    <Route exact path="/auth">
-                        {dataState.user == null ? <Authentification /> : <Redirect to="/" />}
-                    </Route>
+                                <Route exact path="/auth">
+                                    {dataState.user == null ? <Authentification /> : <Redirect to="/" />}
+                                </Route>
 
-                    <Route exact path="/register">
-                        <Register />
-                    </Route>
+                                <Route exact path="/register">
+                                    <Register />
+                                </Route>
 
-                    <Route exact path="/about">
-                        <About />
-                    </Route>
-                </Switch>
-                <Footer />
+                                <Route exact path="/about">
+                                    <About />
+                                </Route>
+                            </Switch>
+                            <Footer />
+                        </>)
+                }
             </Router>
+        </>
     )
 }
 

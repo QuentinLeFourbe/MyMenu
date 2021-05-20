@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { useSpring, animated, config, useTransition, useTrail } from 'react-spring'
+import { Link } from 'react-router-dom'
 
 const Container = styled(animated.header)`
     margin-bottom: 10vh;
@@ -41,11 +42,18 @@ const Title = styled(animated.h1)`
     flex-flow: row nowrap;
 `;
 
+const HeaderLink = styled(Link)`
+    text-decoration: none;
+    color:black;
+`;
+
 function Header(props) {
-    const { user } = props;
-    const springProps = useSpring({
+    const { user, show } = props;
+
+    const headerTransition = useTransition(show, {
         from: { y: -50, opacity: 0 },
-        to: { y: 0, opacity: 1 },
+        enter: { y: 0, opacity: 1 },
+        leave: { y: -50, opacity: 0 },
         config: config.tight,
     })
 
@@ -53,14 +61,16 @@ function Header(props) {
         window.location.href = "api/users/logout";
     }
 
-    return (
-        <Container style={springProps}>
+    return (headerTransition((style, show) => show &&
+        <Container style={style}>
             {console.log("Header call !!")}
-            <Title>Mes petits menus</Title>
+            <HeaderLink to="/">
+                <Title>Mes petits menus</Title>
+            </HeaderLink>
             {user != null ? <LogoutButton right onClick={logout}>
                 <ExitToAppIcon fontSize='inherit' />
             </LogoutButton> : ""}
-        </Container >
+        </Container >)
     )
 }
 
