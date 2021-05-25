@@ -31,7 +31,7 @@ export const findOrCreateUser = async (req, res) => {
             user = new User({ googleId: id, displayName });
             user.save();
         }
-        res.redirect("http://localhost:3000/").json(user);
+        res.redirect(process.env.HOST);
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
