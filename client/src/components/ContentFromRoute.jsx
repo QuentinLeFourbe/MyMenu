@@ -42,7 +42,7 @@ function ContentFromRoute() {
                             console.error("Error: " + error.message)
                         })
                 }
-            })
+            }).catch(error => console.log("Error: " + error))
         setLoadingState(false);
     }, []);
 
