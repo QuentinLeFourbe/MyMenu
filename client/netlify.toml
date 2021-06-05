@@ -6,3 +6,8 @@
   to = "https://mes-menus.herokuapp.com/:splat"
   force = true
   status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/"
+  status = 200
