@@ -1,0 +1,8 @@
+
+
+# A basic redirect rule
+[[redirects]]
+  from = "/api"
+  to = "https://mes-menus.herokuapp.com/:splat"
+  force = true
+  status = 200
