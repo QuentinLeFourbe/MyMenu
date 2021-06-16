@@ -9,7 +9,7 @@ export const getMeal = async (mealId) => {
 }
 
 export const createMeal = async (meal, user) => {
-   return axios.post("/api/meals", meal, );
+   return axios.post("/api/meals", meal);
 }
 
 export const updateMeal = async (mealId, data, config) => {
@@ -40,11 +40,11 @@ export const deleteMenu = async (menuId, config) => {
 
 ///////Session\\\\\\\\
 export const getSession = async () => {
-   return axios.get("/api/session")
+   return axios.get("/api/session", { withCredentials: true })
 }
 
 
 //////Test timer\\\\\\\\
-export const threeSecApiCall = async() => {
+export const threeSecApiCall = async () => {
    await new Promise(r => setTimeout(r, 3000));
 }

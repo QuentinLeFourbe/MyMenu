@@ -21,7 +21,12 @@ app.use(express.static('../client/build', {}));
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: [process.env.HOST]
+  })
+);
 app.set("trust proxy", 1);
 app.use(session({
   secret: "5d82895a-7f31-47e5-813b-6408673d5447",
