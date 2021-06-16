@@ -84,8 +84,8 @@ const GoogleStrategy = passportGoogle.OAuth2Strategy;
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  // callbackURL: "https://mes-menus.herokuapp.com/api/auth/google/callback"
-  callbackURL: "http://localhost:5000/api/auth/google/callback"
+  callbackURL: "https://mes-menus.herokuapp.com/api/auth/google/callback"
+  // callbackURL: "http://localhost:5000/api/auth/google/callback"
 },
   function (accessToken, refreshToken, profile, done) {
     console.log(chalk.blue(JSON.stringify(profile)));
