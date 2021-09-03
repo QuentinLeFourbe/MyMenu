@@ -29,7 +29,7 @@ function ContentFromRoute() {
     useEffect(async () => {
         await getSession()
             .then(response => {
-                console.log(`Get session: ${response}`);
+                console.log(`Get session: ${response.data.user}`);
                 if (response.data.user == undefined) {
                     dataDispatch({ type: 'NOT_LOGGED', payload: response.data })
                     // window.location.href = "/auth"
