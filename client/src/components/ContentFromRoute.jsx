@@ -5,6 +5,7 @@ import {
     Switch,
     Route,
     Redirect,
+    useLocation,
 } from "react-router-dom";
 import Main from './Main';
 import Header from './Header';
@@ -18,6 +19,7 @@ import ScrollToTop from './Utility/ScrollToTop';
 
 
 function ContentFromRoute() {
+    const location = useLocation();
     const { dataState, dataDispatch } = useContext(AppContext);
     const [loadingState, setLoadingState] = useState(true);
     const [showLoading, setShowLoading] = useState(true);
@@ -46,38 +48,49 @@ function ContentFromRoute() {
             }).catch(error => console.log("Error: " + error))
         setLoadingState(false);
     }, []);
-
+    // console.log(location.pathname)
     return (
         <>
-            <Router>
-                <Header user={dataState.user} show={!showLoading} />
-                {
-                    showLoading ?
-                        <LoadingComponent hideLoading={hideLoading} loadingState={loadingState} />
-                        :
-                        (<>
-                            <ScrollToTop />
-                            <Switch>
-                                <Route exact path="/">
-                                    {dataState.user != null ? <Main /> : <Redirect to="/auth" />}
-                                </Route>
+            <Header user={dataState.user} show={!showLoading} />
+            {
+                showLoading ?
+                    <LoadingComponent hideLoading={hideLoading} loadingState={loadingState} />
+                    :
+                    (<>
+                        <ScrollToTop />
+                        {console.log(location)}
+                        {console.log(dataState.user)}
+                        <Switch>
 
-                                <Route exact path="/auth">
-                                    {dataState.user == null ? <Authentification /> : <Redirect to="/" />}
+                            {(dataState.user == null && location.pathname !== "/auth") ?
+                                <Route path="/">
+                                    <Redirect to="/auth" />
                                 </Route>
+                            :
+                                ""
+                            }
 
-                                <Route exact path="/register">
-                                    <Register />
-                                </Route>
+                            <Route exact path="/">
+                                <Main />
+                            </Route>
 
-                                <Route exact path="/about">
-                                    <About />
-                                </Route>
-                            </Switch>
-                            <Footer />
-                        </>)
-                }
-            </Router>
+                            <Route exact path="/auth">
+                                {dataState.user == null ? <Authentification /> : <Redirect to="/" />}
+                            </Route>
+
+
+
+                            <Route exact path="/register">
+                                <Register />
+                            </Route>
+
+                            <Route exact path="/about">
+                                <About />
+                            </Route>
+                        </Switch>
+                        <Footer />
+                    </>)
+            }
         </>
     )
 }

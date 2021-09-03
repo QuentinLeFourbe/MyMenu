@@ -34,10 +34,12 @@ const initialData = {
 const App = (props) => {
 
   const [data, dispatch] = useReducer(dataReducer, initialData)
-  
+
   return (
     <AppContext.Provider value={{ dataState: data, dataDispatch: dispatch }}>
-      <ContentFromRoute/>
+      <Router>
+        <ContentFromRoute />
+      </Router>
     </AppContext.Provider>
   )
 }
