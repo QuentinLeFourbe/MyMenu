@@ -2,6 +2,7 @@ import express from 'express';
 import { getMeals, createMeal, getMeal, updateMeal, getMealsLookup, deleteMeal } from '../controllers/meals.js';
 import multer from 'multer'
 
+
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads/')
@@ -28,6 +29,7 @@ const upload = multer({
 });
 
 const router = express.Router();
+router.use(authenticateAPI);
 
 router.get('/lookup', getMealsLookup);
 router.get('/:id', getMeal);

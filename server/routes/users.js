@@ -4,6 +4,7 @@ import { logoutUser, getUsers, deleteUser } from '../controllers/users.js';
 import User from '../models/user.model.js';
 
 const router = express.Router();
+router.use(authenticateAPI);
 
 router.get("/fetch", getUsers);
 router.delete("/:id", deleteUser);

@@ -4,3 +4,8 @@ client/.eslintcache
 .vscode/launch.json
 client/package-lock.json
 server/package-lock.json
+server/uploads/*.png
+server/uploads/*.jpg
+server/uploads/*.jpeg
+server/.env
+client/.eslintcache

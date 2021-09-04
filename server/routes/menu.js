@@ -3,6 +3,7 @@ import { getMenu, createMenu, getAllMenus, updateMenu, getMenusBetweenDates as g
 
 
 const router = express.Router();
+router.use(authenticateAPI);
 
 router.get('/filter', getMenusBetweenDates)
 router.get('/:id', getMenu);
