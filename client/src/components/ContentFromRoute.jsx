@@ -58,7 +58,6 @@ function ContentFromRoute() {
                     :
                     (<>
                         <ScrollToTop />
-                        {console.log(location)}
                         {console.log(dataState.user)}
                         <Switch>
 
