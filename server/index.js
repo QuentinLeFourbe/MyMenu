@@ -11,7 +11,6 @@ import passport from 'passport';
 import passportGoogle from 'passport-google-oauth';
 import chalk from 'chalk';
 import session from 'express-session';
-import { authenticateAPI } from './middleware/authenticateApi.js';
 
 dotenv.config();
 
@@ -88,8 +87,7 @@ const GoogleStrategy = passportGoogle.OAuth2Strategy;
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  // callbackURL: "https://mes-menus.herokuapp.com/api/auth/google/callback"
-  callbackURL: "http://localhost:5000/api/auth/google/callback"
+  callbackURL: `${process.env.HOST}/api/auth/google/callback`
 },
   function (accessToken, refreshToken, profile, done) {
     console.log(chalk.blue(JSON.stringify(profile)));
