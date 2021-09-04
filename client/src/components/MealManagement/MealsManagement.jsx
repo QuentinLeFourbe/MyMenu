@@ -85,7 +85,6 @@ function MealsManagement() {
             console.log(delete meal.mealImage);
         }
 
-        console.log(meal);
 
         var formData = new FormData();
         for (var key in meal) {

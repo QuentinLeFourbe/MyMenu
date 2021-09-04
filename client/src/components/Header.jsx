@@ -63,7 +63,6 @@ function Header(props) {
 
     return (headerTransition((style, show) => show &&
         <Container style={style}>
-            {console.log("Header call !!")}
             <HeaderLink to="/">
                 <Title>Mes petits menus</Title>
             </HeaderLink>

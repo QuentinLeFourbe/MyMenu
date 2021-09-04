@@ -159,8 +159,6 @@ function MealEditForm(props) {
     }
 
     const onSubmit = (data) => {
-        console.log("Meal Edit form data: id: " + mealEdited._id)
-        console.log(data);
         onUpdateMeal(mealEdited._id, data);
         hideFunc();
     }

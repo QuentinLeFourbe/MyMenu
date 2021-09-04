@@ -31,7 +31,6 @@ function ContentFromRoute() {
     useEffect(async () => {
         await getSession()
             .then(response => {
-                console.log(`Get session: ${response.data.user}`);
                 if (response.data.user == undefined) {
                     dataDispatch({ type: 'NOT_LOGGED', payload: response.data })
                     // window.location.href = "/auth"
@@ -58,7 +57,6 @@ function ContentFromRoute() {
                     :
                     (<>
                         <ScrollToTop />
-                        {console.log(dataState.user)}
                         <Switch>
 
                             {(dataState.user == null && location.pathname !== "/auth") ?

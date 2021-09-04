@@ -62,7 +62,6 @@ function FiltersComponent(props)
         
         search = e.target.value;
         applyFilter({ search: search, sort: sort });
-        console.log("search: " + search);
     }
 
     const onChangeSortValue = (e) =>
@@ -74,7 +73,6 @@ function FiltersComponent(props)
 
         sort = e.target.value;
         applyFilter({ search: search, sort: sort });
-        console.log("sort: " + sort);
     }
     return (
         <Container>

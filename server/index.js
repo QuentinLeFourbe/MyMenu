@@ -48,13 +48,24 @@ app.use('/api/session', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 
-//routes
+//Begin: Routes
 app.use('/api/users', usersRoutes);
 app.use('/api/meals', mealRoutes);
 app.use('/api/menus', menuRoutes);
 app.use('/api/uploads', express.static('uploads'));
+//End: Routes
 
+// Handle 404
+app.use(function (req, res) {
+  res.status(400);
+  res.redirect(process.env.HOST);
+});
 
+// Handle 500
+app.use(function (req, res) {
+  res.status(500);
+  res.redirect(process.env.HOST);
+});
 
 
 const URL = process.env.ATLAS_URI;
@@ -92,6 +103,6 @@ passport.use(new GoogleStrategy({
   function (accessToken, refreshToken, profile, done) {
     console.log(chalk.blue(JSON.stringify(profile)));
     return done(null, profile);
-  }
+  } 
 ));
 
