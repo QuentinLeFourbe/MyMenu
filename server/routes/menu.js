@@ -1,5 +1,6 @@
 import express from 'express';
 import { getMenu, createMenu, getAllMenus, updateMenu, getMenusBetweenDates as getMenusBetweenDates, deleteMenu, deleteAllMenus } from '../controllers/menus.js';
+import { authenticateAPI } from '../middleware/authenticateApi.js';
 
 
 const router = express.Router();

@@ -1,6 +1,7 @@
 import express from 'express';
 import { getMeals, createMeal, getMeal, updateMeal, getMealsLookup, deleteMeal } from '../controllers/meals.js';
 import multer from 'multer'
+import { authenticateAPI } from '../middleware/authenticateApi.js';
 
 
 var storage = multer.diskStorage({

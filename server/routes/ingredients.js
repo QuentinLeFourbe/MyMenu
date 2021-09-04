@@ -1,3 +1,4 @@
+import { authenticateAPI } from '../middleware/authenticateApi.js';
 const router = require('express').Router();
 let Ingredient = require('../models/ingredient.model');
 router.use(authenticateAPI);
