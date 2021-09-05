@@ -7,8 +7,9 @@ import CloseIcon from '@material-ui/icons/Close';
 const Container = styled.div`
     display: flex;
     margin: 8px;
-    border:   ${props => props.isDragging ? "1px dashed grey":"1px solid lightgrey"};
-    background-color: ${props => props.isDragging ? "white":"transparent"};
+    border:   ${props => props.isDragging ? "1px dashed white":"1px solid lightgrey"};
+    background-color: ${props => props.isDragging ? "#ff6f61":"transparent"};
+    color: ${props => props.isDragging ? "white" : "black"};
     padding: 8px;
 
     &:hover{
@@ -50,7 +51,7 @@ function Meal(props)
             return;
         }
 
-        const mealIndex = parentMenu.meals.findIndex(mealItem => mealItem.id === meal.id);
+        const mealIndex = parentMenu.meals.findIndex(mealItemId => mealItemId === meal.id);
         parentMenu.meals.splice(mealIndex, 1); //Delete the meal
         await updateMenu(parentId, parentMenu)
             .then(response =>

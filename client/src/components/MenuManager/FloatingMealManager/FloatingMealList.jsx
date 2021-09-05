@@ -8,8 +8,8 @@ import Meal from '../MenuComponents/Meal';
 
 const ResultContainer = styled.div`
     overflow: auto;
-    
-        
+    /* background-color:white; */
+    margin-top: 0;
 `;
 
 //Display the meals passed in props
@@ -36,7 +36,6 @@ function FloatingMealList(props)
                                                 {...provided.draggableProps}
                                                 {...provided.dragHandleProps}
                                                 isDragging={snapshot.isDragging}
-
                                                 parentId={FLOAT_DROPPABLE_ID}
                                                 meal={meal} style={{
                                                     ...provided.draggableProps.style,

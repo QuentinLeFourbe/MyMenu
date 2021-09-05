@@ -9,13 +9,16 @@ const Container = styled.div`
     border-color: lightgrey;
     border-style: solid;
     border-width: 1px 0px 0px 0px;
-    flex-grow: 1;
-    flex-basis: 50px;
+    min-height: 30vh;
+    display:flex;
+    flex-flow: column nowrap;
 `;
 
 const Menus = styled.div`
     display: flex;
     flex-flow: row nowrap;
+    align-items: stretch;
+    flex-grow:1;
 `;
 
 const Title = styled.h3`

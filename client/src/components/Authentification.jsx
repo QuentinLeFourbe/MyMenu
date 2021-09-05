@@ -7,10 +7,11 @@ const Container = styled.div`
     display: flex;
     flex-flow: row wrap-reverse;
     align-items: center;
+    justify-content: center;
     width: 100vw;
     height: 50vh;
     margin: 0px;
-    overflow: hidden
+    overflow: hidden;
 `;
 
 const SignInButton = styled(animated.button)`
@@ -44,7 +45,7 @@ const Title = styled(animated.div)`
     color: white;
     background: #ff6f61;
 
-    &:after{
+    /* &:after{
         position: absolute;
         top:0;
         right: 15%;
@@ -54,7 +55,7 @@ const Title = styled(animated.div)`
         background: #ff6f61;
         z-index: -1;
     transform: skewX(-30deg);
-    }
+    } */
 `;
 
 const SubText = styled.div`
@@ -65,7 +66,7 @@ const SubText = styled.div`
 `;
 
 const LoginContainer = styled(animated.div)`
-    margin-left: 20vw;
+    /* margin-left: 20vw; */
     display:flex;
     align-items:center;
     justify-content: center;
@@ -123,9 +124,6 @@ function Authentification() {
                     </SignInButton>
                     <SubText>Connectez-vous avec Google</SubText>
                 </LoginContainer>
-                <Title style={springStyle}>
-                    Bienvenue !
-                </Title>
             </Container>
     )
 }

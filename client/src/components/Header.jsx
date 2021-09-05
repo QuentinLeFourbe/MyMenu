@@ -1,43 +1,25 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { useSpring, animated, config, useTransition, useTrail } from 'react-spring'
 import { Link } from 'react-router-dom'
+import QuickMenu from './Header/QuickMenu';
 
 const Container = styled(animated.header)`
-    margin-bottom: 10vh;
-    padding: 0px 1rem 0px 1rem;
+    padding: 2vh 0 5vh 0;
+    margin: 0 5vw 5vh 5vw;
     /* background-color: #ff6f61; */
-    min-height:10vh;
     grid-area: header;
     display: flex;
     flex-flow: row wrap;
     align-items: center;
-    /* align-items: stretch; */
-    border-color:lightgrey;
-    border-style:solid;
-    border-width: 0px 0px 1px 0px;
-`;
-
-const LogoutButton = styled.button`
-    display:flex;
-    align-items:center;
-    text-decoration: none;
-    background-color: transparent;
-    border: none;
-    border-radius: 10px;
-    margin-left: ${props => props.right ? "auto" : "0px"};
-    font-size: 50px;
-    &:hover {
-    background: #e9e9e9; // <Thing> when hovered
-    }
-
+    /* justify-content: center; */
+    border-bottom: 1px solid lightgrey;
 `;
 
 const Title = styled(animated.h1)`
     margin: 1rem;
     font-family: "Times New Roman", Times, serif;
-    font-size: 5rem;
+    font-size: 6rem;
     display:flex;
     flex-flow: row nowrap;
 `;
@@ -66,9 +48,9 @@ function Header(props) {
             <HeaderLink to="/">
                 <Title>Mes petits menus</Title>
             </HeaderLink>
-            {user != null ? <LogoutButton right onClick={logout}>
-                <ExitToAppIcon fontSize='inherit' />
-            </LogoutButton> : ""}
+            {user != null ?
+                <QuickMenu/>
+                : ""}
         </Container >)
     )
 }

@@ -16,6 +16,8 @@ import About from './About';
 import { fetchMeals, getSession } from '../api';
 import LoadingComponent from './Loading/LoadingComponent';
 import ScrollToTop from './Utility/ScrollToTop';
+import MealsManager from './MealManagement/MealsManager';
+import MenusManager from './MenuManager/MenusManager';
 
 
 function ContentFromRoute() {
@@ -63,29 +65,27 @@ function ContentFromRoute() {
                                 <Route path="/">
                                     <Redirect to="/auth" />
                                 </Route>
-                            :
+                                :
                                 ""
                             }
 
                             <Route exact path="/">
-                                <Main />
+                                <MenusManager />
+                            </Route>
+
+                            <Route exact path="/meals">
+                                <MealsManager />
                             </Route>
 
                             <Route exact path="/auth">
                                 {dataState.user == null ? <Authentification /> : <Redirect to="/" />}
                             </Route>
 
-
-
-                            <Route exact path="/register">
-                                <Register />
-                            </Route>
-
                             <Route exact path="/about">
                                 <About />
                             </Route>
                         </Switch>
-                        <Footer />
+                        {/* <Footer /> */}
                     </>)
             }
         </>

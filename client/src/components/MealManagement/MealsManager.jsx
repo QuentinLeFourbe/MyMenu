@@ -1,13 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
-import MealCreationForm from './MealCreationForm';
+import MealCreationForm from './components/MealCreationForm';
 import styled from 'styled-components'
-import MealList from './MealList';
+import MealList from './components/MealList';
 import FiltersComponent from '../MenuManager/FloatingMealManager/FiltersComponent';
 import { AppContext } from '../../AppContext';
 import { SortType } from '../../Constant';
 import { updateMeal, fetchMeals, deleteMeal, getMeal } from '../../api';
-import MealEditForm from './MealEditForm';
-import MealEditOverlay from './MealEditOverlay';
+import MealEditForm from './components/MealEditForm';
+import MealEditOverlay from './components/MealEditOverlay';
 
 const Container = styled.div`
   flex-grow:1;
@@ -21,7 +21,7 @@ const Wrapper = styled.div`
     padding-top: 1rem;
 `;
 
-function MealsManagement() {
+function MealsManager() {
     const { dataState, dataDispatch } = useContext(AppContext);
 
     //EditForm overlay data
@@ -142,4 +142,4 @@ function MealsManagement() {
     )
 }
 
-export default MealsManagement
+export default MealsManager

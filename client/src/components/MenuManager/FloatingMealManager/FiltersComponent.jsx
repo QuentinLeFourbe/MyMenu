@@ -7,6 +7,8 @@ import { useForm } from 'react-hook-form'
 const Container = styled.div`
     display:flex;
     flex-flow: column nowrap;
+    /* background-color: white; */
+    margin-bottom: 0;
 `;
 
 const SearchField = styled.input`
@@ -23,6 +25,7 @@ const Filter = styled.select`
     border:none;
     background-color: #f3f3f5;
     padding: 6px;
+    background: none;
 `;
 const FilterOption = styled.option`
 `;

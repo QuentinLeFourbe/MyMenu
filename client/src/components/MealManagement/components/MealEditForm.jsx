@@ -2,12 +2,9 @@ import React, { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
 import FormTextInput from './FormTextInput';
-import CloseIcon from '@material-ui/icons/Close';
 import FormTextArea from './FormTextArea';
-import LoadingComponent from '../Loading/LoadingComponent';
+import LoadingComponent from '../../Loading/LoadingComponent';
 import { useSpring, animated, useTransition, config } from 'react-spring';
-import LoadingSpin from '../Loading/LoadingSpin';
-import transitions from '@material-ui/core/styles/transitions';
 
 const Container = styled.div`
 `;

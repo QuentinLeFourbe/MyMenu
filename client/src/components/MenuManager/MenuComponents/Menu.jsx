@@ -9,11 +9,19 @@ const Container = styled.div`
     margin: 2px;
     border-left: ${props => props.first ? "0px" : "1px"} solid lightgrey;
     border-radius: 1px;
-    width: 30vw;
+    flex-grow: 1;
+    /* width: 30vw; */
+    display: flex;
+    flex-flow: column wrap;
+    width: 50%;
+
 `;
 
 const MealList = styled.div`
     min-height: 50px;
+    background-color: ${props => props.isDraggingOver ? "#ff6e6118" : "white"};
+    padding: 0rem 0 1rem 0;
+    flex-grow: 1;
 `;
 
 const Title = styled.h4`
@@ -35,10 +43,11 @@ function Menu(props)
             <Title>{title}</Title>
             <Droppable droppableId={menuId} direction='vertical'>
                 {
-                    provided => (
+                    (provided, snapshot) => (
                         <MealList
                             ref={provided.innerRef}
                             {...provided.droppableProps}
+                            isDraggingOver={snapshot.isDraggingOver}
                         >
                             {meals.map((meal, index) =>
                                 // <Meal
@@ -49,12 +58,12 @@ function Menu(props)
                                 //     deletable
                                 // />
                                 <Draggable draggableId={`${menuId}_${meal.id}`} index={index} key={meal.id}>
-                                    {(provided) => (
+                                    {(provided, snapshot) => (
                                         <Meal
                                             innerRef={provided.innerRef}
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}
-
+                                            isDragging={snapshot.isDragging}
                                             parentId={menuId}
                                             meal={meal}
                                             deletable

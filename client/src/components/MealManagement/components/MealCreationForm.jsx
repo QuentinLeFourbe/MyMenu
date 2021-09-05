@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { createMeal, fetchMeals } from '../../api';
-import { AppContext } from '../../AppContext';
+import { createMeal, fetchMeals } from '../../../api';
+import { AppContext } from '../../../AppContext';
 import styled from 'styled-components'
 import axios from 'axios';
 import { useForm } from 'react-hook-form'

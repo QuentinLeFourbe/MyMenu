@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled, { keyframes } from 'styled-components'
-import MealsManagement from './MealManagement/MealsManagement';
-import MenuManagerComponent from './MenuManager/MenuManagerComponent';
+import MealsManager from './MealManagement/MealsManager';
+import MenusManager from './MenuManager/MenusManager';
 import {useSpring, animated, config} from 'react-spring'
 
 const fadeOut = keyframes`
@@ -83,14 +83,14 @@ function Main() {
         setState(false)
     }
 
-    const tabContent = state ? <MenuManagerComponent /> : <MealsManagement />
+    const tabContent = state ? <MenusManager /> : <MealsManager />
 
     return (
         <Container style={springStyle}>
-            <TabContainer>
+            {/* <TabContainer>
                 <TabButton onClick={showMenu} active={state}>Menu</TabButton>
                 <TabButton onClick={showMeals} active={!state}>Plats</TabButton>
-            </TabContainer>
+            </TabContainer> */}
             <ContentContainer style={props}>
                 {tabContent}
             </ContentContainer>

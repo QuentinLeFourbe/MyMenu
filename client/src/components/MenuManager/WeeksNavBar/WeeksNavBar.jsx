@@ -1,50 +1,31 @@
 import React from 'react'
 import styled from 'styled-components'
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import dayjs from 'dayjs';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
-
+import Greetings from './Greetings';
+import WeekNumberButton from './WeekNumberButton';
+import WeekNavArrow from './WeekNavArrow';
 
 const Container = styled.div`
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column wrap;
     align-items: center;
-    justify-content: center;
     margin: 20px;
     flex-grow:1;
 `;
 
-const WeekLabel = styled.label`
-    font-family: "Times New Roman", Times, serif;
-    font-size: 2rem;
-`;
-
-const DayLabel = styled.label`
-    font-family: "Times New Roman", Times, serif;
-    font-size: 3rem;
-    margin-right:auto;
-`;
-
 const ButtonContainers = styled.div`
+    align-self: center;
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: row nowrap;
     align-items: center;
     justify-content: center;
     margin: 1rem;
 `;
 
-const ArrowButton = styled.button`
-    display: flex;
-    font-size:2rem;
-    padding: 0px;
-    border: none;
-    background: none;
 
-    &:hover{
-        background-color:lightgrey;
-    }
-`;
 
 const WeekNumber = styled.label`
     font-family: "Times New Roman", Times, serif;
@@ -54,11 +35,8 @@ const WeekNumber = styled.label`
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 1rem;
 `;
-
-
-
-
 
 function WeeksNavBar(props) {
     dayjs.extend(weekOfYear)
@@ -77,17 +55,20 @@ function WeeksNavBar(props) {
 
     return (
         <Container>
-            <DayLabel>{dayjs().format('dddd D MMMM')}</DayLabel>
-            <WeekLabel> Semaine </WeekLabel>
+            <Greetings />
             <ButtonContainers>
-            
-                <ArrowButton onClick={nextWeek}>
-                    <ArrowDropUpIcon fontSize='inherit'/>
-                </ArrowButton>
-                <WeekNumber>{startDate.week() - 1}</WeekNumber>
-                <ArrowButton onClick={prevWeek}>
-                    <ArrowDropDownIcon fontSize='inherit'/>
-                </ArrowButton>
+                <WeekNavArrow onClick={prevWeek}>
+                    <ArrowBackIosIcon fontSize='inherit' />
+                </WeekNavArrow>
+                <WeekNumberButton outter>{startDate.week() - 3}</WeekNumberButton>
+                <WeekNumberButton inner>{startDate.week() - 2}</WeekNumberButton>
+                <WeekNumberButton selected>{startDate.week() - 1}</WeekNumberButton>
+                <WeekNumberButton inner>{startDate.week() - 0}</WeekNumberButton>
+                <WeekNumberButton outter>{startDate.week() + 1}</WeekNumberButton>
+                {/* <WeekNumber>{startDate.format('DD/MM')} - {endDate.format('DD/MM')}</WeekNumber> */}
+                <WeekNavArrow onClick={nextWeek}>
+                    <ArrowForwardIosIcon fontSize='inherit' />
+                </WeekNavArrow>
             </ButtonContainers>
         </Container>
     )

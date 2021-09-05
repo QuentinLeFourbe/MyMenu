@@ -12,19 +12,19 @@ const Container = styled.div`
     top: 5vh;
     width: 15vw;
     height: 70vh;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    background-color: white;
-
-    border: 1px solid lightgrey;
-    border-left:0px;
+    margin: 1rem 1rem 1rem 2.5vw;
+    /* background-color: #ff6f61; */
+    border-radius: 2rem;
+    padding: 1rem;
+    border: solid #ff6f61 1px;
 `;
 
 const Title = styled.div`
-    margin: 10px;
-    text-align: center;
+    margin: 1rem;
+    /* text-align: center; */
     vertical-align: middle;
-    font-size: 23px;
+    font-size: 2rem;
+    font-weight: bold;
 `;
 
 
@@ -80,7 +80,7 @@ function FloatingMealManager()
 
     return (
         <Container>
-            <Title>Mes recettes !</Title>
+            <Title>Mes plats</Title> 
             <FiltersComponent applyFilter={applyFilter} filter={data.filter} />
             <SeparationLine />
             <FloatingMealList meals={data.meals} />

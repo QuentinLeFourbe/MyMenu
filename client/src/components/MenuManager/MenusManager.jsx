@@ -18,7 +18,7 @@ const Container = styled.div`
   grid-template-columns: repeat(5,1fr);
   grid-template-rows: auto;
   grid-template-areas:
-  "leftPanel highBar highBar highBar highBar"
+  "highBar highBar highBar highBar highBar"
   "leftPanel main main main main"
   "leftPanel lowBar lowBar lowBar lowBar";
   flex-grow:1;
@@ -29,7 +29,7 @@ const GridArea = styled.div`
   grid-area: ${props => props.name};
 `;
 
-function MenuManagerComponent() {
+function MenusManager() {
     dayjs.extend(customParseFormat)
     dayjs.extend(isoWeek);
     dayjs.locale('fr');
@@ -226,4 +226,4 @@ function MenuManagerComponent() {
     )
 }
 
-export default MenuManagerComponent
+export default MenusManager
