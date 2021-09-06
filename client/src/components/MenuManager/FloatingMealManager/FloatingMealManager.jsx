@@ -9,14 +9,15 @@ const Container = styled.div`
     display: flex;
     flex-flow: column nowrap;
     position: sticky; 
-    top: 5vh;
+    top: 2vh;
+    /* bottom: 1rem; */
     width: 15vw;
-    height: 70vh;
+    height: 80vh;
     margin: 1rem 1rem 1rem 2.5vw;
-    /* background-color: #ff6f61; */
+    /* background-color: #ff6e6124; */
     border-radius: 2rem;
     padding: 1rem;
-    border: solid #ff6f61 1px;
+    border: solid lightgrey 1px;
 `;
 
 const Title = styled.div`

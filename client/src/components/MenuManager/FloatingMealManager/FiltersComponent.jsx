@@ -16,6 +16,7 @@ const SearchField = styled.input`
     padding: 0.5rem;
     border-radius: 1rem;
     border: none;
+    /* background-color: white; */
     background-color: #f3f3f5;
 `;
 
@@ -23,9 +24,10 @@ const Filter = styled.select`
     margin: 8px;
     border-radius: 30px;
     border:none;
+    /* background-color: blue; */
     background-color: #f3f3f5;
     padding: 6px;
-    background: none;
+    /* background: none; */
 `;
 const FilterOption = styled.option`
 `;

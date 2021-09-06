@@ -7,7 +7,7 @@ import Day from './Day';
 const Container = styled.div`
     display: flex;
     flex-flow: column wrap;
-    margin-right: 1rem;
+    margin-right: 5vw;
     margin-left: 2vw;
     flex-grow:1;
 `;

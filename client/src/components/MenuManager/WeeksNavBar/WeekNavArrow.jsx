@@ -24,7 +24,7 @@ function WeekNavArrow(props) {
         color: isHovered ? '#ff6f61' : 'black',
         // backgroundColor: isHovered ? '#ff6f61' : 'transparent',
         config: config.tight,
-        transform: isHovered ? 'scale(1.5,1.5)' : 'scale(1,1)',
+        transform: isHovered ? 'scale(1.2,1.2)' : 'scale(1,1)',
     })
 
     const onMouseEnter = () => {

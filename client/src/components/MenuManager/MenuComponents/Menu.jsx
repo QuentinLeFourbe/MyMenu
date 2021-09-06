@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { AppContext } from '../../../AppContext';
 
 const Container = styled.div`
-    margin: 2px;
+    margin: 0 1rem 0 1rem;
     border-left: ${props => props.first ? "0px" : "1px"} solid lightgrey;
     border-radius: 1px;
     flex-grow: 1;
