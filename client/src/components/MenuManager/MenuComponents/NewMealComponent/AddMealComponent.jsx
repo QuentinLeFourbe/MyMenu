@@ -42,11 +42,14 @@ const NewMealListContainer = styled.div`
     overflow: auto;
     margin-left: 8px;
     margin-top : 42px;
+    z-index: 1;
+
 `;
 
 const Container = styled.div`
-height: 55px;
-
+    height: 55px;
+    position: relative;
+    width: 100%;
 `;
 
 function AddMealComponent({ addMealHandler })

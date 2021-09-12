@@ -17,13 +17,14 @@ const Container = styled.div`
     display: flex;
     flex-flow: column wrap;
     width: 50%;
+    padding-left: 8px;
 
 `;
 
 const MealList = styled(animated.div)`
     min-height: 60px;
     background-color: ${props => props.isDraggingOver ? "#ff6e6118" : "white"};
-    /* padding: 0rem 0 1rem 0; */
+    /* padding: 0rem 0px 0rem 8px; */
     flex-grow: 1;
 `;
 
