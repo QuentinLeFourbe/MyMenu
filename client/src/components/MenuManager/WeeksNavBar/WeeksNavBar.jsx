@@ -26,18 +26,6 @@ const ButtonContainers = styled.div`
 `;
 
 
-
-const WeekNumber = styled.label`
-    font-family: "Times New Roman", Times, serif;
-    font-size: 2rem;
-    border-radius: 50%;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 1rem;
-`;
-
 function WeeksNavBar(props) {
     dayjs.extend(weekOfYear)
     const { weekChanged, startDate, endDate } = props;

@@ -1,10 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { AppContext } from '../../../AppContext';
 import { FLOAT_DROPPABLE_ID } from '../../../Constant';
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 import Meal from '../MenuComponents/Meal';
- 
+
 
 const ResultContainer = styled.div`
     overflow: auto;
@@ -16,7 +15,7 @@ const ResultContainer = styled.div`
 function FloatingMealList(props)
 {
     const { meals } = props;
-    
+
 
     return (
         <>

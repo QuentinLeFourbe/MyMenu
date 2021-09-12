@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
 import FormTextInput from './FormTextInput';
 import FormTextArea from './FormTextArea';
 import LoadingComponent from '../../Loading/LoadingComponent';
-import { useSpring, animated, useTransition, config } from 'react-spring';
+import { animated, useTransition } from 'react-spring';
 
 const Container = styled.div`
 `;
@@ -119,7 +119,8 @@ const ButtonContainer = styled.div`
  flex-flow: row wrap;
 `;
 
-function MealEditForm(props) {
+function MealEditForm(props)
+{
     //Props
     const { mealEdited, hideFunc, onUpdateMeal, onDeleteMeal, isOpen, formImage } = props;
 
@@ -128,39 +129,39 @@ function MealEditForm(props) {
     const [showLoading, setShowLoading] = useState(true);
 
     //React hook form
-    const { register, reset, handleSubmit, watch, setValues } = useForm();
+    const { register, reset, handleSubmit, watch } = useForm();
 
     const editPanelTransition = useTransition(showLoading, {
         from: { opacity: 0, y: 100 },
         enter: { opacity: 1, y: 0 },
     });
 
-    const editPanelSpring = useSpring({
-        from: { opacity: 0, y: 100 },
-        y: 0,
-        opacity: 1
-    })
-
-    useEffect(async () => {
+    useEffect(() =>
+    {
         setShowLoading(true);
-        if (mealEdited != null && mealEdited != undefined) {
+        if (mealEdited !== null && mealEdited !== undefined)
+        {
             reset({ ...mealEdited, mealImage: '' });
             setLoadingState(false);
-        } else {
+        } else
+        {
             setLoadingState(true);
         }
     }, []);
 
-    const hideLoading = () => {
+    const hideLoading = () =>
+    {
         setShowLoading(false);
     }
 
-    const onSubmit = (data) => {
+    const onSubmit = (data) =>
+    {
         onUpdateMeal(mealEdited._id, data);
         hideFunc();
     }
 
-    const onDelete = () => {
+    const onDelete = () =>
+    {
         onDeleteMeal(mealEdited.id);
         hideFunc();
     }

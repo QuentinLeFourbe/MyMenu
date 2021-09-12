@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useSpring, animated, config, useTransition } from 'react-spring'
+import { useTransition } from 'react-spring'
 import LoadingSpin from './LoadingSpin';
 
 const Container = styled.div`
@@ -15,7 +15,8 @@ const Container = styled.div`
 
 
 
-function LoadingComponent(props) {
+function LoadingComponent(props)
+{
   const { hideLoading, loadingState } = props;
   const [isLoading, setIsLoading] = useState(true);
 
@@ -25,19 +26,21 @@ function LoadingComponent(props) {
     leave: { x: 100, opacity: 0 },
   })
 
-  useEffect(async () => {
-    if (loadingState == false) {
+  useEffect(async () =>
+  {
+    if (loadingState == false)
+    {
       await new Promise(r => setTimeout(r, 500));
       setIsLoading(false);
       await new Promise(r => setTimeout(r, 500));
       hideLoading();
     }
-  })
-
+  }, [loadingState])
+ 
   return (
     <Container>
       {transition((styles, isLoading) => (
-        isLoading && <LoadingSpin style={styles}/>
+        isLoading && <LoadingSpin style={styles} />
       ))}
     </Container>
   )

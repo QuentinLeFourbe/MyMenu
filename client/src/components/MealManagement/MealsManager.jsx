@@ -6,7 +6,6 @@ import FiltersComponent from '../MenuManager/FloatingMealManager/FiltersComponen
 import { AppContext } from '../../AppContext';
 import { SortType } from '../../Constant';
 import { updateMeal, fetchMeals, deleteMeal, getMeal } from '../../api';
-import MealEditForm from './components/MealEditForm';
 import MealEditOverlay from './components/MealEditOverlay';
 
 const Container = styled.div`
@@ -71,7 +70,7 @@ function MealsManager() {
             );
 
         filteredMeals.sort((meal1, meal2) => meal1.name > meal2.name);
-        if (filter.sort == SortType.Z_A) {
+        if (filter.sort === SortType.Z_A) {
             filteredMeals = filteredMeals.reverse();
         }
         setFilterData({ ...filterData, meals: filteredMeals, filter: filter });

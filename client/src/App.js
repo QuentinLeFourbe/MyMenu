@@ -1,37 +1,42 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import './App.css';
-import styled from 'styled-components';
-import {
+import
+{
   BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
 } from "react-router-dom";
-import { fetchMeals, getSession } from './api';
 import { AppContext } from './AppContext';
 import { dataReducer } from './Reducers/Reducers';
-import Main from './components/Main';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Authentification from './components/Authentification';
-import Register from './components/Register';
-import About from './components/About';
 import ContentFromRoute from './components/ContentFromRoute';
+import dayjs from 'dayjs';
+import isoWeek from 'dayjs/plugin/isoWeek';
+import { } from 'dayjs/locale/fr';
+import updateLocale from 'dayjs/plugin/updateLocale';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
 
-const MainArea = styled.main`
-  grid-area: main;
-  padding: 5vh 5vw 5vh 5vw;
-`;
 
-const initialData = {
-  meals: [],
-  ingredients: [],
-  menus: [],
-  user: null
-}
+const App = (props) =>
+{
+  dayjs.extend(customParseFormat)
+  dayjs.extend(isoWeek);
+  dayjs.locale('fr');
+  dayjs.extend(updateLocale)
+  dayjs.updateLocale('fr', {
+    weekdays: [
+      "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"
+    ]
+  })
 
-const App = (props) => {
+  const initialData = {
+    weekDates: {
+      startDate: dayjs().isoWeekday(1),
+      endDate: dayjs().isoWeekday(7),
+    },
+    meals: [],
+    ingredients: [],
+    menus: [],
+    user: null
+  }
 
   const [data, dispatch] = useReducer(dataReducer, initialData)
 

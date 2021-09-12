@@ -6,9 +6,9 @@ import dayjs from 'dayjs';
 
 
 const Container = styled.div`
-    border-color: lightgrey;
+    /* border-color: lightgrey;
     border-style: solid;
-    border-width: 1px 0px 0px 0px;
+    border-width: 1px 0px 0px 0px; */
     min-height: 30vh;
     display:flex;
     flex-flow: column nowrap;
@@ -21,9 +21,12 @@ const Menus = styled.div`
     flex-grow:1;
 `;
 
-const Title = styled.h3`
-    margin: 5px;
-    padding: 5px;
+const Title = styled.div`
+    margin-top: 1rem;
+    padding: 1rem;
+    font-size: 2rem;
+    background-color: #fda59c;
+    color: white;
 `;
 
 function Day(props)
@@ -36,7 +39,7 @@ function Day(props)
 
     return (
         <Container>
-            <Title>{dayjs(date).format('dddd - DD/MM')}</Title>
+            <Title>{dayjs(date).format('dddd D MMMM')}</Title>
             <Menus>
                 <Menu title='Midi' date={date} type={MENU_LUNCH} menuData={lunchMenu} first />
                 <Menu title='Soir' date={date} type={MENU_DINER} menuData={dinerMenu} />

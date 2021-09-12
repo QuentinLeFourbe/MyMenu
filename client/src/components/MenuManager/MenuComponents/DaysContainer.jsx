@@ -10,6 +10,7 @@ const Container = styled.div`
     margin-right: 5vw;
     margin-left: 2vw;
     flex-grow:1;
+    /* border: solid black 1px; */
 `;
 
 function DaysContainer(props) {

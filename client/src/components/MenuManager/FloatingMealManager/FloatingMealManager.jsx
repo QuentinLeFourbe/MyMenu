@@ -5,7 +5,7 @@ import { SortType } from '../../../Constant';
 import FiltersComponent from './FiltersComponent';
 import FloatingMealList from './FloatingMealList';
 
-const Container = styled.div`
+const StickyContainer = styled.div`
     display: flex;
     flex-flow: column nowrap;
     position: sticky; 
@@ -13,11 +13,16 @@ const Container = styled.div`
     /* bottom: 1rem; */
     width: 15vw;
     height: 80vh;
-    margin: 1rem 1rem 1rem 2.5vw;
+    margin: 0rem 0rem 0rem 2.5vw;
     /* background-color: #ff6e6124; */
-    border-radius: 2rem;
+    /* border-radius: 2rem; */
     padding: 1rem;
+
+`;
+
+const Container = styled.div`
     border: solid lightgrey 1px;
+    
 `;
 
 const Title = styled.div`
@@ -65,7 +70,7 @@ function FloatingMealManager()
             );
 
         filteredMeals.sort((meal1, meal2) => meal1.name > meal2.name);
-        if (filter.sort == SortType.Z_A)
+        if (filter.sort === SortType.Z_A)
         {
             filteredMeals = filteredMeals.reverse();
         }
@@ -81,10 +86,12 @@ function FloatingMealManager()
 
     return (
         <Container>
-            <Title>Mes plats</Title> 
-            <FiltersComponent applyFilter={applyFilter} filter={data.filter} />
-            <SeparationLine />
-            <FloatingMealList meals={data.meals} />
+            <StickyContainer>
+                <Title>Mes plats</Title>
+                <FiltersComponent applyFilter={applyFilter} filter={data.filter} />
+                <SeparationLine />
+                <FloatingMealList meals={data.meals} />
+            </StickyContainer>
         </Container>
     )
 }

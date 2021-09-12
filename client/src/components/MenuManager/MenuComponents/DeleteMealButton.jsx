@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import CloseIcon from '@material-ui/icons/Close';
-import { useSpring, animated, config } from 'react-spring';
+import { useSpring, animated } from 'react-spring';
 
 const DeleteButton = styled(animated.button)`
     margin-left: auto;

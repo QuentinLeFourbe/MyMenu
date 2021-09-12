@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { SortType } from '../../../Constant';
-import { useForm } from 'react-hook-form'
 
 
 const Container = styled.div`
@@ -38,14 +37,6 @@ const FilterContainer = styled.div`
     flex-flow: row wrap;
     align-items: center;
 `;
-
-const RadioContainer = styled.div`
-    margin: 10px;
-`;
-
-const RadioButton = styled.input`
-`;
-const RadioLabel = styled.label``;
 
 function FiltersComponent(props)
 {

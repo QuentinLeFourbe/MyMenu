@@ -66,7 +66,9 @@ export const dataReducer = (dataState, action) => {
             return { ...dataState, user: null };
         }
 
-
+        case 'weekDates/update': {
+            return {...dataState, weekDates: action.payload};
+        }
 
         default:
             return dataState;

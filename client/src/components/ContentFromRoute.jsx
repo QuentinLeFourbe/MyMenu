@@ -7,11 +7,9 @@ import {
     Redirect,
     useLocation,
 } from "react-router-dom";
-import Main from './Main';
 import Header from './Header';
 import Footer from './Footer';
 import Authentification from './Authentification';
-import Register from './Register';
 import About from './About';
 import { fetchMeals, getSession } from '../api';
 import LoadingComponent from './Loading/LoadingComponent';
