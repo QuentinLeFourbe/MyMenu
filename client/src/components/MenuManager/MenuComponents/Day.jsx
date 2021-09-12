@@ -29,11 +29,8 @@ const Title = styled.div`
     color: white;
 `;
 
-function Day(props)
+function Day({ date, dayMenus, dataLoading })
 {
-
-    const { date, dayMenus } = props;
-
     const lunchMenu = dayMenus ? dayMenus.find(menu => menu.type === MENU_LUNCH) : null;
     const dinerMenu = dayMenus ? dayMenus.find(menu => menu.type === MENU_DINER) : null;
 
@@ -41,8 +38,8 @@ function Day(props)
         <Container>
             <Title>{dayjs(date).format('dddd D MMMM')}</Title>
             <Menus>
-                <Menu title='Midi' date={date} type={MENU_LUNCH} menuData={lunchMenu} first />
-                <Menu title='Soir' date={date} type={MENU_DINER} menuData={dinerMenu} />
+                <Menu title='Midi' date={date} type={MENU_LUNCH} menuData={lunchMenu} dataLoading={dataLoading} first />
+                <Menu title='Soir' date={date} type={MENU_DINER} menuData={dinerMenu} dataLoading={dataLoading} />
             </Menus>
         </Container>
     )

@@ -7,8 +7,9 @@ import { AppContext } from '../../AppContext';
 import { SortType } from '../../Constant';
 import { updateMeal, fetchMeals, deleteMeal, getMeal } from '../../api';
 import MealEditOverlay from './components/MealEditOverlay';
+import { animated, config, useSpring } from 'react-spring'
 
-const Container = styled.div`
+const Container = styled(animated.div)`
   flex-grow:1;
 `;
 
@@ -20,15 +21,18 @@ const Wrapper = styled.div`
     padding-top: 1rem;
 `;
 
-function MealsManager() {
+function MealsManager()
+{
     const { dataState, dataDispatch } = useContext(AppContext);
 
     //EditForm overlay data
     const [editFormData, setEditFormData] = useState({ mealEdited: null, show: false, formImage: null });
 
-    const showMealOverlay = async (mealId) => {
+    const showMealOverlay = async (mealId) =>
+    {
         await getMeal(mealId)
-            .then(response => {
+            .then(response =>
+            {
                 let meal = response.data[0];
                 setEditFormData({
                     ...editFormData,
@@ -37,12 +41,14 @@ function MealsManager() {
                     show: true
                 }); //Empty mealImage so it does not load the path in file Input and crash in the form
             })
-            .catch(error => {
+            .catch(error =>
+            {
                 console.error("Error: " + error.message)
             });
     }
 
-    const hideMealOverlay = () => {
+    const hideMealOverlay = () =>
+    {
         setEditFormData({ ...editFormData, mealEdited: null, show: false })
     }
 
@@ -56,8 +62,10 @@ function MealsManager() {
     });
 
     //filter: {search: String, sort: SortType}
-    const applyFilter = (filter) => {
-        if (filter === undefined) {
+    const applyFilter = (filter) =>
+    {
+        if (filter === undefined)
+        {
             console.error("Filter is undefined");
             return;
         }
@@ -70,59 +78,78 @@ function MealsManager() {
             );
 
         filteredMeals.sort((meal1, meal2) => meal1.name > meal2.name);
-        if (filter.sort === SortType.Z_A) {
+        if (filter.sort === SortType.Z_A)
+        {
             filteredMeals = filteredMeals.reverse();
         }
         setFilterData({ ...filterData, meals: filteredMeals, filter: filter });
     }
 
-    const onUpdateMeal = async (mealId, data) => {
+    const onUpdateMeal = async (mealId, data) =>
+    {
         const meal = { ...data };
-        if (data.mealImage.length > 0) {
+        if (data.mealImage.length > 0)
+        {
             meal.mealImage = data.mealImage[0]
-        } else {
+        } else
+        {
             console.log(delete meal.mealImage);
         }
 
 
         var formData = new FormData();
-        for (var key in meal) {
+        for (var key in meal)
+        {
             formData.append(key, meal[key]);
         }
         await updateMeal(mealId, formData)
-            .then(() => {
+            .then(() =>
+            {
                 dataDispatch({ type: 'UPDATE_MEALS', payload: formData })
             })
-            .catch(error => {
+            .catch(error =>
+            {
                 console.error("Error: " + error.message)
             })
 
-        await fetchMeals().then(response => {
+        await fetchMeals().then(response =>
+        {
             dataDispatch({ type: 'FETCH_MEALS', payload: response.data })
         })
     }
 
-    const onDeleteMeal = async (mealId) => {
-        await deleteMeal(mealId).then(() => {
+    const onDeleteMeal = async (mealId) =>
+    {
+        await deleteMeal(mealId).then(() =>
+        {
             dataDispatch({ type: 'DELETE_MEAL', payload: mealId })
         })
-            .catch(error => {
+            .catch(error =>
+            {
                 console.error("Error: " + error.message)
             });
 
-        await fetchMeals().then(response => {
+        await fetchMeals().then(response =>
+        {
             dataDispatch({ type: 'FETCH_MEALS', payload: response.data })
         });
     }
 
-    useEffect(() => {
+    useEffect(() =>
+    {
         let meals = dataState.meals;
         meals.sort((meal1, meal2) => meal1.name > meal2.name);
         setFilterData({ ...filterData, meals: meals });
     }, [dataState.meals])
 
+    const spring = useSpring({
+        from: { opacity: 0 },
+        opacity: 1,
+        delay: 200,
+    })
+
     return (
-        <Container>
+        <Container style={spring}>
             <MealCreationForm />
             <Wrapper>
                 <FiltersComponent applyFilter={applyFilter} filter={filterData.filter} />

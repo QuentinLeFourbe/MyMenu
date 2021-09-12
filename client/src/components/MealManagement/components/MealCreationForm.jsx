@@ -96,33 +96,47 @@ const InlineDiv = styled.div`
 
 //#endregion
 
-function MealCreationForm() {
+function MealCreationForm()
+{
 
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, reset, formState } = useForm()
 
     const { dataDispatch } = useContext(AppContext);
 
-    const saveMeal = async (data) => {
+    const saveMeal = async (data) =>
+    {
 
         const meal = { ...data, mealImage: data.mealImage[0] };
-   
+
         var formData = new FormData();
-        for (var key in meal) {
+        for (var key in meal)
+        {
             formData.append(key, meal[key]);
         }
 
         await createMeal(formData)
-            .then(() => {
+            .then(() => 
+            {
                 dataDispatch({ type: 'CREATE_MEALS', payload: formData })
             })
-            .catch(error => {
+            .catch(error =>
+            {
                 console.error("Error: " + error.message)
             })
 
-        await fetchMeals().then(response => {
+        await fetchMeals().then(response =>
+        {
             dataDispatch({ type: 'FETCH_MEALS', payload: response.data })
         })
     }
+
+    React.useEffect(() =>
+    {
+        if (formState.isSubmitSuccessful)
+        {
+            reset();
+        }
+    }, [formState, reset]);
 
     return (
         <Container onSubmit={handleSubmit(saveMeal)}>

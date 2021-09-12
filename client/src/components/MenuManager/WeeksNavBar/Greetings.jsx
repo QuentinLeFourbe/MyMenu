@@ -2,11 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import dayjs from 'dayjs';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
+import { animated, useSpring, config } from 'react-spring'
 
-const Container = styled.div`
+const Container = styled(animated.div)`
 /* margin-right: auto; */
 margin-left: 1rem;
 align-self: flex-start;
+overflow: hidden;
 `;
 
 const DayLabel = styled.label`
@@ -19,13 +21,20 @@ const HelloContainer = styled.div`
     font-size: 1.5rem;
 `;
 
-function Greetings() {
+function Greetings()
+{
     dayjs.extend(weekOfYear);
 
-
+    const spring = useSpring({
+        from: {opacity: 0, x: -30,},
+        opacity: 1,
+        x: 0,
+        config: config.molasses,
+        delay: 200,
+    })
 
     return (
-        <Container>
+        <Container style={spring}>
             <HelloContainer>Bonjour, nous sommes le </HelloContainer>
             <DayLabel>{dayjs().format('dddd D MMMM')}</DayLabel>
         </Container>

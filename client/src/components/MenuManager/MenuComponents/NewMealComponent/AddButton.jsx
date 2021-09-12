@@ -8,9 +8,10 @@ const Button = styled(animated.button)`
     background-color: white;
     margin: 8px;
     cursor: pointer;
+    position: absolute;
 `;
 
-function AddButton({ onClickHandler })
+function AddButton({ onClickHandler, springStyle })
 {
     const [hovered, setHovered] = useState(false)
 
@@ -18,7 +19,7 @@ function AddButton({ onClickHandler })
         color: hovered ? '#3fb13f' : 'black',
         // backgroundColor:  hovered ? '#3fb13f' : 'white',
         borderColor: hovered ? '#3fb13f' : 'black',
-        y: hovered ? -2 : 0,
+        // y: hovered ? -2 : 0,
         // x: hovered ? 0 : 0,
         config: config.tight,
     })
@@ -34,7 +35,7 @@ function AddButton({ onClickHandler })
     }
 
     return (
-        <Button style={spring} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={onClickHandler}>
+        <Button style={{ ...spring, ...springStyle }} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={onClickHandler}>
             <AddIcon fontSize="large" />
         </Button>
     )

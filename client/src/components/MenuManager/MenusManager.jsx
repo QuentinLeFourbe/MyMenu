@@ -5,30 +5,19 @@ import WeeksNavBar from './WeeksNavBar/WeeksNavBar'
 import { createMenu, deleteMenu, getMenusBetweenDates, updateMenu } from '../../api';
 import DaysContainer from './MenuComponents/DaysContainer';
 import dayjs from 'dayjs';
-import { FLOAT_DROPPABLE_ID } from '../../Constant';
 import { AppContext } from '../../AppContext';
 import { FetchMenus } from '../../Helpers/DataHelper';
 
 const Container = styled.div`
-  /* display:grid;
-  grid-template-columns: repeat(5,1fr);
-  grid-template-rows: auto;
-  grid-template-areas:
-  "highBar highBar highBar highBar highBar"
-  "leftPanel main main main main"
-  "leftPanel lowBar lowBar lowBar lowBar"; */
-
   flex-grow:1;
 `;
 
 function MenusManager()
 {
-
-
     //UseContext
     const { dataState, dataDispatch } = useContext(AppContext);
-
     const weekDates = dataState.weekDates;
+    const [isDataLoading, setIsDataLoading] = useState(true);
 
     //region
     const RemoveMealFromMenu = (mealId, menuId) =>
@@ -169,8 +158,14 @@ function MenusManager()
     //Called when the week has been changed, at the start or in the weeknavbar
     const weekChanged = async (startDate, endDate) =>
     {
-        dataDispatch({ type: 'weekDates/update', payload: { startDate: startDate, endDate: endDate } })
-        await FetchMenus(dataDispatch, startDate, endDate);
+        setIsDataLoading(true);
+        await new Promise(r => setTimeout(r, 500));
+        await FetchMenus(dataDispatch, startDate, endDate)
+            .then(async () => 
+            {
+                dataDispatch({ type: 'weekDates/update', payload: { startDate: startDate, endDate: endDate } })
+                setIsDataLoading(false)
+            });
     }
 
 
@@ -190,33 +185,27 @@ function MenusManager()
                 })
         }
         fetchData();
+        setIsDataLoading(false);
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
-
         <Container>
-            < DragDropContext onDragEnd={onDragEnd} >
-                {/* <GridArea name="leftPanel">
-                    <FloatingMealManager />
-                </GridArea> */}
-
-                {/* <GridArea name="highBar"> */}
+            <DragDropContext onDragEnd={onDragEnd} >
                 <WeeksNavBar
                     weekChanged={weekChanged}
                     startDate={weekDates.startDate}
                     endDate={weekDates.endDate}
                 />
-                {/* </GridArea> */}
-                {/* <GridArea name="main"> */}
                 <DaysContainer
                     menus={dataState.menus}
                     startDate={weekDates.startDate}
                     endDate={weekDates.endDate}
+                    dataLoading={isDataLoading}
                 />
-                {/* </GridArea> */}
+
+
             </DragDropContext >
         </Container>
-
     )
 }
 

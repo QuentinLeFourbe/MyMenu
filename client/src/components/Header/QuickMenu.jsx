@@ -20,7 +20,8 @@ const MenuButtonContainer = styled(animated.button)`
     font-size: 50px;
 `;
 
-function QuickMenu() {
+function QuickMenu()
+{
     const [showMenu, setShowMenu] = useState(false);
 
     const buttonSpring = useSpring({
@@ -34,16 +35,14 @@ function QuickMenu() {
         leave: { opacity: 0 },
     });
 
-    const onShowMenu = (show) => {
-        setShowMenu(show);
-    }
-
-    const buttonMouseEnter = () => {
+    const buttonMouseEnter = () =>
+    {
         // setIsHovered(true);
         setShowMenu(true);
     }
 
-    const buttonMouseLeave = () => {
+    const buttonMouseLeave = () =>
+    {
         // setIsHovered(false);
         setShowMenu(false);
     }

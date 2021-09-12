@@ -7,16 +7,16 @@ import weekOfYear from 'dayjs/plugin/weekOfYear';
 import Greetings from './Greetings';
 import WeekNumberButton from './WeekNumberButton';
 import WeekNavArrow from './WeekNavArrow';
+import { animated, useSpring, config } from 'react-spring'
 
 const Container = styled.div`
-    display: flex;
     flex-flow: column wrap;
     align-items: center;
     margin: 20px;
     flex-grow:1;
 `;
 
-const ButtonContainers = styled.div`
+const ButtonContainers = styled(animated.div)`
     align-self: center;
     display: flex;
     flex-flow: row nowrap;
@@ -26,17 +26,26 @@ const ButtonContainers = styled.div`
 `;
 
 
-function WeeksNavBar(props) {
+function WeeksNavBar(props)
+{
     dayjs.extend(weekOfYear)
     const { weekChanged, startDate, endDate } = props;
 
+    const spring = useSpring({
+        from: { opacity: 0 },
+        opacity: 1,
+        config: config.molasses,
+        delay: 700,
+    })
 
-    const nextWeek = () => {
+    const nextWeek = () =>
+    {
         if (weekChanged !== undefined)
             weekChanged(startDate.add(7, 'day'), endDate.add(7, 'day'));
     }
 
-    const prevWeek = () => {
+    const prevWeek = () =>
+    {
         if (weekChanged !== undefined)
             weekChanged(startDate.subtract(7, 'day'), endDate.subtract(7, 'day'));
     }
@@ -44,7 +53,7 @@ function WeeksNavBar(props) {
     return (
         <Container>
             <Greetings />
-            <ButtonContainers>
+            <ButtonContainers style={spring}>
                 <WeekNavArrow onClick={prevWeek}>
                     <ArrowBackIosIcon fontSize='inherit' />
                 </WeekNavArrow>

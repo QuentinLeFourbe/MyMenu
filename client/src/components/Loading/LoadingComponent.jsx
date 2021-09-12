@@ -9,7 +9,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     width:100vw;
-    height: 100vh;
+    /* height: 100vh; */
 `;
 
 
@@ -24,6 +24,7 @@ function LoadingComponent(props)
     from: { x: -100, opacity: 0 },
     enter: { x: 0, opacity: 1 },
     leave: { x: 100, opacity: 0 },
+    trail: 1000,
   })
 
   useEffect(async () =>

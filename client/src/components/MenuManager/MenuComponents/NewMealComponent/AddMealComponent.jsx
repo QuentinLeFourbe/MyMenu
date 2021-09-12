@@ -4,11 +4,13 @@ import { AppContext } from '../../../../AppContext';
 import MealListItem from './MealListItem';
 import AddButton from './AddButton';
 import CancelButton from './CancelButton';
+import { animated, config, useTransition } from 'react-spring';
 
-const NewMealInputContainer = styled.div`
+const NewMealInputContainer = styled(animated.div)`
     margin: 8px;
     display: flex;
     flex-flow: row nowrap;
+    position: absolute;
 `;
 
 const NewMealInput = styled.input`
@@ -42,14 +44,17 @@ const NewMealListContainer = styled.div`
     margin-top : 42px;
 `;
 
+const Container = styled.div`
+height: 55px;
 
+`;
 
 function AddMealComponent({ addMealHandler })
 {
     const [isInputVisible, setInputVisibility] = useState(false);
     const [showMealList, setshowMealList] = useState(false);
     const { dataState } = useContext(AppContext);
-    const existingMeals = dataState.meals;
+    const [mealList, setMealList] = useState(dataState.meals);
 
     const showInput = () =>
     {
@@ -71,24 +76,43 @@ function AddMealComponent({ addMealHandler })
         setshowMealList(false);
     }
 
+    const onChangeInputValue = (e) =>
+    {
+        const filteredMeals =
+            dataState.meals.filter(meal =>
+                meal.name
+                    .toLowerCase()
+                    .includes(e.target.value.toLowerCase())
+            );
+        setMealList(filteredMeals);
+    }
+
+    const transition = useTransition(isInputVisible, {
+        from: { opacity: 0 },
+        enter: { opacity: 1, },
+        leave: { opacity: 0, },
+        trail: 500,
+        config: config.tight,
+    })
+
     return (
-        <>
-            {
+        <Container>
+            {transition((style, isInputVisible) =>
                 isInputVisible ?
-                    <NewMealInputContainer>
-                        <NewMealInput onFocus={showMealListContainer} onBlur={hideMealListContainer} />
+                    <NewMealInputContainer style={style}>
+                        <NewMealInput onFocus={showMealListContainer} onBlur={hideMealListContainer} onChange={onChangeInputValue} />
                         <CancelButton onClickHandler={hideInput} />
                         {showMealList ?
                             <NewMealListContainer>
-                                {existingMeals.map(meal => <MealListItem addMealHandler={addMealHandler} mealId={meal.id}>{meal.name}</MealListItem>)}
+                                {mealList.map(meal => <MealListItem addMealHandler={addMealHandler} mealId={meal.id}>{meal.name}</MealListItem>)}
                             </NewMealListContainer>
                             : ""
                         }
                     </NewMealInputContainer>
                     :
-                    <AddButton onClickHandler={showInput} />
-            }
-        </>
+                    <AddButton springStyle={style} onClickHandler={showInput} />
+            )}
+        </Container>
     )
 }
 

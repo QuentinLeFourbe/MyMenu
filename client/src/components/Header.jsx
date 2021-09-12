@@ -29,17 +29,18 @@ const HeaderLink = styled(Link)`
     color:black;
 `;
 
-function Header(props) {
-    const { user, show } = props;
+function Header({ user, show })
+{
 
     const headerTransition = useTransition(show, {
         from: { y: -50, opacity: 0 },
         enter: { y: 0, opacity: 1 },
         leave: { y: -50, opacity: 0 },
-        config: config.tight,
+        config: config.default,
     })
 
-    const logout = () => {
+    const logout = () =>
+    {
         window.location.href = "api/users/logout";
     }
 
@@ -49,7 +50,7 @@ function Header(props) {
                 <Title>Mes petits menus</Title>
             </HeaderLink>
             {user != null ?
-                <QuickMenu/>
+                <QuickMenu />
                 : ""}
         </Container >)
     )
