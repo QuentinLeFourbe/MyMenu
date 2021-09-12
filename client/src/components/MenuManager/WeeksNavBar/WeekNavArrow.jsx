@@ -8,6 +8,9 @@ const ArrowButton = styled(animated.button)`
     justify-content: center;
     align-items: center;
     font-size:2rem;
+    @media (max-width: 600px){
+        font-size: 1.5rem;
+    }
     padding: 0px;
     border: none;
     background: none;

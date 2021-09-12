@@ -11,18 +11,20 @@ const NewMealInputContainer = styled(animated.div)`
     display: flex;
     flex-flow: row nowrap;
     position: absolute;
+    left: 0;
+    right: 0;
+    max-width: 500px;
 `;
 
 const NewMealInput = styled.input`
-    width: 20vw;
+    width: 100%;
     font-size: 1rem;
-    padding: 0.5rem;
+    padding: 0.5rem 8px 0.5rem 8px;
     border-radius: 8px;
     /* border: none; */
     border: 1px solid lightgrey;
     background-color: white;
     /* background-color: #f3f3f5; */
-
     &:focus{
         outline: 2px solid #b8ceff;
         border-color: transparent;
@@ -31,7 +33,9 @@ const NewMealInput = styled.input`
 
 const NewMealListContainer = styled.div`
     position: absolute;
-    width: 20vw;
+    /* width: 20vw; */
+    left: 0;
+    right:-16px;
     display: flex;
     flex-direction: column;
     max-height: 60vh;
@@ -40,8 +44,10 @@ const NewMealListContainer = styled.div`
     border-radius: 8px;
     box-shadow: 0px 1px 5px 3px rgba(0,0,0,0.12);
     overflow: auto;
-    margin-left: 8px;
-    margin-top : 42px;
+
+    /* margin-left: 8px; */
+    margin-top : 4px;
+    
     z-index: 1;
 
 `;
@@ -103,19 +109,22 @@ function AddMealComponent({ addMealHandler })
             {transition((style, isInputVisible) =>
                 isInputVisible ?
                     <NewMealInputContainer style={style}>
-                        <NewMealInput onFocus={showMealListContainer} onBlur={hideMealListContainer} onChange={onChangeInputValue} />
+                        <div style={{ position: 'relative', flexGrow: 1 }}>
+                            <NewMealInput onFocus={showMealListContainer} onBlur={hideMealListContainer} onChange={onChangeInputValue} />
+
+                            {showMealList &&
+                                <NewMealListContainer>
+                                    {mealList.map(meal => <MealListItem addMealHandler={addMealHandler} mealId={meal.id}>{meal.name}</MealListItem>)}
+                                </NewMealListContainer>
+                            }
+                        </div>
                         <CancelButton onClickHandler={hideInput} />
-                        {showMealList ?
-                            <NewMealListContainer>
-                                {mealList.map(meal => <MealListItem addMealHandler={addMealHandler} mealId={meal.id}>{meal.name}</MealListItem>)}
-                            </NewMealListContainer>
-                            : ""
-                        }
                     </NewMealInputContainer>
                     :
                     <AddButton springStyle={style} onClickHandler={showInput} />
-            )}
-        </Container>
+            )
+            }
+        </Container >
     )
 }
 

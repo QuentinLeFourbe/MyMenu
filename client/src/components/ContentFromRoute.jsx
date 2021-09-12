@@ -80,16 +80,16 @@ function ContentFromRoute()
                         <ScrollToTop />
                         <Switch>
 
-                            {(dataState.user == null && location.pathname !== "/auth") ?
+                            {(dataState.user == null) ?
                                 <Route path="/">
-                                    <Redirect to="/auth" />
+                                    <Redirect to="/" />
                                 </Route>
                                 :
                                 ""
                             }
 
                             <Route exact path="/">
-                                <MenusManager />
+                                {dataState.user == null ? <Authentification /> : <MenusManager />}
                             </Route>
 
                             <Route exact path="/meals">

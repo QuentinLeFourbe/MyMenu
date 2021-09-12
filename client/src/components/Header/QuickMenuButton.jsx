@@ -10,10 +10,11 @@ const MenuButtonContainer = styled(animated.button)`
     background-color: transparent;
     border: none;
     border-radius: 10px;
-    font-size: 50px;
+    }
 `;
 
-function QuickMenuButton(props) {
+function QuickMenuButton(props)
+{
     const { showMenu } = props;
     const [isHovered, setIsHovered] = useState(false);
 
@@ -22,7 +23,7 @@ function QuickMenuButton(props) {
         config: config.tight,
     });
 
-    
+
 
     return (
         <MenuButtonContainer style={spring}  >

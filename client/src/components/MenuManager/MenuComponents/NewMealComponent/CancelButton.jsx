@@ -4,12 +4,11 @@ import { animated, useSpring, config } from 'react-spring';
 import CancelIcon from '@material-ui/icons/Cancel';
 
 const Button = styled(animated.button)`
-    margin-left: 1rem;
     border: none;
     background-color: transparent;
     margin: 0px;
     padding: 0px;
-    margin-left: 1rem;
+    margin-left: 2rem;
     cursor: pointer;
 `;
 

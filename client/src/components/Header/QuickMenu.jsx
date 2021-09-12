@@ -18,16 +18,14 @@ const MenuButtonContainer = styled(animated.button)`
     border: none;
     border-radius: 10px;
     font-size: 50px;
+    @media(max-width: 600px){
+        font-size: 40px;
+    }
 `;
 
 function QuickMenu()
 {
     const [showMenu, setShowMenu] = useState(false);
-
-    const buttonSpring = useSpring({
-        color: showMenu ? "#ff6f61" : "black",
-        config: config.tight,
-    });
 
     const menuTransition = useTransition(showMenu, {
         from: { opacity: 0, },

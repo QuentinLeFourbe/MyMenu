@@ -77,7 +77,7 @@ function MealsManager()
                     .includes(filter.search.toLowerCase())
             );
 
-        filteredMeals.sort((meal1, meal2) => meal1.name > meal2.name);
+        filteredMeals.sort((meal1, meal2) => meal1.name.toLowerCase() > meal2.name.toLowerCase());
         if (filter.sort === SortType.Z_A)
         {
             filteredMeals = filteredMeals.reverse();
@@ -120,6 +120,7 @@ function MealsManager()
 
     const onDeleteMeal = async (mealId) =>
     {
+        console.log("Delete meal ! " + mealId);
         await deleteMeal(mealId).then(() =>
         {
             dataDispatch({ type: 'DELETE_MEAL', payload: mealId })
@@ -138,7 +139,7 @@ function MealsManager()
     useEffect(() =>
     {
         let meals = dataState.meals;
-        meals.sort((meal1, meal2) => meal1.name > meal2.name);
+        meals.sort((meal1, meal2) => meal1.name.toLowerCase() > meal2.name.toLowerCase());
         setFilterData({ ...filterData, meals: meals });
     }, [dataState.meals])
 

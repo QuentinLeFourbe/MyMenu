@@ -8,7 +8,7 @@ const Button = styled(animated.button)`
     background-color: white;
     cursor: pointer;
     width: 100%;
-    margin: 8px;
+    padding: 0;
 `;
 
 const Container = styled(animated.div)`
@@ -17,6 +17,10 @@ const Container = styled(animated.div)`
     bottom: 0;
     left: 0;
     right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 8px;
 `;
 
 function AddButton({ onClickHandler, springStyle })

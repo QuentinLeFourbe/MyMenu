@@ -6,15 +6,21 @@ import { useSpring, animated } from 'react-spring'
 const WeekNumber = styled(animated.label)`
     font-family: "Times New Roman", Times, serif;
     font-size: 2rem;
+    
     border-radius: 50%;
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 1rem;
+    @media (max-width: 600px){
+        font-size: 1.5rem;
+        margin: 0.5rem;
+    }
 `;
 
-function WeekNumberButton(props) {
+function WeekNumberButton(props)
+{
     const { children, selected, outter, inner } = props;
 
     const textColor = outter ? "lightgrey" : (inner ? "grey" : "black");

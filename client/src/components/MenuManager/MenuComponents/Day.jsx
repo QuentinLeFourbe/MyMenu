@@ -17,8 +17,13 @@ const Container = styled.div`
 const Menus = styled.div`
     display: flex;
     flex-flow: row nowrap;
-    align-items: stretch;
-    flex-grow:1;
+    /* flex-flow: row nowrap; */
+
+    @media (max-width: 600px){
+        flex-flow: column nowrap;
+    }
+    /* align-items: stretch; */
+    /* flex-grow:1; */
 `;
 
 const Title = styled.div`

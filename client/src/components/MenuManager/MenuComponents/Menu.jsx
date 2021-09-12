@@ -9,16 +9,22 @@ import { AddMealToMenu, CreateMenu, FetchMeals, GetNewMenu, UpdateMenu } from '.
 import { animated, useSpring, config } from 'react-spring'
 
 const Container = styled.div`
-    margin: 0 1rem 0 1rem;
+    /* margin: 0 1rem 0 1rem; */
     border-left: ${props => props.first ? "0px" : "1px"} solid lightgrey;
+    
     border-radius: 1px;
     /* flex-grow: 1; */
     /* width: 30vw; */
     display: flex;
     flex-flow: column wrap;
     width: 50%;
-    padding-left: 8px;
-
+    /* padding-left: 8px; */
+    @media (max-width: 600px){
+        border-top: ${props => props.first ? "0px" : "1px"} solid lightgrey;
+        border-left: none;
+        width: auto;
+        margin-top: 1rem;
+    }
 `;
 
 const MealList = styled(animated.div)`

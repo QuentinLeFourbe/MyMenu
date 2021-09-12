@@ -10,7 +10,7 @@ const Container = styled(animated.header)`
     /* background-color: #ff6f61; */
     grid-area: header;
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     align-items: center;
     /* justify-content: center; */
     border-bottom: 1px solid lightgrey;
@@ -22,6 +22,10 @@ const Title = styled(animated.h1)`
     font-size: 6rem;
     display:flex;
     flex-flow: row nowrap;
+
+    @media(max-width: 600px){
+        font-size: 3rem;
+    }
 `;
 
 const HeaderLink = styled(Link)`

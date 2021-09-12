@@ -162,7 +162,7 @@ function MealEditForm(props)
 
     const onDelete = () =>
     {
-        onDeleteMeal(mealEdited.id);
+        onDeleteMeal(mealEdited._id);
         hideFunc();
     }
 
