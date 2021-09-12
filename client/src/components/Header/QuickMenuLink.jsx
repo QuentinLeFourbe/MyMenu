@@ -11,7 +11,7 @@ const Container = styled(animated.div)`
 `;
 
 function QuickMenuLink(props) {
-    const { children, linkRef } = props;
+    const { children, linkRef, onClickLinkHandler } = props;
     const [isHovered, setIsHovered] = useState(false);
 
     const spring = useSpring({
@@ -35,7 +35,7 @@ function QuickMenuLink(props) {
 
     return (
         <Container  style={spring} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-            <Link style={{textDecoration: "none", color: "white"}} to={linkRef}>
+            <Link onClick={onClickLinkHandler} style={{textDecoration: "none", color: "white"}} to={linkRef}>
                 {children}
             </Link> 
         </Container>

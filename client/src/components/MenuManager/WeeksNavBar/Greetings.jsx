@@ -14,11 +14,17 @@ overflow: hidden;
 const DayLabel = styled.label`
     font-family: "Times New Roman", Times, serif;
     font-size: 4rem;
+    @media(max-width: 600px){
+        font-size: 2rem;
+    }
 `;
 
 const HelloContainer = styled.div`
     /* margin: 1rem; */
     font-size: 1.5rem;
+    @media(max-width: 600px){
+        font-size: 1rem;
+    }
 `;
 
 function Greetings()
@@ -26,7 +32,7 @@ function Greetings()
     dayjs.extend(weekOfYear);
 
     const spring = useSpring({
-        from: {opacity: 0, x: -30,},
+        from: { opacity: 0, x: -30, },
         opacity: 1,
         x: 0,
         config: config.molasses,

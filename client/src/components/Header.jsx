@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { useSpring, animated, config, useTransition, useTrail } from 'react-spring'
 import { Link } from 'react-router-dom'
 import QuickMenu from './Header/QuickMenu';
+import { useMediaQuery } from '../Hooks/useMediaQuery';
+import MobileMenu from './Header/MobileMenu';
 
 const Container = styled(animated.header)`
     padding: 2vh 0 5vh 0;
@@ -35,6 +37,7 @@ const HeaderLink = styled(Link)`
 
 function Header({ user, show })
 {
+    let isScreenBig = useMediaQuery('(min-width: 995px)')
 
     const headerTransition = useTransition(show, {
         from: { y: -50, opacity: 0 },
@@ -54,7 +57,9 @@ function Header({ user, show })
                 <Title>Mes petits menus</Title>
             </HeaderLink>
             {user != null ?
-                <QuickMenu />
+                (isScreenBig ?
+                    <QuickMenu /> : <MobileMenu />
+                )
                 : ""}
         </Container >)
     )

@@ -23,6 +23,17 @@ const MenuButtonContainer = styled(animated.button)`
     }
 `;
 
+const SidePanel = styled(animated.div)`
+    display: flex;
+    flex-flow: column nowrap;
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100vh;
+    background: #ff6e61df;
+    color: white;
+`;
+
 function QuickMenu()
 {
     const [showMenu, setShowMenu] = useState(false);
@@ -49,9 +60,9 @@ function QuickMenu()
         <Container onMouseEnter={buttonMouseEnter} onMouseLeave={buttonMouseLeave}>
             {menuTransition((style, isMenuShowed) =>
                 isMenuShowed ? (
-                    <animated.div style={style}>
+                    <SidePanel style={style}>
                         <QuickMenuContainer show={showMenu} />
-                    </animated.div>
+                    </SidePanel>
                 )
                     :
                     (

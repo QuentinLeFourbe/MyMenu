@@ -31,8 +31,7 @@ const menuItems = [
 
 ]
 
-function QuickMenuContainer(props) {
-    const { show } = props;
+function QuickMenuContainer({onClickLinkHandler}) {
 
     const itemsTrail = useTrail(menuItems.length, {
         from: { opacity: 0, x: -20 },
@@ -42,15 +41,13 @@ function QuickMenuContainer(props) {
     });
 
     return (
-        <Container>
-            {
+        // <Container>
                 itemsTrail.map((style, i) => (
                     <animated.div style={style}>
-                        <QuickMenuLink linkRef={menuItems[i].path}>{menuItems[i].name}</QuickMenuLink>
+                        <QuickMenuLink onClickLinkHandler={onClickLinkHandler} linkRef={menuItems[i].path}>{menuItems[i].name}</QuickMenuLink>
                     </animated.div>
                 ))
-            }
-        </Container>
+        // </Container>
     )
 }
 
