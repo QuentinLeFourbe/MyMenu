@@ -60,7 +60,7 @@ function Menu({ title, date, type, menuData, first, dataLoading })
         }
         else 
         {
-            const newMenu = GetNewMenu(date, type, mealId);
+            const newMenu = GetNewMenu(date, type, [mealId]);
             await CreateMenu(dataDispatch, newMenu);
             await FetchMeals(dataDispatch);
         }
@@ -71,6 +71,7 @@ function Menu({ title, date, type, menuData, first, dataLoading })
 
     useEffect(() =>
     {
+        // await new Promise(r => setTimeout(r, 500));
         setShowMenu(!dataLoading);
     }, [dataLoading])
 

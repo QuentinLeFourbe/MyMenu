@@ -159,7 +159,7 @@ function MenusManager()
     const weekChanged = async (startDate, endDate) =>
     {
         setIsDataLoading(true);
-        await new Promise(r => setTimeout(r, 500));
+        // await new Promise(r => setTimeout(r, 500));
         await FetchMenus(dataDispatch, startDate, endDate)
             .then(async () => 
             {

@@ -49,6 +49,8 @@ function Meal(props)
         // border: (isHovered || isDragging) ? "1px dashed lightgrey" : "1px solid lightgrey",
         // backgroundColor: (isHovered || isDragging) ? "#fda59c" : "white",
         config: config.tight,
+        from: {opacity: 0},
+        opacity: 1,
     })
 
     const onMouseEnter = () =>

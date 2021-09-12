@@ -100,7 +100,7 @@ function AddMealComponent({ addMealHandler })
         from: { opacity: 0 },
         enter: { opacity: 1, },
         leave: { opacity: 0, },
-        trail: 500,
+        trail: 150,
         config: config.tight,
     })
 

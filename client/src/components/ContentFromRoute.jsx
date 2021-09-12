@@ -96,10 +96,6 @@ function ContentFromRoute()
                                 <MealsManager />
                             </Route>
 
-                            <Route exact path="/auth">
-                                {dataState.user == null ? <Authentification /> : <Redirect to="/" />}
-                            </Route>
-
                             <Route exact path="/about">
                                 <About />
                             </Route>
