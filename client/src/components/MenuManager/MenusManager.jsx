@@ -26,8 +26,8 @@ function MenusManager()
 
         if (menu === undefined)
         {
-            console.log("Cannot find menu " + menuId + " !! menus:");
-            console.log(weekDates.menus);
+            console.error("Cannot find menu " + menuId + " !! menus:");
+            console.log(dataState.menus);
             return;
         }
         const indexOfMealToRemove = menu.meals.findIndex(menuMealId => menuMealId === mealId);

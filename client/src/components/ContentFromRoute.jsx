@@ -34,18 +34,12 @@ function ContentFromRoute()
 
     useEffect(() =>
     {
-        console.log(`prev location ? ${previousLocation}`);
-        console.log(`location ? ${location.pathname}`);
 
         if (previousLocation != location.pathname)
         {
             setShowLoading(true);
             setPreviousLocation(location.pathname);
-            console.log("Boum dif")
         }
-
-
-        console.log(`show loading ? ${showLoading}`);
     })
 
     useEffect(async () =>

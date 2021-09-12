@@ -114,7 +114,7 @@ function AddMealComponent({ addMealHandler })
 
                             {showMealList &&
                                 <NewMealListContainer>
-                                    {mealList.map(meal => <MealListItem addMealHandler={addMealHandler} mealId={meal.id}>{meal.name}</MealListItem>)}
+                                    {mealList.map((meal, index) => <MealListItem key={index} addMealHandler={addMealHandler} mealId={meal.id}>{meal.name}</MealListItem>)}
                                 </NewMealListContainer>
                             }
                         </div>
