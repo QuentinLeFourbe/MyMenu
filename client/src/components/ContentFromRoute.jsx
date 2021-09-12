@@ -82,14 +82,14 @@ function ContentFromRoute()
 
                             {(dataState.user == null) ?
                                 <Route path="/">
-                                    <Redirect to="/" />
+                                    <Authentification />
                                 </Route>
                                 :
                                 ""
                             }
 
                             <Route exact path="/">
-                                {dataState.user == null ? <Authentification /> : <MenusManager />}
+                                <MenusManager />
                             </Route>
 
                             <Route exact path="/meals">
