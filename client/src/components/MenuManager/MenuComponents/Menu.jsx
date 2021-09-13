@@ -64,9 +64,6 @@ function Menu({ title, date, type, menuData, first, dataLoading })
             await CreateMenu(dataDispatch, newMenu);
             await FetchMenus(dataDispatch, dataState.weekDates.startDate, dataState.weekDates.endDate);
         }
-
-        console.log(mealId);
-        console.log("mealId");
     }
 
     useEffect(() =>
