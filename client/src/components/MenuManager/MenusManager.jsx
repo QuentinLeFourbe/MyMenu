@@ -62,6 +62,8 @@ function MenusManager()
 
     const SyncDataState = (stateMenus, updatedMenus) =>
     {
+        console.log("updatedMenus");
+        console.log(updatedMenus);
         updatedMenus.forEach(menu =>
         {
             let menuIndex = stateMenus.findIndex(menuElem => menu._id === menuElem._id);

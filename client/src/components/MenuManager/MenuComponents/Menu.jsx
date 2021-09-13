@@ -5,7 +5,7 @@ import Meal from './Meal'
 import dayjs from 'dayjs';
 import { AppContext } from '../../../AppContext';
 import AddMealComponent from './NewMealComponent/AddMealComponent';
-import { AddMealToMenu, CreateMenu, FetchMeals, GetNewMenu, UpdateMenu } from '../../../Helpers/DataHelper';
+import { AddMealToMenu, CreateMenu, FetchMeals, FetchMenus, GetNewMenu, UpdateMenu } from '../../../Helpers/DataHelper';
 import { animated, useSpring, config } from 'react-spring'
 
 const Container = styled.div`
@@ -62,7 +62,7 @@ function Menu({ title, date, type, menuData, first, dataLoading })
         {
             const newMenu = GetNewMenu(date, type, [mealId]);
             await CreateMenu(dataDispatch, newMenu);
-            await FetchMeals(dataDispatch);
+            await FetchMenus(dataDispatch, dataState.weekDates.startDate, dataState.weekDates.endDate);
         }
 
         console.log(mealId);

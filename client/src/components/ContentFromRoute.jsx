@@ -18,6 +18,7 @@ import ScrollToTop from './Utility/ScrollToTop';
 import MealsManager from './MealManagement/MealsManager';
 import MenusManager from './MenuManager/MenusManager';
 import { FetchMeals } from '../Helpers/DataHelper';
+import Logout from './Logout';
 
 function ContentFromRoute()
 {
@@ -93,6 +94,11 @@ function ContentFromRoute()
                             <Route exact path="/about">
                                 <About />
                             </Route>
+
+                            <Route exact path="/logout">
+                                <Logout />
+                            </Route>
+
                         </Switch>
                         {/* <Footer /> */}
                     </>)
