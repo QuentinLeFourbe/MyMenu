@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
+import { logOut } from '../api'
 
 
-function Logout() {
+function Logout()
+{
+
+    useEffect(async () =>
+    {
+        await logOut();
+        console.log("Hey tchao");
+    }, [])
+
     return (
         <div>
-            
+
         </div>
     )
 }

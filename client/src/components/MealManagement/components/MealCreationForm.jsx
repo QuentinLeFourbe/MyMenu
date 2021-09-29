@@ -105,7 +105,6 @@ function MealCreationForm()
 
     const saveMeal = async (data) =>
     {
-
         const meal = { ...data, mealImage: data.mealImage[0] };
 
         var formData = new FormData();
@@ -113,11 +112,10 @@ function MealCreationForm()
         {
             formData.append(key, meal[key]);
         }
-
         await createMeal(formData)
-            .then(() => 
+            .then(response => 
             {
-                dataDispatch({ type: 'CREATE_MEALS', payload: formData })
+                dataDispatch({ type: 'meals/create', payload: response.data })
             })
             .catch(error =>
             {
@@ -126,7 +124,7 @@ function MealCreationForm()
 
         await fetchMeals().then(response =>
         {
-            dataDispatch({ type: 'FETCH_MEALS', payload: response.data })
+            dataDispatch({ type: 'meals/fetch', payload: response.data })
         })
     }
 

@@ -43,6 +43,9 @@ export const getSession = async () => {
    return axios.get("/api/session", { withCredentials: true })
 }
 
+export const logOut = async() => {
+   return axios.get("/api/users/logout");
+}
 
 //////Test timer\\\\\\\\
 export const threeSecApiCall = async () => {

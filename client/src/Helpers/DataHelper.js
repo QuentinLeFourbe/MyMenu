@@ -1,19 +1,18 @@
-import { createMenu, fetchMeals, getMenusBetweenDates, updateMenu } from "../api";
+import { createMenu, deleteMenu, fetchMeals, getMenusBetweenDates, updateMenu } from "../api";
 
-export const GetNewMenu = (date, type, mealsIds) =>
+export const FetchMenus = async (dataDispatch, startDate, endDate) =>
 {
-    const newMenu = {
-        date: date,
-        meals: mealsIds,
-        type: type
-    }
-
-    return newMenu;
-}
-
-export const AddMealToMenu = (mealId, menu, mealIndex) =>
-{
-    mealIndex === undefined ? menu.meals.push(mealId) : menu.meals.splice(mealIndex, 0, mealId);
+    await getMenusBetweenDates(startDate, endDate)
+        .then(response =>
+        {
+            console.log(`Fetch menus result for startDate: ${startDate} and endDate: ${endDate} : `);
+            console.log(response.data);
+            dataDispatch({ type: 'menus/fetch', payload: response.data })
+        })
+        .catch(error =>
+        {
+            console.error("Error: " + error.message)
+        })
 }
 
 export const UpdateMenu = async (dataDispatch, menu) =>
@@ -27,11 +26,44 @@ export const UpdateMenu = async (dataDispatch, menu) =>
     await updateMenu(menu._id, menu)
         .then(() =>
         {
-            dataDispatch({ type: "UPDATE_MENU", payload: menu })
+            dataDispatch({ type: "menus/update", payload: menu })
         }).catch(err =>
         {
             console.error(err);
         });
+}
+
+export const GetNewMenu = (date, type, mealsIds) =>
+{
+    const newMenu = {
+        date: date,
+        meals: mealsIds,
+        type: type
+    }
+
+    return newMenu;
+}
+
+export const AddMealToMenu = (mealId, menu, index) =>
+{
+    if (menu === undefined)
+    {
+        console.error("Menu undefined");
+        return;
+    }
+
+    let resMenu = { ...menu };
+    if (index !== undefined)
+    {
+        const firstPart = menu.meals.slice(0, index);
+        const secondPart = menu.meals.slice(index + 1);
+        resMenu = { ...menu, meals: firstPart.concat([mealId], secondPart) };
+    } else
+    {
+        resMenu = { ...menu, meals: [...menu.meals, mealId] };
+    }
+
+    return resMenu;
 }
 
 //Add meals to a new menu, send it to the DB and update the global state
@@ -40,7 +72,7 @@ export const CreateMenu = async (dataDispatch, menu) =>
     await createMenu(menu)
         .then(() =>
         {
-            dataDispatch({ type: "CREATE_MENU", payload: menu })
+            dataDispatch({ type: "menus/create", payload: menu })
         });
 }
 
@@ -49,7 +81,7 @@ export const FetchMeals = async (dataDispatch) =>
     await fetchMeals()
         .then(response =>
         {
-            dataDispatch({ type: 'FETCH_MEALS', payload: response.data })
+            dataDispatch({ type: 'meals/fetch', payload: response.data })
         })
         .catch(error =>
         {
@@ -57,28 +89,36 @@ export const FetchMeals = async (dataDispatch) =>
         });
 }
 
-export const FetchMenus = async (dataDispatch, startDate, endDate) =>
-{
-    await getMenusBetweenDates(startDate.format('MM-DD-YYYY'), endDate.format('MM-DD-YYYY'))
-        .then(response =>
-        {
-            dataDispatch({ type: 'FETCH_MENUS', payload: response.data })
-        })
-        .catch(error =>
-        {
-            console.error("Error: " + error.message)
-        })
-}
 
 export const RemoveMealFromMenu = (mealId, menu) =>
 {
+
     if (menu === undefined)
     {
-        console.log("Menu undefined");
+        console.error("Menu is undefined");
         return;
     }
 
-    const indexOfMealToRemove = menu.meals.findIndex(menuMealId => menuMealId === mealId);
-    menu.meals.splice(indexOfMealToRemove, 1);
+    const resMenu = { ...menu, meals: menu.meals.filter(id => id !== mealId) }
+    return resMenu;
 }
 
+export const DeleteMultipleMenus = async (dataDispatch, menus) =>
+{
+    if (menus === undefined)
+    {
+        console.error("Menu  undefined");
+        return;
+    }
+    await menus.forEach(menu =>
+    {
+        deleteMenu(menu._id)
+            .then(() =>
+            {
+                dataDispatch({ type: "menus/delete", payload: menu._id })
+            }).catch(err =>
+            {
+                console.error(err);
+            })
+    });
+}

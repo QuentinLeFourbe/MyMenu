@@ -43,7 +43,7 @@ function QuickMenuContainer({onClickLinkHandler}) {
     return (
         // <Container>
                 itemsTrail.map((style, i) => (
-                    <animated.div style={style}>
+                    <animated.div style={style} key={i}>
                         <QuickMenuLink onClickLinkHandler={onClickLinkHandler} linkRef={menuItems[i].path}>{menuItems[i].name}</QuickMenuLink>
                     </animated.div>
                 ))

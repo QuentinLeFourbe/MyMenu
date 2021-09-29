@@ -13,7 +13,7 @@ overflow: hidden;
 
 const DayLabel = styled.label`
     font-family: "Times New Roman", Times, serif;
-    font-size: 4rem;
+    font-size: 3rem;
     @media(max-width: 600px){
         font-size: 2rem;
     }
@@ -21,10 +21,8 @@ const DayLabel = styled.label`
 
 const HelloContainer = styled.div`
     /* margin: 1rem; */
-    font-size: 1.5rem;
-    @media(max-width: 600px){
-        font-size: 1rem;
-    }
+    font-size: 0.8rem;
+    margin-bottom: -8px;
 `;
 
 function Greetings()

@@ -9,7 +9,14 @@ router.use(authenticateAPI);
 
 router.get("/fetch", getUsers);
 router.delete("/:id", deleteUser);
-router.get("/logout", logoutUser);
+// router.get("/logout", logoutUser);
+router.get('/logout', function (req, res)
+{
+    req.session.destroy(function (err)
+    {
+        res.redirect('/'); //Inside a callback… bulletproof!
+    });
+});
 
 router.get('/', getUsers);
 

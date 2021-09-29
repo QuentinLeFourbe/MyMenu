@@ -1,62 +1,69 @@
 
 
-export const dataReducer = (dataState, action) => {
-    switch (action.type) {
-        case 'FETCH_MEALS':
+export const dataReducer = (dataState, action) =>
+{
+    switch (action.type)
+    {
+        case 'meals/fetch':
             return { ...dataState, meals: action.payload };
-        case 'CREATE_MEAL':
+        case 'meals/create':
             return { ...dataState, meals: [...dataState.meals, action.payload] };
-        case 'DELETE_MEAL': {
+        case 'meals/delete': {
             let mealIndex = dataState.meals.findIndex(meal => meal.id === action.payload);
             return { ...dataState, meals: dataState.meals.splice(mealIndex, 1) };
         }
-        case 'UPDATE_MEAL': {
+        case 'meals/update': {
             let mealIndex = dataState.meals.findIndex(meal => meal.id === action.payload.id);
             return { ...dataState, meals: dataState.meals.splice(mealIndex, 1, action.payload) };
         }
         ////////////////////////Menus
-        case 'FETCH_MENUS':
+        case 'menus/fetch':
             if (action.payload === undefined)
                 console.error("Payload undefined !");
             return { ...dataState, menus: action.payload };
-        case 'CREATE_MENU':
+        case 'menus/create':
             if (action.payload === undefined)
                 console.error("Payload undefined !");
             return { ...dataState, menus: [...dataState.menus, action.payload] };
-        case 'DELETE_MENU': {
+        case 'menus/delete': {
             if (action.payload === undefined)
                 console.error("Payload undefined !");
-            let menuIndex = dataState.menus.findIndex(menu => menu._id === action.payload);
-            dataState.menus.splice(menuIndex, 1);
-            return { ...dataState };
+            const menuToRemoveId = action.payload;
+            const menusWithTheMenuRemoved = dataState.menus.filter(menu => menu._id !== menuToRemoveId);
+            return { ...dataState, menus: menusWithTheMenuRemoved };
         }
-        case 'UPDATE_MENU': {
-            if (action.payload === undefined) {
+        case 'menus/update': {
+            if (action.payload === undefined)
+            {
                 console.error("Payload undefined !");
                 return { ...dataState };
             }
-            let menuIndex = dataState.menus.findIndex(menu => menu._id === action.payload._id);
-            dataState.menus.splice(menuIndex, 1, action.payload);
-            return { ...dataState };
+            const updatedMenu = action.payload;
+            const menuWithUpdatedItem = dataState.menus.map(menu => menu._id === updatedMenu._id ? updatedMenu : menu);
+            return { ...dataState, menus: menuWithUpdatedItem };
         }
-        case 'ADD_OR_UPDATE_MENUS': { //Add or update multiple menus at the same time, from an array of menus
+        case 'menus/updateMultiple': { //Add or update multiple menus at the same time, from an array of menus
             if (action.payload === undefined || action.payload.length === 0)
                 console.error("Payload undefined or array length is 0 !");
-            const menus = action.payload;
-            menus.array.forEach(menu => {
-                let menuIndex = dataState.menus.findIndex(menuElem => menu._id === menuElem._id);
-                if (menuIndex !== -1) { //-1 means the menu is not found
-                    dataState.menus.splice(menuIndex, 1, menu);
-                } else {
-                    dataState.menus.push(menu)
-                }
-            });
-            return { ...dataState };
+            const menus = [...action.payload];
+            console.log("Reducer: update multiple ; menus to update: ");
+            console.log(menus);
+            const updatedMenus = dataState.menus.map(menu =>
+            {
+                const matchedMenu = menus.find(updatedMenu => updatedMenu._id === menu._id);
+                return matchedMenu === undefined ? menu : matchedMenu;
+            })
+
+            menus.forEach(menu => menu._id === undefined ? updatedMenus.push(menu) : "");
+            console.log("Reducer: update multiple ; updatedMenus: ");
+            console.log(updatedMenus);
+            return { ...dataState, menus: updatedMenus };
         }
 
         //User logged in after google oauth
         case 'USER_LOGIN': {
-            if (action.payload === undefined) {
+            if (action.payload === undefined)
+            {
                 console.error("Payload undefined !");
                 return { ...dataState };
             }
@@ -67,7 +74,7 @@ export const dataReducer = (dataState, action) => {
         }
 
         case 'weekDates/update': {
-            return {...dataState, weekDates: action.payload};
+            return { ...dataState, weekDates: action.payload };
         }
 
         default:

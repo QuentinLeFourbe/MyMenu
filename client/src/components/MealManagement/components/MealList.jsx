@@ -12,19 +12,21 @@ const Container = styled.div`
     margin: 1rem;
 `;
 
-function MealList(props) {
+function MealList(props)
+{
     const { meals, showMealOverlay } = props;
 
     return (
         <Container>
             {
-                meals.map(meal => (
+                meals.map((meal, index) => (
                     <MealItem
-                        onClickCb={(e) => {
+                        onClickCb={(e) =>
+                        {
                             e.preventDefault();
                             showMealOverlay(meal.id);
                         }}
-                        key={meal.id}
+                        key={index}
                         image={meal.mealImage}
                         name={meal.name}
                     />
