@@ -105,37 +105,23 @@ export const deleteMeal = async (req, res) =>
 {
     try
     {
-        const id = req.params.id;
-        const deletedMeal = await Meal.deleteOne({ _id: id, user: req.user.id });
-        // const mealToDelete = await Meal.findOne({ _id: id, user: req.user.id });
-        const deletedMealId = `${deletedMeal.id}`;
+        const deletedMealId = req.params.id;
+        const deletedMeal = await Meal.deleteOne({ _id: deletedMealId, user: req.user.id });
         const menusContainingTheDeletedMeal = await Menu.find({ meals: { $elemMatch: { $eq: deletedMealId } } });
-        const menusUpdateAndDeletePromises = menusContainingTheDeletedMeal.map(menu =>
+        menusContainingTheDeletedMeal.forEach(async (menu) =>
         {
             const menuMealsWithoutTheDeletedMeal = menu.meals.filter(mealId => mealId !== deletedMealId);
 
-            const menuContainsMeals = mealsWithoutTheDeletedMeal.length === 0
-            if (menuContainsMeals === false)
+            const doesMenuStillContainsMeals = menuMealsWithoutTheDeletedMeal.length !== 0
+            if (doesMenuStillContainsMeals)
             {
-                return Menu.deleteOne({ _id: { $eq: menu._id } });
+                await Menu.updateOne({ _id: { $eq: menu._id } }, { $set: { meals: menuMealsWithoutTheDeletedMeal } })
             } else
             {
-                return Menu.updateOne({ _id: { $eq: menu._id } }, { $set: { meals: menuMealsWithoutTheDeletedMeal } })
+                await Menu.deleteOne({ _id: { $eq: menu._id } });
             }
 
         })
-        console.log("////////////////Promise ALL /////////////////////");
-        Promise.all(menusUpdateAndDeletePromises)
-            .then((value) => console.log(value))
-            .catch(error => console.error(error));
-
-        // console.log("meal");
-        // console.log(meal);
-        // console.log("mealId");
-        // console.log(mealId);
-        // console.log("menusWithThisMeal");
-        // console.log(menusWithThisMeal);
-        // res.status(200);
         res.status(200).json(deletedMeal);
     }
     catch (error)

@@ -40,12 +40,6 @@ function Menu({ title, date, type, menuData, first, dataLoading })
 {
     const { dataState, dataDispatch } = useContext(AppContext);
     const [showMenu, setShowMenu] = useState(false);
-    const initMenuState = {
-        date: date,
-        type: type,
-        meals: [],
-    }
-    const [menuState, setMenuState] = useState(initMenuState); //Will be menuData
     const [menuMeals, setMenuMeals] = useState([]); //Will store meals OBJECT
     let menuDroppableId = (menuData !== undefined && menuData._id !== undefined) ? menuData._id : dayjs(date).format('MM-DD-YYYY') + '_' + type;
 
@@ -54,7 +48,7 @@ function Menu({ title, date, type, menuData, first, dataLoading })
     {
         if (menuData !== undefined && menuData._id !== undefined)
         {
-            await UpdateMenu(dataDispatch, { ...menuState, meals: [...menuState.meals, mealId] })
+            await UpdateMenu(dataDispatch, { ...menuData, meals: [...menuData.meals, mealId] })
         }
         else 
         {
@@ -66,7 +60,7 @@ function Menu({ title, date, type, menuData, first, dataLoading })
 
     const removeMeal = async (mealId) =>
     {
-        const menuWithRemovedMeal = { ...menuState, _id: menuState.id, meals: menuState.meals.filter(meal_id => meal_id !== mealId) }
+        const menuWithRemovedMeal = { ...menuData, _id: menuData._id, meals: menuData.meals.filter(meal_id => meal_id !== mealId) }
         await UpdateMenu(dataDispatch, menuWithRemovedMeal);
     }
 
@@ -77,11 +71,9 @@ function Menu({ title, date, type, menuData, first, dataLoading })
             setMenuMeals([]);
         }
 
-        const menuId = menuData !== undefined ? menuData._id : undefined;
         menuDroppableId = (menuData !== undefined && menuData._id !== undefined) ? menuData._id : dayjs(date).format('MM-DD-YYYY') + '_' + type;
-        const mealsIds = menuData !== undefined ? menuData.meals : [];
-
-        const menuMeals = mealsIds.map((mealId, index) =>
+        const menuMealsIds = menuData !== undefined ? menuData.meals : [];
+        const menuMeals = menuMealsIds.map((mealId, index) =>
         {
             const meal = dataState.meals.find(meal => meal.id === mealId)
             if (meal === undefined)
@@ -91,15 +83,7 @@ function Menu({ title, date, type, menuData, first, dataLoading })
             }
             return meal;
         });
-
         setMenuMeals(menuMeals);
-
-        setMenuState({
-            ...menuState,
-            id: menuId,
-            meals: mealsIds,
-        })
-
     }, [menuData])
 
     useEffect(async () =>
