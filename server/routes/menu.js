@@ -1,5 +1,5 @@
 import express from 'express';
-import { getMenu, createMenu, getAllMenus, updateMenu, getMenusBetweenDates as getMenusBetweenDates, deleteMenu, deleteAllMenus } from '../controllers/menus.js';
+import { getMenu, createMenu, getAllMenus, updateMenu, getMenusBetweenDates as getMenusBetweenDates, deleteMenu, deleteAllMenus, cleanMenus } from '../controllers/menus.js';
 import { authenticateAPI } from '../middleware/authenticateApi.js';
 
 
@@ -13,6 +13,7 @@ router.get('/', getAllMenus);
 router.post('/', createMenu);
 
 router.put('/:id', updateMenu);
+router.put('/cleanMenus', cleanMenus);
 
 router.delete('/:id', deleteMenu);
 router.delete('/', deleteAllMenus);

@@ -16,41 +16,14 @@ const Container = styled(animated.div)`
 
 function Meal(props)
 {
-    const { meal, parentId: parentid, isDragging } = props;
     const [isHovered, setIsHovered] = useState(false);
-
-    const { dataState, dataDispatch } = useContext(AppContext);
-
-    const onDeleteMeal = async () =>
-    {
-        const parentMenu = dataState.menus.find(menu => menu._id === parentid);
-
-        if (parentMenu === undefined)
-        {
-            console.error("Menu parent undefined");
-            return;
-        }
-
-        const mealIndex = parentMenu.meals.findIndex(mealItemId => mealItemId === meal.id);
-        parentMenu.meals.splice(mealIndex, 1); //Delete the meal
-        await updateMenu(parentid, parentMenu)
-            .then(response =>
-            {
-                dataDispatch({ type: "UPDATE_MENU", payload: parentMenu })
-            })
-            .catch(error =>
-            {
-                console.log("Error: " + error.message)
-            })
-    }
+    const {mealName,mealId, isDragging, removeMealHandler} = props
 
     const spring = useSpring({
         color: (isHovered || isDragging) ? "#fda59c" : "black",
         // border: (isHovered || isDragging) ? "1px dashed lightgrey" : "1px solid lightgrey",
         // backgroundColor: (isHovered || isDragging) ? "#fda59c" : "white",
         config: config.tight,
-        from: {opacity: 0},
-        opacity: 1,
     })
 
     const onMouseEnter = () =>
@@ -61,6 +34,10 @@ function Meal(props)
     const onMouseLeave = () =>
     {
         setIsHovered(false);
+    }
+
+    const deleteMeal = () => {
+        removeMealHandler(mealId)
     }
 
     return (
@@ -74,8 +51,8 @@ function Meal(props)
                 style={spring}
                 isDragging = {isDragging}
             >
-                {meal.name}
-                <DeleteMealButton deleteMeal={onDeleteMeal} />
+                {mealName}
+                <DeleteMealButton deleteMeal={deleteMeal} />
 
             </Container>
         </div>

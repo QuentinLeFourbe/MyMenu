@@ -105,7 +105,7 @@ function MealsManager()
         await updateMeal(mealId, formData)
             .then(() =>
             {
-                dataDispatch({ type: 'UPDATE_MEALS', payload: formData })
+                dataDispatch({ type: 'meals/update', payload: formData })
             })
             .catch(error =>
             {
@@ -114,13 +114,12 @@ function MealsManager()
 
         await fetchMeals().then(response =>
         {
-            dataDispatch({ type: 'FETCH_MEALS', payload: response.data })
+            dataDispatch({ type: 'meals/fetch', payload: response.data })
         })
     }
 
     const onDeleteMeal = async (mealId) =>
     {
-        console.log("Delete meal ! " + mealId);
         await deleteMeal(mealId).then(() =>
         {
             dataDispatch({ type: 'DELETE_MEAL', payload: mealId })
@@ -132,7 +131,7 @@ function MealsManager()
 
         await fetchMeals().then(response =>
         {
-            dataDispatch({ type: 'FETCH_MEALS', payload: response.data })
+            dataDispatch({ type: 'meals/fetch', payload: response.data })
         });
     }
 
@@ -141,7 +140,7 @@ function MealsManager()
         let meals = dataState.meals;
         meals.sort((meal1, meal2) => meal1.name.toLowerCase() > meal2.name.toLowerCase());
         setFilterData({ ...filterData, meals: meals });
-    }, [dataState.meals])
+    }, [dataState])
 
     const spring = useSpring({
         from: { opacity: 0 },

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import { AppContext } from '../../../../AppContext';
 import MealListItem from './MealListItem';
@@ -60,11 +60,11 @@ const Container = styled.div`
 
 function AddMealComponent({ addMealHandler })
 {
+    const { dataState } = useContext(AppContext);
     const [isInputVisible, setInputVisibility] = useState(false);
     const [showMealList, setshowMealList] = useState(false);
-    const { dataState } = useContext(AppContext);
     const [mealList, setMealList] = useState(dataState.meals);
-
+    const inputRef = useRef(null);
     const showInput = () =>
     {
         setInputVisibility(true);
@@ -96,6 +96,15 @@ function AddMealComponent({ addMealHandler })
         setMealList(filteredMeals);
     }
 
+    useEffect(() =>
+    {
+        if (isInputVisible)
+        {
+            inputRef.current.focus();
+        }
+
+    }, [isInputVisible])
+
     const transition = useTransition(isInputVisible, {
         from: { opacity: 0 },
         enter: { opacity: 1, },
@@ -110,7 +119,7 @@ function AddMealComponent({ addMealHandler })
                 isInputVisible ?
                     <NewMealInputContainer style={style}>
                         <div style={{ position: 'relative', flexGrow: 1 }}>
-                            <NewMealInput onFocus={showMealListContainer} onBlur={hideMealListContainer} onChange={onChangeInputValue} />
+                            <NewMealInput ref={inputRef} onFocus={showMealListContainer} onBlur={hideMealListContainer} onChange={onChangeInputValue} />
 
                             {showMealList &&
                                 <NewMealListContainer>

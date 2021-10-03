@@ -7,8 +7,8 @@ import { useMediaQuery } from '../Hooks/useMediaQuery';
 import MobileMenu from './Header/MobileMenu';
 
 const Container = styled(animated.header)`
-    padding: 2vh 0 5vh 0;
-    margin: 0 5vw 5vh 5vw;
+    padding: 1rem;
+    margin: 0 2vw 5vh 2vw;
     /* background-color: #ff6f61; */
     grid-area: header;
     display: flex;
@@ -21,7 +21,7 @@ const Container = styled(animated.header)`
 const Title = styled(animated.h1)`
     margin: 1rem;
     font-family: "Times New Roman", Times, serif;
-    font-size: 6rem;
+    font-size: 3rem;
     display:flex;
     flex-flow: row nowrap;
 
